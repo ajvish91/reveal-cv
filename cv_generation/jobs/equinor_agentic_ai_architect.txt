@@ -1,0 +1,32 @@
+Role: Agentic AI Solutions Architect
+Company: Equinor
+Location: Norway
+Language: English
+
+What does the job involve?
+Shape how Equinor designs and scales agentic AI solutions—working at the intersection of architecture, engineering, and responsible AI.
+
+Equinor is building the foundation for enterprise-scale agentic AI, and this role offers a rare opportunity to play a key role in that journey. You will architect solutions, make key design decisions, guide delivery with AI and ML engineering teams, and ship production systems that automate workflows and sharpen decisions across multiple business areas.
+
+Key tasks:
+- Shape and apply reference architecture for agentic systems, translating standards, design principles, and guardrails into practical solution patterns across Equinor.
+- Architect and deliver production agents: orchestration, grounded retrieval, structured LLM integrations with enterprise APIs, MCP-based tool/data access, and multimodal document understanding.
+- Drive solution strategy, technology choices, and architectural blueprints for key use cases; align stakeholders, engineering teams, and partners; and provide technical leadership from concept through scaled deployment.
+- Embed safety, compliance, and privacy by design; align with GDPR and the EU AI Act; enforce policy as code and safe tool execution; and manage uncertainty in non-deterministic systems by surfacing confidence, bounding autonomy, routing to human oversight, and providing safe fallback and rollback paths.
+- Raise the bar on engineering quality and long-term capability by improving performance, reliability, and cost efficiency, while mentoring peers and building reusable foundations for future AI solutions.
+
+Required qualifications:
+- Master's or PhD in Computer Science, Data Science, Machine Learning, Linguistics, or related field.
+- Strong architectural experience across data, model, and application layers, with sound judgment on trade-offs, scalability, risk, and compliance in enterprise AI systems.
+- Proven ability to navigate ambiguity, set technical direction within a broader architecture, align stakeholders, and convert strategy into delivery.
+- Hands-on with modern LLMs and agent frameworks (e.g., LangGraph, AutoGen, LangChain/LlamaIndex, Semantic Kernel).
+- NLP and generative AI expertise, including prompt design, RAG architectures, model evaluation, and practical experience with major LLM providers and open-source models.
+- Solid Python and software engineering fundamentals (testing, CI/CD, version control).
+- Track record of delivering AI solutions from concept to production, with measurable business impact.
+
+Preferred qualifications:
+- Technical leadership: mentoring, communities, publishing, speaking, or open-source contributions.
+- Multimodal AI: document and image understanding, diagram Q&A, speech-to-text.
+- Responsible AI: PII handling, red-teaming, content moderation, risk assessment, regulatory compliance.
+- Containers and cloud: Docker, Kubernetes; Azure (Azure ML, AKS, Azure OpenAI, storage, networking).
+- Integration: APIs, events/messaging, standardised data and tool access via MCP.

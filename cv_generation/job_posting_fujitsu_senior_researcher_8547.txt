@@ -1,0 +1,47 @@
+Senior Researcher
+Fujitsu Research India Private Limited (FRIPL)
+Location: Bangalore
+Req Id: 8547
+Posting Start Date: 5/29/26
+
+Position Overview
+We are seeking an outstanding PhD candidate to join our cutting-edge research laboratory specializing in the safety and security of large language models (LLMs) and agentic AI systems. This position provides a unique opportunity to conduct foundational and seminal research at the intersection of AI safety, secure system design, and ethical AI compliance. The role will focus on advancing methods to ensure the robustness, alignment, and responsible deployment of agentic and LLM-based AI technologies.
+
+Research Areas
+- LLM Safety, Security & Alignment
+  - Robustness against adversarial prompts and jailbreak attacks
+  - Scalable alignment techniques for dynamic value systems
+  - Secure and interpretable control over LLM outputs
+  - Detection and mitigation of training-time and inference-time threats
+  - LLM vulnerability scanner and guardrails
+- Agentic AI Security & Autonomy
+  - Secure coordination and communication among autonomous agents
+  - Oversight, policy control, and safe memory in self-directed AI agents
+  - Detection of emergent malicious behaviours and goal mis-generalization
+  - Sandbox environments and auditing tools for agentic AI systems
+  - Vulnerability scanners and guardrails for agents
+- Ethical AI, Bias Mitigation & Compliance
+  - Post-training debiasing and fairness audits across diverse populations
+  - Privacy-preserving mechanisms and regulatory compliance (e.g., GDPR)
+  - Ethical risk assessments and responsible deployment frameworks
+  - Transparency, explainability, and human-in-the-loop governance
+
+Key Responsibilities
+- Conduct independent, high-impact research that advances the state-of-the-art in agentic AI security
+- Generate novel ideas and approaches to solve fundamental issues in agentic AI security
+- Rapidly prototype and implement theoretical concepts into working systems
+- Work collaboratively within the research team while maintaining independent research directions
+- Publish research findings in top-tier conferences and journals
+
+Required Qualifications
+- PhD in Computer Science, Mathematics, or closely related fields
+- Strong academic record with evidence of research excellence
+- Publications in A* conferences like COLT, NeurIPS, ICML, ICLR, ACL, CVPR, AAAI preferred
+- Expert-level proficiency in Python and modern deep learning frameworks such as PyTorch or TensorFlow
+- Strong foundation in linear algebra, calculus, probability theory, and optimization
+- Proven ability to translate theoretical concepts into efficient, working code
+- Demonstrated ability to identify and formulate novel research problems
+- Track record of innovation and creative problem solving
+
+Relocation Supported: Yes
+Visa Sponsorship Approved: No

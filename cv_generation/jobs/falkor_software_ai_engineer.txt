@@ -1,0 +1,42 @@
+Software AI Engineer - Falkor
+Location: Fornebu, Norway / EMEA Remote (Hybrid)
+Company: Falkor
+Role: Software AI Engineer
+
+About Falkor
+Falkor builds industrial intelligence software for heavy-asset sectors. As a KONGSBERG company, it helps energy, chemicals, utilities, and related industries operate with clarity, confidence, and control through AI-enabled software, digital twins, and connected workflows.
+
+About the Role
+Falkor is hiring an AI Engineer with strong computer science foundations and experience designing and delivering end-to-end AI solutions. The role focuses on building AI capabilities into industrial products, digital twins, and operator interfaces using strong software engineering, robust APIs, data pipelines, and production-grade code.
+
+Responsibilities
+- Design and implement scalable AI-powered features such as copilots, retrieval-augmented generation (RAG), search, and other AI capabilities.
+- Build efficient end-to-end pipelines that handle large-scale industrial data with reliability and low latency.
+- Integrate AI services into the digital twin ecosystem and support seamless operator experiences.
+- Optimize models and workflows for performance, efficiency, and robustness.
+- Collaborate with AI researchers, product teams, and domain experts to turn concepts into production-ready solutions.
+- Contribute clean, maintainable, well-tested code to an AI-first industrial platform.
+
+Qualifications
+- Bachelor's or master's degree in computer science, engineering, or a related field.
+- Strong foundation in data structures, algorithms, complexity analysis, and system design.
+- Professional experience building and deploying AI/ML-driven solutions.
+- Ability to design and implement scalable APIs and services within modern full-stack environments; MEAN stack is a plus.
+- Knowledge of search, optimization, and applied AI techniques such as anomaly detection, recommendation, and natural language interaction.
+- Strong problem-solving mindset that balances theoretical rigor with practical deployment.
+- Strong programming skills in Python and TypeScript/JavaScript.
+- Experience with a major cloud platform such as AWS, Azure, or GCP.
+- Retrieval-augmented generation and vector search.
+- Security best practices.
+
+Nice to Have
+- MLOps experience including model deployment, monitoring, and CI/CD for ML.
+- LLM fine-tuning, evaluation, or prompt optimization.
+- Experience with industrial domains, IoT, or digital-twin systems.
+- Familiarity with orchestration frameworks such as LangChain or LlamaIndex.
+- Experience with real-time, time-series, or text data.
+
+Why Join Falkor
+- Work on meaningful industrial challenges with real-world impact.
+- Collaborate across software, engineering, operations, and digital transformation.
+- Help shape AI-enabled technology that expands human capability in complex industries.

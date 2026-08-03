@@ -1,0 +1,9 @@
+# Phase A: CV inputs and loading
+pyyaml>=6.0.1
+pypdf>=4.0.0
+# Phase B: NAV feed HTTPS; FINN scrape HTML parsing
+certifi>=2024.0.0
+selectolax>=0.3.21
+# Phase D: dashboard
+streamlit>=1.32.0
+pandas>=2.0.0

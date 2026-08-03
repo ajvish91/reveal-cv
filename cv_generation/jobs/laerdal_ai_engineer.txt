@@ -1,0 +1,37 @@
+AI Engineer - Laerdal Medical
+Location: Stavanger, Norway (On-site)
+Company: Laerdal Medical
+Role: AI Engineer
+
+About Laerdal
+Laerdal Medical is an international market leader in training and therapy products for emergency medicine and critical care. Products and services are used by hospitals, ambulance services, first aid organizations, educational institutions, and others worldwide. Goal by 2030: help save 1,000,000 more lives every year.
+
+About the Role
+Outgoing, action-oriented AI Engineer to join the AI Services team in Stavanger. Work at the heart of how Laerdal uses AI, helping colleagues across the company get real value from AI tools from day one.
+
+This is not a deep-research role. You won't be tuning models or writing ML pipelines. You'll configure agents, wire up integrations, and help colleagues figure out how AI can change how they work. A big part of this job is people, not just tools.
+
+What You'll Work On
+- AI agents: configure, test, debug, and maintain AI agents built in Copilot Studio, Azure Foundry and similar platforms
+- Click-ops integrations: set up and connect AI services through Copilot Studio, Power Platform, Azure AI Foundry, and similar tools
+- Shipping vibe-coded projects: when colleagues build with Lovable or similar tools, help get it live—hook up, test, deploy, update
+- Internal enablement: be the person colleagues come to when they want to use AI; help find the right tool, get set up, change how they work
+- Prototyping: take a business need from a colleague and turn it into something working
+
+What We're Looking For
+- Bachelor's or master's in Computer Science, Data Science, IT, or related field
+- Outgoing personality: enjoy talking to people, energy from helping colleagues have "oh, this actually works for me" moments
+- Get-it-done mindset: figure things out rather than wait to be told
+- Comfort working in cloud UIs: Copilot Studio, Power Platform, Azure, or similar
+- Understanding of AI/ML fundamentals
+- Basic Python: scripts, API calls, understanding prompts
+- Clear and professional English, written and spoken
+
+What You'll Get
+- Front-row seat to how a global medtech company adopts AI
+- Real meaningful work from day one
+- Collaborative team
+- Exposure to Copilot Studio, Power Platform, Databricks, Azure, Lovable, agent harnesses
+
+Apply: https://laerdal.csod.com/ux/ats/careersite/4/home/requisition/2935?c=laerdal&m=-1&u=6089
+Deadline: 22 June 2026

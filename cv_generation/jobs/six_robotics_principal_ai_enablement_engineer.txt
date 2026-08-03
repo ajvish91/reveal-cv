@@ -1,0 +1,47 @@
+Principal AI Enablement Engineer - Six Robotics
+Location: Oslo
+Source: https://careers.sixrobotics.com/jobs/7724691-principal-ai-enablement-engineer
+
+About Six Robotics
+At Six Robotics, we build intelligent software that gives Unmanned Aerial Vehicles (UAVs) the ability to collaborate, adapt on the fly, and execute missions that were previously impossible. From Oslo, a team of 70+ experts in defence, software, and AI develops autonomy and swarm platforms used by government and industry.
+
+About the role
+The mission is to establish a sovereign AI setup. This may involve building from scratch, adapting open-source solutions, or working with a certified provider that can replace cloud-based frontier models for core organizational needs. The role sits in a designated AI Enablement function and works closely with the CTO, Head of IT, and internal DevEx and Tooling team.
+
+What you will do
+- Identify and drive bold initiatives for how to leverage AI across the organization.
+- Drive technical implementation aligned with defense-context compliance and sovereignty requirements, including securing, operating, and documenting the solution.
+- Build and operate an internal AI stack that other teams can build tools and services on top of.
+- Lead hands-on implementation across the stack.
+- Conduct internal training and help teams use AI effectively in daily work.
+- Stay current on AI developments and bring relevant ideas in-house.
+
+What they are looking for
+- 8+ years of software engineering experience, including at least 4 years relevant to AI enablement, MLOps, or applied AI.
+- Track record leading a meaningful AI transformation or building an AI enablement function from scratch.
+- Strong, current knowledge of AI tooling landscape and LLM ecosystem.
+- Strong engineering rigor: coding, system design, correctness.
+- Experience designing scalable AI platforms balancing growth, security, maintainability, access control, and auditability.
+- Strong communication with technical and non-technical stakeholders.
+- Ability and interest to stay current and evaluate AI developments.
+- Fluent English.
+- Master's degree or equivalent practical experience.
+
+Nice to have
+- Experience with sovereign AI setups or on-prem LLM infrastructure.
+- Experience with self-hosted compute stacks and GPU infrastructure.
+- Prior experience running internal AI training or workshops.
+
+Why join
+- Work on meaningful UAV autonomy problems with real-world impact.
+- Drive AI and scalable software modernization in hardware-dominated environments.
+- Build from zero and shape systems, tools, and culture.
+- Competitive compensation and mission-driven team.
+
+Recruitment process
+1. Screening interview (30 min)
+2. Team meet & greet (60 min)
+3. Technical home assignment, tests, and technical interview (90 min)
+4. Final interview with CTO and Head of People (45 min)
+
+Security clearance required for all employees due to collaboration with Norwegian Armed Forces.

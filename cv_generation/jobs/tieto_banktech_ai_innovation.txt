@@ -1,0 +1,48 @@
+Role: AI Innovation Lead
+Company: Tieto Banktech
+
+Drive AI Innovation at Tieto Banktech
+
+Tieto Banktech is on a strategic journey to embed artificial intelligence at the core of our products. We're looking for someone who can drive this from both ends — hands-on implementation and cross-functional leadership — ensuring our AI initiatives deliver real business value while meeting the regulatory and organizational requirements of the banking sector.
+
+You'll work across autonomous, multidisciplinary product teams, helping them identify high-impact use cases, build AI-powered features, and adopt modern AI tools and ways of working.
+
+Over time, you'll also play a key role in shaping our AI strategy, defining governance practices, and driving reuse of AI capabilities across the organization.
+
+What you'll work on
+
+Identify and evaluate AI use cases across products and internal processes
+Support teams through the full journey from prototype to production — including architecture, model selection, prompt design, and integration patterns
+Develop and integrate AI solutions directly into existing products and workflows
+Continuously optimize deployed AI solutions for performance, cost, reliability, and quality
+Provide guidance on data usage, regulatory considerations, and responsible AI practices in a banking context
+Drive reuse of AI components and patterns across the organization
+Support Sales and Bid teams in RFP responses related to AI capabilities
+Build internal AI communities and promote knowledge sharing across teams
+Who we're looking for
+
+You have a strong engineering background and a genuine passion for AI — not just as a concept, but as something that lives and delivers value in production.
+
+You're comfortable moving between hands-on implementation and strategic discussions, and you thrive working across multiple teams and problem areas simultaneously.
+
+You likely have experience with some of the following:
+
+Hands-on development of AI systems, including LLM integration, context and prompt design, and orchestration using modern SDKs and agent frameworks (e.g. OpenAI, Anthropic, Microsoft Agent Framework, LangGraph)
+Prompt and context optimization, including evaluation-driven development, LLM-based evals (LLM-as-judge), and automated optimization techniques (e.g. DSPy, GEPA)
+RAG pipelines, including embeddings, vector databases, and hybrid retrieval
+Agentic workflows and tool use, including function calling and multi-step reasoning
+ML/LLM deployment, inference, and monitoring, including high-performance serving (e.g. vLLM, SGLang, TensorRT-LLM) and LLMOps/MLOps
+REST APIs, containerization (Docker/Kubernetes), and CI/CD practices
+Cloud platforms (Azure, AWS, or GCP)
+Python and/or JVM languages (Java/Kotlin)
+Beyond the technical skills, you're able to bridge technical, business, and compliance perspectives — and you have the communication and stakeholder management skills to bring teams along with you.
+
+Experience driving cross-team initiatives or organizational change is a plus.
+
+Why Tieto Banktech?
+
+A real mandate to drive AI adoption across a large, complex product portfolio
+Work on solutions that matter — critical infrastructure used daily by banks, businesses, and individuals across Norway
+High degree of autonomy and influence over technical direction
+A strong engineering culture with a flat hierarchy and a collaborative mindset
+Competitive compensation and flexible hybrid working arrangements

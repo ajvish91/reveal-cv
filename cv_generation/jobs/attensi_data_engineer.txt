@@ -1,0 +1,42 @@
+Data Engineer - Attensi
+Location: Oslo, Norway (Hybrid, Office Based)
+Company: Attensi
+Role: Data Engineer
+
+About Attensi
+Attensi is a Norwegian tech company building gamified simulation training used by global brands in 150+ countries. The platform combines gamification, interactive scenarios, and decision-driven dialogues powered by game AI.
+
+About the Role
+Data and AI will be core to Attensi's long-term success. Attensi is building a next-generation Data Platform to power real-time analytics, data products, visualizations, and AI use cases across the product suite.
+
+As a Data Engineer, you will help build and evolve this platform: scalable data pipelines, streaming and batch processing, data models, platform tooling, and infrastructure to make high-quality data available across Attensi.
+
+What You Will Do
+- Design, develop, and maintain Attensi's Data Platform and data products for analytics, visualization, and AI use cases
+- Build and improve streaming and batch data pipelines for product events, learning analytics, and customer-facing insights
+- Drive performance, reliability, observability, and scalability of data infrastructure
+- Work with real-time data to support analytics across the product suite
+- Contribute to data models, transformations, and platform tooling
+- Collaborate with engineers and product teams to turn data into customer value
+- Help shape technical decisions as the platform evolves
+
+Who You Are
+- Experience as a Data Engineer with solid fundamentals: data pipelines, distributed systems, data modeling, orchestration, cloud infrastructure, analytics platforms
+- Streaming pipeline experience is especially relevant
+- Pragmatic engineering mindset; curiosity and ambition
+
+Technology stack (day to day):
+- Kafka, Flink, and ClickHouse for streaming and real-time analytics
+- Spark and AWS Glue for batch processing
+- Python, Terraform, and Kubernetes on AWS
+
+Bonus points:
+- LLM applications, agents, or data products supporting AI use cases (e.g. LangChain)
+- API development and services (GraphQL, Hasura, FastAPI)
+- OLAP, analytics engineering, or data warehousing (Snowflake, BigQuery)
+- Observability, data quality, or platform reliability in modern data systems
+
+What We Offer
+Fast-growing scale-up, flat collaborative environment, Oslo-based Platform and Tech team. Full-time, hybrid office-based role.
+
+Apply: https://careers.attensi.com/jobs/7842130-data-engineer

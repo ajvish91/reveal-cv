@@ -1,0 +1,43 @@
+Vil du ta AI fra idé til produksjon, ikke bare pilot?
+
+Gjensidige søker erfaren Data Scientist til vårt Center of Excellence for AI og automatisering i Skadedivisjonen. Hos oss får du jobbe med hele verdikjeden - fra idé og utvikling til produksjonssetting og videreutvikling av AI-drevne løsninger. Du blir del av et sterkt fagmiljø med andre Data Scientists, AI Engineers og AI forretningsutviklere. Rollen innebærer også at du vil samarbeide tett med tverrfaglige produktteam i Norge og Danmark, skadebehandlere og andre forretningsressurser for å sikre at løsningene gir reell forretningsverdi.
+
+Som Data Scientist hos oss vil du bidra til å utvikle, teste og sette i produksjon AI-løsninger som skaper verdi i sentrale prosesser i skadebehandling. Rollen omfatter utvikling av datamodeller og dataklargjøring, samt utvikling og produksjonssetting av AI/ML-løsninger, inkludert design av løsninger basert på generativ AI og språkmodeller.
+
+Hvem ser vi etter?
+
+Vi ser etter deg som liker å kombinere teknologi, problemløsning og forretningsforståelse - og motiveres av å få AI-løsninger helt ut i produksjon.
+
+Vi tror du har:
+
+- 3 år + relevant arbeidserfaring, gjerne innen bank og forsikring
+- utdanning og/eller erfaring innen informatikk, data science, statistikk, maskinlæring eller tilsvarende
+- praktisk erfaring med utvikling, trening og evaluering av maskinlæringsmodeller og AI løsninger
+- god forståelse for generativ AI, språkmodeller og rammeverk som RAG
+- erfaring med monitorering, evaluering og testing av språkmodeller og kvalitet av RAG systemer
+- solid erfaring med Python og relevante biblioteker for AI/ML, gjerne også LangChain eller LangGraph
+- god erfaring med bruk av databricks og dbt for datatilrettelegging og utvikling av ende til ende data-pipelines
+- erfaring med MLOps for å utforme modellarkitektur og sikre god kvalitet og ytelse gjennom hele ML-livssyklusen
+- erfaring med kodeutvikling, versjonskontroll og CI/CD, gjerne med Git
+- erfaring med å ta en idé til videre utvikling og produksjonssetting til eksempelvis skytjenester
+
+Du må beherske norsk eller et annet skandinavisk språk, samt engelsk - både muntlig og skriftlig.
+
+For å lykkes i rollen tror vi også at du:
+
+- samarbeider godt med både teknologer og forretningssiden
+- er nysgjerrig på ny teknologi og utviklingen innen AI-feltet
+- liker å lære, dele kunnskap og bidra til et sterkt fagmiljø
+
+Hos oss får du:
+
+- jobbe med AI i praksis - ikke bare eksperimentering
+- bli del av et av landets sterkeste fagmiljøer innen AI og automatisering som bygger løsninger som faktisk tas i bruk
+- tilgang til store datamengder og moderne teknologi som Databricks, dbt, Kafka, Azure og Azure OpenAI
+- bidra til å bygge løsninger innen prediktiv modellering, sanntidshendelser og generativ AI for tekst, bilde og tale
+- samarbeide med dyktige kolleger på tvers av Norge og Danmark
+- bli en del av et inkluderende miljø med høy faglig ambisjon og gode utviklingsmuligheter
+
+Søknadsfrist: 09.08.2026
+Sted: Schweigaards gate 21, 0191 Oslo
+Arbeidsspråk: Norsk

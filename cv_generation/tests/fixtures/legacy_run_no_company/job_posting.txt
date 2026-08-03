@@ -1,0 +1,6 @@
+Role: ML/AI Engineer
+Company: Piano Software Norway
+Source: FINN.no
+
+About the role:
+- Build AI-powered features.

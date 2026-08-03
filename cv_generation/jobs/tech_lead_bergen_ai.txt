@@ -1,0 +1,26 @@
+Vil du lede utvikling med AI i sentrum?
+
+Dette er ikke en klassisk seniorutviklerrolle der suksess måles i antall linjer kode du skriver i løpet av en dag. Dette er en transformasjonsrolle for deg som forstår at moderne utvikling handler om arkitektur, bunnsolide spesifikasjoner, flyt og smart bruk av AI-verktøy.
+
+Siden vår CTO Lars nå løftes mer strategisk i organisasjonen, trenger vi en teknisk sterk Tech Lead i Bergen. Du vil ta daglige tekniske avklaringer, drive prosessen fremover og coache teamet til å jobbe mer spekkdrevet og AI-assistert. Vi ønsker at agenter og AI-verktøy skal produsere en stor del av koden vår fremover – din jobb blir å være arkitekten som sikrer kvaliteten, helheten og forretningsverdien på en plattform som håndterer transaksjoner for over 3 milliarder kroner.
+
+Vår stack: Java, Spring Boot, PostgreSQL, AWS/Heroku, API-er, mikrotjenester, Docker, CI/CD og DevOps-praksis.
+
+Rollen og dine viktigste oppgaver:
+
+Være en faglig sparringspartner og ta daglige tekniske beslutninger for å avlaste CTO.
+Drive arbeidet med spekkdrevet utvikling og omsette forretningsbehov til presise tekniske spesifikasjoner og akseptansekriterier.
+Bruke og coache teamet i avanserte AI-verktøy for kodegenerering (f.eks. Cursor, Claude Code, GitHub Copilot, AugmentCode).
+Gjennomføre arkitekturvurderinger knyttet til transaksjoner, datamengder, sikkerhet og langsiktige veivalg.
+Samarbeide tett med og kvalitetssikre leveranser fra både lokale, distribuerte og outsourcede utviklingsteam.
+
+Vi ser etter deg som har:
+
+Solid bakgrunn som seniorutvikler med dyp Java- og backend-forståelse.
+Sterk innsikt i systemarkitektur, komplekse integrasjoner og API-design.
+En aktiv, praktisk interesse for AI-assistert utvikling og agentic coding.
+Evnen til å kommunisere like godt med forretningssiden og produkteiere som med utviklerne.
+
+Dette passer perfekt for deg som: Sitter i et etablert, tradisjonelt utviklingsmiljø i dag og søker den finansielle tryggheten til et stort selskap, men som kjenner at din nåværende arbeidsgiver beveger seg altfor sakte når det gjelder å ta i bruk moderne AI-verktøy.
+
+Location: Bergen, Norway

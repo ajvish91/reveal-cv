@@ -1,0 +1,65 @@
+{
+  "_instructions": [
+    "Do NOT store your filled copy inside this git repo.",
+    "One-time:  .venv/bin/python -m cv_generation.private_cv setup",
+    "Edit ONLY:  ~/private/cv/cv_identity_mapping.json  (or:  ./cv edit)",
+    "After repo renovation:  cd ~/private/cv && ./cv refresh  (or: sync --refresh-project-dir)",
+    "Template-only updates:  cd ~/private/cv && ./sync  (never overwrites your values)",
+    "Apply to a run:  ./cv apply <run_id>  (runs live under cv_generation/cv_runs/)",
+    "Run folders:  {timestamp}_{CompanySlug}_{role-slug}  (e.g. 20260713T120000Z_Acme_software-engineer)",
+    "Legacy runs without Company in the folder name still apply; output goes to ~/private/cv/deanonymized/{timestamp}_{Company}_{role}/",
+    "apply deanonymizes final_cv.md plus cover_letter.md, application_letter.md, research_proposal.md when present",
+    "Check coverage:  ./cv audit <run_id>",
+    "Degree titles: map M.Sc., Computing and B.Eng. only (not the ### line) so headings stay valid.",
+    "Social URLs: _github_url and _linkedin_url for all CVs; _google_scholar_url and _orcid_url only when academic contact lines are present.",
+    "Keys below match the committed ALEX RIVERA demo CVs. Replace values only in ~/private/cv/."
+  ],
+
+  "_profile_photo_path": "~/private/cv/profile_photo.jpg",
+  "_github_url": "https://github.com/REPLACE_WITH_USERNAME",
+  "_linkedin_url": "https://www.linkedin.com/in/REPLACE_WITH_USERNAME",
+  "_google_scholar_url": "https://scholar.google.com/citations?user=REPLACE_WITH_SCHOLAR_USER",
+  "_orcid_url": "https://orcid.org/0000-0000-0000-0000",
+
+  "ALEX RIVERA": "REPLACE_WITH_FULL_NAME",
+
+  "01 Jan 1990": "DD Mon YYYY",
+
+  "demo.candidate@example.com": "you@example.com",
+  "+00-000-000-0000": "+XX-XXX-XXX-XXXX",
+  "Example City, Example Country": "City, Country",
+  "Example work authorization status": "REPLACE_WITH_WORK_PERMIT_STATUS",
+
+  "Northline Labs": "REPLACE_WITH_EMPLOYER_1",
+  "Cedar Analytics": "REPLACE_WITH_EMPLOYER_2",
+  "Summit Cloud Services": "REPLACE_WITH_EMPLOYER_3",
+  "Harbor Commerce Group": "REPLACE_WITH_EMPLOYER_4",
+  "Example Institute of Technology": "REPLACE_WITH_PHD_INSTITUTION",
+  "Example State University": "REPLACE_WITH_MSC_INSTITUTION",
+  "Example Polytechnic": "REPLACE_WITH_BENG_INSTITUTION",
+
+  "Jan 2025 - Present": "Mon YYYY - Present",
+  "Sep 2024 - Dec 2024": "Mon YYYY - Mon YYYY",
+  "Jan 2022 - Aug 2024": "Mon YYYY - Mon YYYY",
+  "Jun 2019 - Dec 2021": "Mon YYYY - Mon YYYY",
+  "Mar 2017 - May 2019": "Mon YYYY - Mon YYYY",
+  "2020 - 2023": "YYYY - YYYY",
+  "2018 - 2019": "YYYY - YYYY",
+  "2014 - 2016": "YYYY - YYYY",
+
+  "- English (Fluent)": "- English (Fluent)",
+  "- Example Language (Intermediate)": "- Example Language (Intermediate)",
+
+  "- Reading": "- Reading",
+  "- Running": "- Running",
+
+  "- Example Publication One (Example Conference 2022).": "REPLACE_WITH_PUBLICATION_1",
+  "- Example Publication Two (Example Conference 2023).": "REPLACE_WITH_PUBLICATION_2",
+
+  "Thesis: Example thesis on trustworthy automation": "Thesis: Your Ph.D. thesis title",
+  "M.Sc., Computing": "M.Sc. in Your Field",
+  "B.Eng.": "B.Eng. in Your Field",
+
+  "Thesis: Example thesis on real-time sensing": "Thesis: Your master's thesis title",
+  "Thesis: Example thesis on embedded systems": "Thesis: Your bachelor's thesis title"
+}

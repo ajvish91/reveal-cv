@@ -1,0 +1,29 @@
+Business Intelligence og Analytics-konsulent
+Metier
+
+Som Data- og AI engineer hos oss vil du jobbe med å bygge og videreutvikle dataplattformer. Du vil jobbe med alt fra innhenting av data til modellering, kvalitetssikring og automatisering. Rollen passer deg som trives i skjæringspunktet mellom teknologi, analyse og forretning.
+
+Noen av dine ansvarsområder vil være:
+
+Bygge moderne dataplattformer som er sikre, skalerbare og kostnadseffektive ved bruk av teknologier som Microsoft Fabric, Databricks etc
+Utvikle effektive ETL/ELT-pipelines som henter, transformerer og tilgjengeliggjør data fra ulike kilder, med høy datakvalitet i alle steg
+Utvikle løsninger der AI og automatisering utnytter data enda bedre
+Utforske og ta i bruk ny teknologi innen data og AI
+Samarbeide tett med Data Analysts og produkteiere
+Bidra til å utvikle en moderne, skalerbar dataplattform
+
+Din profil
+
+Høyere utdanning innen IT, teknologi eller økonomi
+1 til 5 års erfaring med dataplattform, datavarehus eller data engineering
+Høyere utdanning innen IT, økonomi, dataingeniørfag el., kompetanse på databaser og SQL, samt erfaring med Python (pandas/PySpark) eller moderne ETL-verktøy
+Forståelse av grunnleggende maskinlæring og hvordan data klargjøres og modeller settes i produksjon
+Erfaring med bruk av AI i arbeidsprosesser og støtte til AI-utvikling gjennom datatilrettelegging eller integrasjon av AI-tjenester
+
+Personlige egenskaper:
+
+Analytisk og strukturert.
+Trives både selvstendig og i tverrfaglige team.
+Har god forretningsforståelse og liker å jobbe tett på kundene.
+Bidrar til et inspirerende og positivt arbeidsmiljø.
+Kommuniserer godt på norsk med både tekniske og ikke-tekniske målgrupper, både skriftlig og muntlig.

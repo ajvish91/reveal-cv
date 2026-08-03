@@ -1,0 +1,54 @@
+Senior AI Engineer - Aidn
+Location: Oslo, Bergen, Bodø, Stavanger, or anywhere in Norway (Hybrid)
+Source: https://aidn.teamtailor.com/jobs/7232832-senior-ai-engineer
+
+Why this role matters
+Aidn is building an integrated healthcare platform for municipalities, healthcare professionals, social workers, and citizens to collaborate. The role contributes to a "digital colleague" that helps with information retrieval, administrative automation, and better decision support.
+
+Role focus
+- Build shared AI capabilities in production for healthcare workflows.
+- Deliver reliable, auditable automation with safety guardrails.
+- Ship measurable time savings for healthcare professionals.
+
+What you will work on
+- Workflow orchestration: version-aware state machines, observability, audit trails, reliability.
+- Automation engine and guardrails: safe execution, previews, human-in-the-loop checkpoints, risk tagging, rollback, traceability.
+- Applied AI in workflows: speech-to-text, summarization, drafting, contextual QA linked to correct patient/case/data context.
+- Agentic and multi-step automation: controlled goal-driven chained task flows with strict safety boundaries.
+- Shared platform building blocks: reusable components, APIs, evaluation patterns, tooling.
+- Evaluation and monitoring: test and monitor AI and automation quality, reliability, trust over time.
+
+Current tech stack
+- Languages/frameworks: .NET/C# backend, Python for AI and evaluation tooling.
+- Cloud/AI platform: Microsoft Azure, Azure AI services, Azure AI Foundry.
+- Workflow/automation: shared state-machine workflow engine and automation platform.
+- Data/storage: PostgreSQL, Azure Storage, structured JSON payloads.
+- Messaging/streaming: Kafka.
+- Infra/CI/CD: GitHub Actions, ArgoCD, Terraform, Atlantis.
+- Observability: Loki, Grafana, Tempo, Mimir (LGTM stack).
+
+Must-haves
+- Strong software engineering experience in production systems.
+- Hands-on LLM and/or speech-to-text product experience.
+- Experience moving AI from prototype to production (reliability, latency, cost, failures).
+- Evaluation mindset and regression prevention.
+- Cloud experience (preferably Azure) and observability familiarity.
+- Strong cross-functional communication.
+
+Nice-to-haves
+- Agentic systems or multi-step AI workflows.
+- Production AI monitoring (quality, cost, latency, drift, failure modes).
+- Azure AI Foundry familiarity.
+- Internal platform work used by multiple teams.
+- Regulated environment experience with auditability/risk controls.
+- Workflow orchestration/state machines/event-driven systems familiarity.
+
+Success criteria
+- 3 months: understand workflow and governance requirements, own and improve a platform area, build trust across teams.
+- 6 months: deliver production/late-stage AI platform capabilities, ship at least one guarded AI workflow step, improve evaluation and monitoring.
+- 12 months: contribute to a production "digital colleague" workflow with measurable time saved; scale shared capabilities across teams.
+
+Company context
+- Healthcare domain with safety, traceability, and trust as non-negotiable.
+- High ownership, flexibility, and platform growth stage.
+- Salary range listed: 1.150-1.350 MNOK/year.

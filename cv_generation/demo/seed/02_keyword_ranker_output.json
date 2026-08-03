@@ -1,0 +1,15 @@
+{
+  "priority_keywords": [
+    {"term": "python", "weight": 1.0, "source": "must"},
+    {"term": "production ml", "weight": 0.95, "source": "must"},
+    {"term": "mlops", "weight": 0.93, "source": "must"},
+    {"term": "monitoring", "weight": 0.9, "source": "must"},
+    {"term": "azure", "weight": 0.88, "source": "must"},
+    {"term": "docker", "weight": 0.85, "source": "must"},
+    {"term": "large language models", "weight": 0.82, "source": "nice"},
+    {"term": "nlp", "weight": 0.8, "source": "nice"},
+    {"term": "document classification", "weight": 0.78, "source": "domain"}
+  ],
+  "missing_keywords": ["kubernetes", "terraform"],
+  "overlap_score": 0.71
+}

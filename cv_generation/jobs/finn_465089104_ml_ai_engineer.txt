@@ -1,0 +1,34 @@
+Role: ML/AI Engineer
+Company: Piano Software Norway
+Source: FINN.no (ad 465089104)
+Location: Oslo, Norway
+Employment type: Full-time (Fast)
+Language: English
+
+About the role:
+- Build AI-powered features for classification, summarization, content understanding, recommendations, and conversational interfaces.
+- Collaborate with backend, frontend, product, and data science teams to integrate AI into existing products.
+- Improve targeting/personalization logic using ML and product knowledge.
+- Build evaluation methods to measure usefulness, accuracy, and reliability.
+- Optimize LLM inference for cost, latency, and quality (context engineering, caching, model selection, batching).
+- Operate RAG pipelines and improve retrieval with embeddings, chunking, and ranking.
+- Deploy reliable services in Kubernetes with CI/CD, monitoring, and platform practices.
+
+Must-have:
+- M.Sc. in Computer Science/Mathematics (or proven production ML/AI delivery).
+- 3+ years software engineering experience with production ML/AI systems.
+- Fluency in Python and strong software engineering fundamentals.
+- Curiosity about data quality, evaluation, and real-world ML/AI behavior.
+- Hands-on LLM experience (OpenAI, Anthropic, or similar), and coding agents.
+- Strong English communication and cross-functional collaboration.
+
+Nice-to-have:
+- Agentic AI frameworks and tool-use patterns.
+- Docker, Kubernetes, CI/CD, observability.
+- Vector databases, embeddings, retrieval/search systems, applied NLP.
+- ML pipeline tooling (Airflow or similar), model monitoring.
+- React or modern frontend familiarity.
+
+Keywords:
+LLM, machine learning, AI engineering, RAG, embeddings, retrieval, Python, Kubernetes, Docker, CI/CD, evaluation, personalization, conversational AI
+

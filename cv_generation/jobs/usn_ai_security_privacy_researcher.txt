@@ -1,0 +1,79 @@
+Company: University of South-Eastern Norway (USN)
+Role: Researcher – AI Security and Privacy
+Location: Kongsberg, Norway
+
+Do you want to contribute to the development of knowledge, insight and solutions that are relevant to society and working life today and in the future?
+
+We are looking for a Researcher within the field of AI Security and Privacy.
+
+About the position
+
+Are you interested in AI security and privacy, and do you want to engage in research together with skilled colleagues who share your interests? Maybe you can become our new colleague at the Department of Science and Industry Systems at the Faculty of Technology, Natural Sciences and Maritime Sciences. The position is a fixed-term, externally funded full-time position for a period of two years, with preferred start as soon as possible or by agreement.
+
+Your personnel manager will be the Head of Department. It is a prerequisite that you live close by so that you can be present at, and available to, the academic environment at your workplace during ordinary working hours. The place of work will be at campus Kongsberg.
+
+The position is externally funded with funding from the Research Council of Norway.
+
+About the research project
+
+UTOPIA – Understanding Threats and Optimizing Mitigation and Enabling Privacy-by-Design in AI – is a project funded by the Research Council of Norway. The project investigates how privacy and security threats affect AI systems, how such threats can be systematically characterized and evaluated, and how privacy-enhancing technologies can be designed and assessed to support trustworthy AI.
+
+The project consortium includes the Norwegian Centre for E-health Research (NSE), the University of South-Eastern Norway (USN), and Rey Juan Carlos University (URJC), Spain. The overall project is coordinated by NSE.
+
+This position at USN is connected to WP2, "Threat Modeling and Robustness Evaluation of AI Systems," which is led at USN by Associate Professor Mohsen Toorani. The person appointed will contribute to research on the conditions under which privacy and security attacks succeed against AI systems across different training settings, model types, and data characteristics. This includes formalization of threat models and attack scenarios, critical assessment and development of metrics for evaluating AI robustness, and implementation of structured and reproducible pipelines for robustness evaluation. The work addresses representative attack classes such as membership inference, data extraction or reconstruction, and poisoning or backdoor attacks, and provides methodological foundations for later work packages in the project.
+
+The person appointed will be affiliated with the cybersecurity and AI-related research activities at the Department of Science and Industry Systems at USN.
+
+Duties
+
+Complete the research tasks assigned to the position within the employment period
+Conduct high-quality research within the framework described above
+Produce academic publications and popular science dissemination
+Collaborate closely with project partners and other members of the project team
+Contribute actively to project meetings, reporting activities, and other joint project tasks
+Participate in relevant national and international academic activities, such as conferences and workshops
+Be prepared for changes in your work tasks after appointment
+
+Qualifications
+
+All items are requirements, unless it is specified that they are preferred qualifications.
+
+Doctoral degree (or equivalent qualifications) in computer science, cybersecurity, artificial intelligence, machine learning, or a closely related field
+Documented research track record relevant to the planned WP2 activities, including research in one or more of the following areas: threat modelling, AI security and privacy, and adversarial machine learning
+Good programming skills and experience with empirical evaluation and reproducible research practices
+Excellent written and oral English language skills
+The position may involve access to and handling of unclassified yet sensitive information requiring protection. The successful candidate must demonstrate a high degree of integrity, loyalty, and security awareness, and comply with applicable regulations and internal security procedures
+
+The following qualifications will be considered an advantage:
+
+Experience with threat modelling methodologies, tools, or frameworks relevant to software or AI systems, such as STRIDE, attack trees, MITRE ATLAS, OWASP Threat Dragon, Microsoft Threat Modeling Tool, OWASP pytm, or related approaches
+Experience with privacy and security attacks against AI systems, such as membership inference, data extraction/reconstruction, poisoning or backdoor attacks, model inversion, or related topics
+Experience with Python and common machine learning and data science tools such as PyTorch, TensorFlow, Hugging Face, scikit-learn, experiment tracking tools, and version control
+Experience with LLM security/privacy, trustworthy AI evaluation, privacy-enhancing technologies, or federated learning
+
+Personal qualities that we are looking for
+
+To be able to complete the project, it is important that you can
+
+demonstrate motivation and potential for research in the field
+work independently and reliably, while contributing to teamwork and collaboration
+demonstrate professional conduct and respect for constructive working relationships
+be analytical, innovative and structured in your work
+present and discuss your research with other academics and professionals, and show that you have the ability to share and learn from the other members of the academic environment
+get involved and contribute constructively with feedback
+work constructively under pressure or in the face of adversity
+show curiosity and strong motivation for the subject area
+analyse data, assess different perspectives, and draw well-founded conclusions
+be flexible and open to adjusting the project plan as necessary
+
+When assessing applicants, emphasis will be placed on
+
+Formal qualifications
+Relevant publications in journals, participation at conferences, etc.
+Submitted academic work
+The scientific quality, research relevance and degree of innovation of the submitted work and statement of project fit
+The relevance of the applicant's profile to the research area and duties of the position
+International experience and networks
+Documented research track record and technical fit with the project, including experience in threat modelling, AI security and privacy, adversarial machine learning, and reproducible evaluation of AI systems
+The personal qualities mentioned above
+Personal suitability and the personal qualities mentioned above will be assessed through the application, interviews, and reference checks.

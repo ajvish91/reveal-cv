@@ -1,0 +1,29 @@
+Generative AI Specialist - Statnett
+Location: Norway
+Company: Statnett
+
+About the Position
+Statnett has a mission critical to society: to develop and operate the power grid in line with the requirements of a low-emission society. We are investing heavily in digitalization and new solutions, and are now looking for a curious and creative technologist who can help us fully leverage generative artificial intelligence.
+
+About the role
+As a Generative AI Specialist, you will be a driving force in developing and managing AI solutions as part of our IT and OT architecture. The role is embedded in a strong professional environment, including business, domain, and solution architects who all have AI on their agendas. In collaboration with them and the business side, you will identify where and how generative AI can create real business value for Statnett.
+
+Job Responsibilities
+
+Explore and develop new use cases for generative AI in collaboration with the business.
+Develop and manage solutions for automation and digital assistants.
+Ensure that generative AI builds upon and enhances our IT/OT architecture.
+Design and develop new integrations and ensure seamless interaction between systems using generative AI.
+Share experiences and contribute to the further development of the professional community within AI and automation.
+
+Qualifications
+
+Relevant higher education in computer science, information technology, or another technical field.
+Solid experience with IT/OT architecture.
+Strong communication skills in Norwegian and English, both written and verbal.
+Experience with tools such as Microsoft Power Platform, Copilot Studio, UiPath, or Azure AI Foundry is a plus.
+It is a requirement that the successful candidate be eligible for security clearance and authorization in accordance with the provisions of the Security Act.
+
+Personal Qualities
+
+We are looking for someone who is intellectually curious, unafraid of new technology, and capable of thinking outside the box. You thrive at the intersection of business and IT and have strong communication skills that allow you to share knowledge with both technical and non-technical colleagues. You are a team player who works in a structured manner but is also capable of taking independent responsibility for your own deliverables.

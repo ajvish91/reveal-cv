@@ -1,0 +1,31 @@
+{
+  "role_title": "ML Engineer",
+  "company": "Northline Labs",
+  "location": "Example Region",
+  "must_have_skills": [
+    "python",
+    "pytorch",
+    "production ml",
+    "mlops",
+    "monitoring",
+    "azure",
+    "aws",
+    "docker",
+    "english"
+  ],
+  "nice_to_have_skills": [
+    "large language models",
+    "nlp",
+    "e-commerce",
+    "backend development",
+    "ci/cd"
+  ],
+  "domain_keywords": [
+    "northline labs",
+    "document classification",
+    "data quality",
+    "hybrid",
+    "analytics"
+  ],
+  "seniority": "mid"
+}

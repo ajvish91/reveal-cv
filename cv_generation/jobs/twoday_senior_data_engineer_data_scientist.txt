@@ -1,0 +1,54 @@
+Senior Data Engineer / Data Scientist
+Twoday
+Frist
+Snarest
+Ansettelsesform
+Fast
+Vil du utvikle løsninger som betyr noe for mennesker - hver dag?
+
+I Twoday hjelper vi noen av Norges største private og offentlige virksomheter med å omsette data til innsikt og verdi ved hjelp av moderne teknologi. Vi har et sterkt fagmiljø som kombinerer dataanalyse, moderne dataplattformer og AI - alltid med fokus på målbare resultater og ansvarlig bruk av ny teknologi.
+
+Vi har mange spennende prosjektmuligheter, og ser nå etter erfarne kollegaer som vil være med å forme fremtidens datadrevne løsninger. Hos oss vil du jobbe i tverrfaglige team tett på kunden, og være med å omsette data til innsikt som gir grunnlag for bedre beslutninger.
+
+Vi ser etter kompetanse innen disse to områdene:
+
+Data Engineering
+
+Dette er rollen for deg som evner å forstå forretningsbehov, oversette dem til robuste dataarkitekturer og levere innsikt gjennom brukervennlige rapporter og visualiseringer. Du vil være en sentral rådgiver som samarbeider tett med kunder og tverrfaglige team for å skape dataløsninger med høy forretningsverdi.
+
+Du vil typisk jobbe med å:
+
+Etablere og videreutvikle skalerbare dataplattformer i Databricks, Snowflake, Microsoft Fabric
+Utvikle og transformere data ved bruk av SQL, Python, dbt og/eller PySpark
+Arbeide med store komplekse datasett for å bygge skalerbare løsninger
+Etablere og forbedre DataOps-prosesser, inkludert CI/CD, Infrastructure as Code (Terraform, Bicep eller tilsvarende), versjonskontroll og monitorering
+
+Data Science
+
+Dette er rollen for deg som brenner for å utforske data og utvikle prediktive og analytiske modeller som skaper reell forretningsverdi.
+
+Du vil typisk jobbe med å:
+
+Trene og evaluere maskinlærings- og statistiske modeller – fra eksperimentering og hypotesetesting til å velge riktig tilnærming for problemet
+Utforske og analysere store datasett for å avdekke mønstre, anomalier og muligheter som ikke er åpenbare på forhånd
+Designe og kjøre A/B-tester og eksperimenter for å validere hypoteser og måle effekt av tiltak
+Bygge og forbedre feature engineering-pipelines i samarbeid med data engineers for å gjøre data modellklare
+Bygge og videreutvikle AI- og maskinlæringsmodeller på moderne plattformer
+
+Hvem du er
+
+Du trenger ikke å treffe på alt, men vi tror du kjenner deg igjen i mye av dette:
+
+Du har 3+ års erfaring innen Data Engineering og/eller Data Science, gjerne som konsulent
+Du har erfaring med utvikling i moderne skyplattformer som Databricks, Snowflake eller Fabric
+Du har forståelse for arkitekturer innen datavarehus, lakehouse og ELT/ETL-prosesser
+Det er en fordel om du har erfaring med BI-verktøy som Power BI, Qlik eller lignende
+Du har gode kommunikasjonsevner på norsk, både skriftlig og muntlig
+
+Hvorfor Twoday?
+
+I Twoday jobber du sammen med flinke folk som bryr seg, både om faget og om hverandre. Vi er rause i måten vi samarbeider på, det er lav terskel for å spørre om hjelp, utfordre ideer og lære underveis. Trivsel hos oss handler ikke bare om spennende oppdrag, men om å være del av et miljø der folk blir værende over tid. I dag er 35 % av kollegene våre og over halvparten av lederne kvinner. Dette er vi stolte av i en bransje som ofte ser annerledes ut.
+
+Du blir en del av et bredt og inkluderende fagmiljø med aktiv kunnskapsdeling på tvers av teamene i Norge, Sverige, Danmark, Finland og Litauen. Vi legger til rette for faglig utvikling gjennom faggrupper, fagkvelder, kurs og sertifiseringer. Hos oss skal det være mulig å vokse over tid, og å ta initiativ utover eget ansvarsområde. Det kan være fagansvar, arkitektur, team- eller teknologiledelse, eller i mer tverrfaglige og globale roller.
+
+Vi tilbyr konkurransedyktige betingelser, fleksibilitet i arbeidshverdagen og høy grad av tillit. Du får rom til å styre egen hverdag innenfor teamets og kundens rammer, mulighet for Hive Jumping mellom et av våre kontorer i våre fem land, og mulighet for medeierskap i selskapet. Hos oss skal det være mulig å gjøre en god jobb og samtidig ha et godt liv ved siden av.

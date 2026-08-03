@@ -1,0 +1,43 @@
+Fast
+Software Engineer - Agentic Commerce
+
+Software Engineer – Agentic Commerce
+
+We're building something new. Something big.
+
+Agentic shopping will change how people discover, decide, and pay — and we're putting together the team that will make it real. If you love turning messy ideas into working software, moving fast, and shaping the future of shopping, keep reading.
+
+
+What you'll do
+
+You'll join our Agentic Commerce team in the Merchants area — a team that has been building since January and is now moving from early exploration into real customer and merchant impact.
+
+The team is building Vipps MobilePay's shopping assistant and exploring how AI agents can help users discover, decide, and buy — while helping merchants grow in a new era of commerce.
+
+This is hands-on work: ideating, building, integrating, testing, breaking, fixing — and doing it all again, quickly. You'll help turn emerging tech and LLM-driven concepts into robust prototypes and customer-ready products used across the Nordics.
+
+You'll work closely with product, design, merchants, partners, and other engineers to shape both the product and the technical direction. You'll also help the team work in a new way, using AI tools actively and thoughtfully to move faster without lowering the bar.
+
+What we're looking for
+
+Solid experience in backend or full-stack development.
+Comfortable building services, APIs, integrations, and production systems from scratch.
+Curious and forward-leaning in how you use AI tools in your own work.
+Interest in, or experience with, LLMs, AI tooling, agentic systems, or AI-assisted software development.
+Experience with prompt engineering and building or integrating customer-facing AI tools or products.
+Bonus points for payments, e-commerce, marketplaces, merchant integrations, or regulated environments.
+Who you are
+
+You're curious and unafraid of new tech, but you also bring structure when things get messy. You make sense of vague requirements and turn them into working solutions.
+You'd rather ship a prototype today than debate one for a week. You like getting close to the problem, learning from users, testing ideas quickly, and improving based on what actually works.
+You're pragmatic about AI. You're excited by what it can unlock, but you care about quality, safety, trust, and real customer value — not just hype.
+You thrive in a team: you listen, challenge, collaborate, and share what you learn. You communicate clearly in English, both when things go well and when they don't.
+Why join us
+
+Build a brand-new product area inside Vipps MobilePay.
+Take a key role in shaping agentic commerce in the Nordics.
+Lead a high-autonomy engineering team from an early stage.
+Work hands-on with AI, payments, commerce, merchants, and real users.
+Help define both the technical strategy and engineering culture for a new team.
+If you want to help redefine how people shop and pay — and you get energy from building tomorrow's magic — we'd love to talk.
+Apply through Jobylon, feel free to upload your CV or LinkedIn profile, and answer a couple of questions.

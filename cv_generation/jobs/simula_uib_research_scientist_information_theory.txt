@@ -1,0 +1,45 @@
+Company: Simula UiB
+Role: Research Scientist in Information Theory
+Location: Bergen, Norway
+
+Research Scientist in Information Theory at Simula UiB
+
+Location: Bergen
+Application deadline: 30 August 2026 (23:59 CEST)
+
+Simula UiB (simula-uib.com) is a research institute in Cryptography and Information Theory based in Bergen, Norway. We are seeking a Research Scientist or Senior Research Scientist for a permanent position in the Department of Information Theory, specialising in either machine learning or quantum information science.
+
+The Department of Information Theory at Simula UiB conducts research on two main areas: statistical learning theory and quantum information theory. It currently comprises 9 members, including permanent staff, postdoctoral researchers and PhD students, and is led by Dr Eirik Rosnes. Simula UiB also hosts the Centre for Quantum Communication Networks and Applications (QCNA), one of Norway's four national centres for quantum technology research. Launched in May 2026, QCNA has eight academic and industry partners, and includes distributed quantum applications as a core research theme. The Department of Information Theory is also part of Centre for Sustainable, Risk-averse and Ethical AI (SURE-AI), one of Norway's six national centres for AI research. As a member of the Department of Information Theory, the successful candidate will have opportunities to contribute to activities within both the QCNA and SURE-AI centres.
+
+Job Description
+
+We are currently hiring a permanent (senior) research scientist to conduct research in either machine learning (ML), including statistical learning theory and distributed and privacy-preserving computation, or quantum information science, including quantum information theory, quantum error-correction, quantum computing and communications, and quantum algorithms. As an integral part of the research, the successful candidate is expected to supervise and mentor early-career researchers (PhD students and postdoctoral researchers) and contribute positively to the collaborative research environment at Simula UiB and our international research profile. The appointee will play an active role in developing externally funded research activities at Simula UiB, including preparing and coordinating research proposals at both the national and European levels, particularly through programmes such as the Research Council of Norway (RCN) and Horizon Europe, including the European Research Council (ERC).
+
+Candidate Profile
+
+We are seeking candidates with a PhD in information theory, computer science, applied mathematics or a related discipline, with expertise in machine learning and/or quantum information science.
+
+Research track record: The successful candidate should be able to conduct both independent and collaborative, high-impact research and have experience in statistical learning theory, privacy-preserving machine learning, or quantum information theory, demonstrated through publications in leading international venues. Expertise in related areas, such as coding theory or information-theoretic privacy and security more broadly, will be an advantage.
+
+Supervision and scientific leadership: We are particularly interested in applicants with supervisory experience, including supervising PhD students and junior researchers. Experience contributing to research leadership, including shaping collaborative research activities or developing new research directions, will be highly valued. While the position carries no formal teaching obligations, opportunities may arise through collaborations with partner universities to contribute to teaching or supervision of master's and undergraduate students.
+
+Project and grant management: The successful candidate should have experience in managing research projects. Experience in securing competitive research funding is highly desirable.
+
+Other: We are looking for a motivated and collaborative researcher who will contribute positively to the research environment at Simula UiB. Excellent communication skills and fluency in spoken and written English are required.
+
+Application
+
+Interested candidates should provide:
+
+- Resume, including details of your educational background, work experience (in particular academic or industrial experience), publications, supervision experience, invited talks, research funding and other relevant professional activities.
+- Cover letter, outlining the motivation for applying for the position, relevant experience and qualifications, and how your expertise and research interests align with the activities of Simula UiB.
+- Research statement describing past research contributions, current research interests, and future research plans, including potential directions for externally funded research activities and collaborations.
+- Contact information for three references, who may be contacted with the candidate's consent.
+
+The application deadline is 30 August 2026 (23:59 CEST). Applications will be reviewed on a rolling basis, and we may conclude the recruitment process as soon as a suitable candidate has been identified. The starting date is negotiable.
+
+Only applications submitted through the application portal will be considered.
+
+Contact: Eirik Rosnes (eirikrosnes@simula.no); bergen@simula.no
+
+Simula UiB uses Semac's background check in our recruitment process. Employment for this position will be made according to the Security Act and the Act relating to Control of the Export of Strategic Goods, Services and Technology.

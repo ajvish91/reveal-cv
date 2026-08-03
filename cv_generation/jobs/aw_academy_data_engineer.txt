@@ -1,0 +1,32 @@
+Fra utvikler til Data Engineer med AW Academy!
+
+AI endrer spillereglene for utviklere. Er du klar for å ta steget fra koding til arkitektur? Vi ser det hver dag – behovet for tradisjonell utvikling endrer form, mens etterspørselen etter de som kan rigge fundamentet for AI og data eksploderer. Virksomheter har dataene, men mangler arkitektene som kan bygge moderne pipelines og solide plattformer.
+
+Vi lanserer nå et karriereprogram skreddersydd for deg som allerede har teknisk erfaring, men som vil spesialisere deg mot Data Engineering.
+
+Om stillingen
+
+Programmet dekker bredden av verktøykassen til en moderne data engineer — fra datamodellering og transformasjon til pipelines, dataplattformarkitektur og skyinfrastruktur. Deltakerne jobber med de verktøyene som brukes i produksjon hos ledende norske virksomheter: dbt, SQL, Python, Snowflake/Databricks, Git, Docker — og AI-assisterte utvikling med blant annet Claude Code, GitHub Copilot og Cursor i VS Code.
+
+Undervisningen er praksisnær fra dag én, med ekte datasett og reelle problemstillinger, for å sikre at kompetansen er anvendbar direkte etter opplæring. Programmet går over 6 uker, og er på fysisk lokasjon i Oslo. Du vil lære sammen med andre med tilsvarende bakgrunn og interesse.
+
+Hva får du ut av disse 6 ukene?
+
+Spisskompetanse: Du går fra tradisjonell programmering til å mestre arkitekturen bak komplekse datastrømmer. Programmet gir deg dyp praktisk erfaring med å modellere data, bygge robuste ETL/ELT-pipelines og sette opp skalerbar skyinfrastruktur. Ved å jobbe med verktøy som dbt, Snowflake, Databricks og Docker, lærer du å transformere ustrukturerte rådata til pålitelige datasett som virksomheter kan fatte kritiske beslutninger basert på.
+
+AI: AI endrer hvordan vi bygger programvare. I stedet for bare å snakke om AI, lærer du å bruke verktøy som Claude Code, GitHub Copilot og Cursor aktivt i produksjon. Du vil erfare hvordan AI-assistenter kan akselerere feilsøking, optimalisere SQL-spørringer og automatisere rutineoppgaver.
+
+Trygg overgang: Dette programmet er designet for å tette gapet mellom den erfaringen du allerede har som utvikler, og den spesifikke kompetansen markedet skriker etter akkurat nå.
+
+Karrieremuligheter: Etter fullført program blir du direkte kvalifisert for utleie eller fast ansettelse hos kunder som har et akutt behov for din nye kompetanse.
+
+Vi søker deg som
+
+Vi ser etter deg som har en solid teknisk grunnmur og et ønske om å anvende din erfaring på nye måter.
+
+Dine kvalifikasjoner:
+
+Utdanning/Erfaring: Høyere utdanning eller relevant arbeidserfaring innen programmering eller data.
+Koding: Minimum 1 års erfaring med databaser og backend-programmering (fortrinnsvis Java, C# eller C++).
+Teknisk forståelse: Kjennskap til moderne skyteknologier.
+Drive: En genuin interesse for data og hvordan AI kan anvendes praktisk i næringslivet.

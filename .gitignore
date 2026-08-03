@@ -1,0 +1,65 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# Secrets and private data (never commit)
+.env
+.env.*
+!.env.example
+private/
+**/private/
+.tmp_private_cv/
+cv_identity_mapping.json
+**/cv_identity_mapping.json
+**/cv_real_values.json
+**/cv_identity_mapping.example.json.local
+
+# Real CV sources (never commit — use ~/private/cv/cv/, CV_SOURCE_DIR, or local copies below)
+shared/cv/industry.md
+shared/cv/academic.md
+# Committed demo templates: shared/cv/industry.demo.md, academic.demo.md
+
+# Generated CV runs (tailored text, PDFs, cover letters)
+cv_generation/cv_runs/
+**/cv_runs/
+**/deanonymized/
+
+# Job search local DB and exports
+job_search/data/*
+!job_search/data/.gitkeep
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Local scratch / personal archive (not for git)
+archive/
+test_configure_logging_writes_to_file/
+test_log_json_summary_does_not_crash/
+test_tail_log_file_returns_last_lines/
+
+# Documents and exports that may contain PII
+*.pdf
+*.docx
+rough CV*
+rough*CV*
+teknorge*.csv
+teknorge*.html
+job_search/teknorge*
+**/cover_letter.pdf
+**/final_cv.pdf
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Cursor / local only
+.cursor/

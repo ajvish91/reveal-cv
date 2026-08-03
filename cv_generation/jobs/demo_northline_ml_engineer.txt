@@ -1,0 +1,24 @@
+Company: Northline Labs
+Role: ML Engineer
+Location: Example Region (hybrid)
+
+Northline Labs is hiring an ML Engineer to strengthen production machine learning on Azure.
+
+You will:
+- Build and maintain Python ML pipelines with evaluation hooks and monitoring.
+- Deploy document classification and NLP features with cost-aware model choices.
+- Partner with product and backend engineers on CI/CD and cloud operations (Azure/AWS).
+- Improve data quality and reliability for analytics and customer-facing features.
+
+Must have:
+- Python, PyTorch or similar, and production ML experience.
+- MLOps practices: testing, monitoring, reproducible pipelines.
+- Cloud (Azure or AWS) and Docker.
+- Clear communication in English.
+
+Nice to have:
+- Large language models and applied NLP.
+- E-commerce or integration-heavy data platforms.
+- Backend development experience.
+
+We offer a collaborative team, flexible hybrid work, and learning budget.

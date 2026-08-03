@@ -1,0 +1,42 @@
+Company: People Made Machines (PMM)
+Location: Oslo (on-site)
+Role: Senior AI Engineer
+
+About:
+People Made Machines is an AI- and data-focused tech consultancy building technology with people at the center. PMM placed 2nd in the Norwegian AI Championship 2026 and is growing its on-site AI engineering team in Oslo.
+
+What you'll do:
+- Work hands-on with cutting-edge AI tools.
+- Solve real-world problems for forward-thinking clients.
+- Build impactful AI and data solutions in a consulting context.
+
+What they're looking for:
+- Kind, empathetic, collaborative mindset.
+- Fluency with GenAI methods.
+- Familiarity with Agentic AI frameworks and MCP (plus).
+- Strong Python programming skills; other OOP languages are a plus.
+- Experience designing and deploying machine learning models.
+- Comfort working in cloud environments.
+- Understanding of data management (SQL/NoSQL).
+- Ability to translate complex problems into simple solutions with business impact.
+- Familiarity with TensorFlow, PyTorch, or CUDA (plus).
+- Consulting experience (big plus).
+- Relevant BS/MS education or self-taught background.
+
+Culture and values:
+- People-first approach focused on employee well-being and organizational success.
+- Strong emphasis on communication, interpersonal collaboration, and knowledge sharing.
+- Respect, empathy, and kindness are core values alongside technical excellence.
+
+What PMM offers:
+- Community valuing curiosity, clarity, and kindness.
+- Strong sales engine so engineers can focus on delivery.
+- Flexibility and trust.
+- Attractive compensation package.
+- Full salary during parental leave (up to 10G).
+- Wellness support.
+- Learning opportunities and growth support.
+- Good balance between work and social events.
+
+Source URL:
+https://careers.pmm.tech/jobs/5815327-senior-ai-engineer
