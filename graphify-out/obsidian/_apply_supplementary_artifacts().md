@@ -1,0 +1,24 @@
+---
+source_file: "cv_generation/private_cv.py"
+type: "code"
+community: "Private CV Apply"
+location: "L738"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Private_CV_Apply
+---
+
+# _apply_supplementary_artifacts()
+
+## Connections
+- [[Deanonymize cover letter, application letter, research proposal, etc. when…]] - `rationale_for` [EXTRACTED]
+- [[Path_15]] - `references` [EXTRACTED]
+- [[PrivateConfig]] - `references` [EXTRACTED]
+- [[apply_one_run()]] - `calls` [EXTRACTED]
+- [[private_cv.py]] - `contains` [EXTRACTED]
+- [[run_deanonymize()]] - `calls` [EXTRACTED]
+- [[run_render_pdf()]] - `calls` [EXTRACTED]
+- [[supplementary_artifact_filenames()]] - `calls` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Private_CV_Apply

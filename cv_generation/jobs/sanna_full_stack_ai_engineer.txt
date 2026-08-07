@@ -1,0 +1,21 @@
+Full-Stack (AI) Engineer | Sanna | Oslo, Stockholm | Full-time
+We're looking for a pragmatic builder who knows when AI is the answer, and more importantly, when it isn't.
+Sanna is building a new kind of accounting firm - one designed for a world where AI can automate the manual work that has defined the industry for decades.
+Build the engineering and AI foundation of a global accounting platform. Combine AI, software, and human expertise. Reliable, scalable, trusted systems. Not just an AI wrapper; production systems accountants and businesses can rely on.
+About the job: Much of accounting today is still manual or semi-automated. Help decide when AI adds value, when deterministic rules are better, and when human-in-the-loop workflows are necessary. Hands-on leadership: end-to-end from frontend interfaces to backend systems.
+Responsibilities:
+- Build and evolve core systems powering accounting automation, including user-facing interfaces
+- Design AI-powered, rule-based, and hybrid workflows to replace manual processes
+- Balance accuracy, reliability, performance, and cost in production AI systems
+- Improve platform foundations: data flows, abstractions, observability, testing, and reliability
+- Collaborate with product managers, designers, and accountants
+- Own complex problems from design through production and iteration
+Requirements:
+- Experienced full-stack engineer or tech lead building production SaaS platforms
+- Deep expertise in TypeScript (bonus: Effect.ts) and PostgreSQL, comfortable across the full stack
+- Experience with production systems involving LLMs, document processing, or AI-driven workflows
+- Pragmatic judgment: when to use AI vs deterministic rules vs human review
+- Strong engineering judgment in high-accuracy, high-trust domains
+- Clear communicator, curious, questions assumptions
+Stack: Svelte 5 & SvelteKit, Tailwind; TypeScript, Effect.ts; PostgreSQL; Storybook, Playwright, Graphite; Vercel, PostHog, Grafana
+Office: Oslo (Møllerveien 4) and Stockholm. 1500+ customers, ~20 employees.

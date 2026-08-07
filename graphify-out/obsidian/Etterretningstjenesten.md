@@ -1,0 +1,16 @@
+---
+source_file: "cv_generation/jobs/finn_469070200_data_engineer.txt"
+type: "concept"
+community: "Finn 469070200 Data Engineer"
+tags:
+  - graphify/concept
+  - graphify/EXTRACTED
+  - community/Finn_469070200_Data_Engineer
+---
+
+# Etterretningstjenesten
+
+## Connections
+- [[Data Engineer GEOMETOC (Etterretningstjenesten)]] - `references` [EXTRACTED]
+
+#graphify/concept #graphify/EXTRACTED #community/Finn_469070200_Data_Engineer

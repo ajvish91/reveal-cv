@@ -44,10 +44,22 @@ class TestApplicationArtifacts(unittest.TestCase):
         self.assertIn("research_proposal.md", names)
         self.assertIn("application_letter.md", names)
 
+    def test_detect_norwegian_soknadstekst_and_referanseprosjekter(self) -> None:
+        job = (
+            "Vi søker Utvikler – AI. Vi ber deg sende oss: "
+            "Søknadstekst med fokus på motivasjon og relevans; CV; "
+            "Beskrivelse av referanseprosjekter som demonstrerer relevante kompetanser."
+        )
+        names = {a.filename for a in detect_supplementary_artifacts(job, track="industry")}
+        self.assertIn("cover_letter.md", names)
+        self.assertIn("reference_projects.md", names)
+
     def test_plain_pdf_markers(self) -> None:
         self.assertTrue(is_plain_pdf_markdown(Path("research_proposal.md"), "# Research proposal\n"))
         self.assertTrue(is_plain_pdf_markdown(Path("cover_letter.md"), "Dear team\nSincerely\n"))
+        self.assertTrue(is_plain_pdf_markdown(Path("reference_projects_no.md"), "# Referanseprosjekter\n"))
         self.assertFalse(is_plain_pdf_markdown(Path("final_cv.md"), "# Industry CV\n## Name\n"))
+
 
     def test_name_title_case_alias(self) -> None:
         mapping = {"MITCH EVANS": "Alex Rivera"}

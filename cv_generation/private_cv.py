@@ -923,7 +923,7 @@ def _apply_localized_artifacts(
     exit_code = 0
     # Never use --strict on localized files: mapping keys are English-canonical
     # (section labels, dates) and will not all appear in *_no.md.
-    pairs = ("final_cv_no.md", "cover_letter_no.md")
+    pairs = ("final_cv_no.md", "cover_letter_no.md", "reference_projects_no.md")
     present = [name for name in pairs if (input_dir / name).is_file()]
     missing = [name for name in pairs if name not in present]
     if missing and not dry_run:

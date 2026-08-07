@@ -1,0 +1,19 @@
+---
+source_file: "job_search/dashboard_styles.py"
+type: "code"
+community: "Dashboard Scroll Styles"
+location: "L334"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Dashboard_Scroll_Styles
+---
+
+# inject_scroll_restoration()
+
+## Connections
+- [[Backward-compatible alias — prefer ``inject_scroll_manager`` at end of main().]] - `rationale_for` [EXTRACTED]
+- [[dashboard_styles.py]] - `contains` [EXTRACTED]
+- [[inject_scroll_manager()]] - `calls` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Dashboard_Scroll_Styles

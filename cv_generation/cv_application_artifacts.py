@@ -17,6 +17,7 @@ CV_MARKDOWN = "final_cv.md"
 LOCALIZED_ARTIFACT_PAIRS: tuple[tuple[str, str], ...] = (
     ("final_cv.md", "final_cv_no.md"),
     ("cover_letter.md", "cover_letter_no.md"),
+    ("reference_projects.md", "reference_projects_no.md"),
 )
 
 
@@ -36,6 +37,7 @@ SUPPLEMENTARY_ARTIFACTS: tuple[SupplementaryArtifact, ...] = (
     SupplementaryArtifact("cover_letter.md", "cover letter"),
     SupplementaryArtifact("application_letter.md", "application letter"),
     SupplementaryArtifact("research_proposal.md", "research proposal"),
+    SupplementaryArtifact("reference_projects.md", "reference projects"),
 )
 
 SUPPLEMENTARY_FILENAMES: tuple[str, ...] = tuple(a.filename for a in SUPPLEMENTARY_ARTIFACTS)
@@ -47,6 +49,9 @@ _PLAIN_NAME_MARKERS = (
     "application-letter",
     "research_proposal",
     "research-proposal",
+    "reference_projects",
+    "reference-projects",
+    "referanseprosjekter",
 )
 
 
@@ -96,7 +101,10 @@ def normalize_upper_name_variants(mapping: dict[str, str]) -> dict[str, str]:
     return expanded
 
 
-_COVER_LETTER_RE = re.compile(r"cover\s+letter", re.IGNORECASE)
+_COVER_LETTER_RE = re.compile(
+    r"cover\s+letter|søknadstekst|soknadstekst",
+    re.IGNORECASE,
+)
 _RESEARCH_PROPOSAL_RE = re.compile(
     r"research\s+proposal|project\s+description|statement\s+of\s+purpose|"
     r"prosjektskisse|prosjektbeskrivelse",
@@ -108,11 +116,16 @@ _APPLICATION_LETTER_RE = re.compile(
     r"motivasjonsbrev|søknadsbrev|soknadsbrev",
     re.IGNORECASE,
 )
+_REFERENCE_PROJECTS_RE = re.compile(
+    r"reference\s+projects|referanseprosjekt|beskrivelse\s+av\s+referanse",
+    re.IGNORECASE,
+)
 _ACADEMIC_ROLE_RE = re.compile(
     r"post[- ]?doc|postdoktor|postdoctoral|research\s+fellow|"
     r"researcher\s+in|ph\.?d\.?\s+position",
     re.IGNORECASE,
 )
+_LETTER_FILENAMES = frozenset({"cover_letter.md", "application_letter.md"})
 
 
 def detect_supplementary_artifacts(
@@ -134,15 +147,18 @@ def detect_supplementary_artifacts(
     elif _ACADEMIC_ROLE_RE.search(job_text) and by_name["research_proposal.md"] not in needed:
         # Academic postdoc/researcher calls often want a motivation letter even if not named.
         needed.append(by_name["application_letter.md"])
+    if _REFERENCE_PROJECTS_RE.search(job_text):
+        needed.append(by_name["reference_projects.md"])
 
-    if not needed:
+    has_letter = any(a.filename in _LETTER_FILENAMES for a in needed)
+    if not has_letter:
         if normalized_track == "academic" or (
             normalized_track != "industry" and _ACADEMIC_ROLE_RE.search(job_text)
         ):
-            if by_name["application_letter.md"] not in needed:
-                needed.append(by_name["application_letter.md"])
+            needed.append(by_name["application_letter.md"])
         elif normalized_track == "industry" or not _ACADEMIC_ROLE_RE.search(job_text):
             needed.append(by_name["cover_letter.md"])
+
 
     # Deduplicate while preserving order.
     seen: set[str] = set()
