@@ -115,10 +115,13 @@ class TestCoverLetterGenerator(unittest.TestCase):
             run_dir = self._copy_fixture(Path(tmp))
             collector = PipelineMetricsCollector(provider="cursor", model="composer-2.5")
             with patch(
-                "cv_generation.cover_letter_generator.get_provider"
-            ) as mock_get_provider:
-                mock_provider = mock_get_provider.return_value
-                mock_provider.run_markdown.side_effect = fake_run_markdown
+                "cv_generation.cover_letter_generator.call_markdown_agent"
+            ) as mock_call:
+                mock_call.side_effect = (
+                    lambda prompt, *, run_dir, step_stem, provider_name, model: fake_run_markdown(
+                        prompt, model=model
+                    )
+                )
                 result = maybe_generate_cover_letter(
                     run_dir,
                     provider_name="cursor",
@@ -148,10 +151,13 @@ class TestCoverLetterGenerator(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             run_dir = self._copy_fixture(Path(tmp))
             with patch(
-                "cv_generation.cover_letter_generator.get_provider"
-            ) as mock_get_provider:
-                mock_provider = mock_get_provider.return_value
-                mock_provider.run_markdown.side_effect = fake_run_markdown
+                "cv_generation.cover_letter_generator.call_markdown_agent"
+            ) as mock_call:
+                mock_call.side_effect = (
+                    lambda prompt, *, run_dir, step_stem, provider_name, model: fake_run_markdown(
+                        prompt, model=model
+                    )
+                )
                 result = maybe_generate_cover_letter(
                     run_dir,
                     provider_name="cursor",

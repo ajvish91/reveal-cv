@@ -296,5 +296,39 @@ def get_provider(name: str, *, run_dir: Path | None = None, step_stem: str = "")
     raise ValueError(f"Unknown agent provider: {name!r}. Use: cursor, anthropic, openai, manual.")
 
 
+def call_markdown_agent(
+    prompt: str,
+    *,
+    run_dir: Path,
+    step_stem: str,
+    provider_name: str,
+    model: str,
+) -> AgentRunResult:
+    """
+    Run a markdown-producing agent step (cover letter, application letter, etc.).
+
+    Manual mode uses ``{step_stem}_prompt.txt`` / ``{step_stem}_output.manual.md``
+    (not the JSON manual paths used by pipeline subagents).
+    """
+    if provider_name == "manual":
+        prompt_path = run_dir / f"{step_stem}_prompt.txt"
+        response_path = run_dir / f"{step_stem}_output.manual.md"
+        prompt_path.write_text(prompt, encoding="utf-8")
+        if not response_path.is_file():
+            raise RuntimeError(
+                "Manual mode requires an external agent step.\n"
+                f"1. Open the prompt file:\n  {prompt_path}\n"
+                f"2. Run it with Claude/Codex/another agent.\n"
+                f"3. Save the markdown to:\n  {response_path}"
+            )
+        text = response_path.read_text(encoding="utf-8").strip()
+        if not text:
+            raise RuntimeError(f"Manual response file is empty: {response_path}")
+        return AgentRunResult(text=text, provider="manual", model=model or "manual")
+
+    backend = get_provider(provider_name)
+    return backend.run_markdown(prompt, model=model, cwd=Path.cwd())
+
+
 def list_providers() -> list[str]:
     return ["cursor", "anthropic", "openai", "manual"]

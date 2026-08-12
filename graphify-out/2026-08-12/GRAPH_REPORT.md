@@ -1,11 +1,11 @@
 # Graph Report - job search automation  (2026-08-12)
 
 ## Corpus Check
-- 143 files · ~125,024 words
+- 143 files · ~124,907 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2098 nodes · 4672 edges · 138 communities (123 shown, 15 thin omitted)
+- 2093 nodes · 4660 edges · 144 communities (129 shown, 15 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 208 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
@@ -17,7 +17,7 @@
 ## Community Hubs (Navigation)
 - PrivateConfig
 - dashboard.py
-- job_filters.py
+- haystack_for_filter
 - Any
 - _apply_modify_dialog_body
 - test_dashboard_applied_roles.py
@@ -25,25 +25,25 @@
 - finn_job_client.py
 - cv_assemble.py
 - cv_norwegian.py
-- _execute_ingest_cycle
+- Path
 - JobProfile
 - cover_letter_generator.py
 - debug_log
 - Job search pipeline
 - main
-- PipelineMetricsCollector
+- pipeline_metrics.py
 - run_agent_pipeline.py
-- ParagraphStyle
-- ingest_nav_jobs.py
+- cv_pdf_renderer.py
+- configure_logging
 - Data Engineer (Inspirit)
 - apply_prompts.py
-- cv_pdf_renderer.py
+- job_filters.py
 - run_naming.py
-- load_default_profiles
+- DataFrame
 - deadline_utils.py
 - should_periodic_refresh
 - agent_providers.py
-- cv_style.py
+- parse_cv_markdown
 - apply_dialog_ready
 - job_dedup.py
 - agent_cli.py
@@ -53,33 +53,33 @@
 - ats_check_pdf.py
 - matches_academic_role_display
 - deanonymize_cvs.py
-- cv_application_artifacts.py
+- dashboard_styles.py
 - test_cv_tracks.py
-- render_plain_markdown_pdf
+- plain_markdown_pdf.py
 - private_cv.py
-- Path
-- load_config
+- TestAppliedRolesHelpers
+- cv_private.py
 - assembler Subagent
-- load_pipeline_metrics
+- extract_run_ids_from_notes
 - render_styled_cv_pdf
-- TestAgentInterop
-- Path
+- test_agent_interop.py
+- ingest_nav_jobs.py
 - build_ingest_cycle_command
 - run_cv_tailoring.py
 - Fujitsu Senior Researcher 8547
 - Senior Data Engineer - Data & AI
 - Research Scientist in Information Theory
-- supplementary_generator.py
+- _render_job_explorer_fragment
 - cv_source_sync.py
-- normalize_upper_name_variants
+- TestCoverLetterGenerator
 - Senior Integration Engineer
 - Fagansvarlig dataforskning og kunstig intelligens
 - Data Scientist - Gjensidige AI CoE
-- AI Engineer - Laerdal Medical
+- Generative AI Specialist - Statnett
 - Post-doctoral Research Fellow in AI and Cultural Heritage
 - Supplementary Application Documents
 - resolve_sidebar_photo_path
-- Full-Stack (AI) Engineer - Sanna
+- localize_run
 - AI Innovation Lead - Tieto Banktech
 - Principal AI Enablement Engineer
 - score_jobs.py
@@ -87,9 +87,12 @@
 - _dismiss_apply_modify_dialog
 - run_demo.py
 - Privacy-First Workflow
-- TestScrollRestorationScript
+- has_profile_relevance
+- TestDashboardDebug
 - Run Folder Contract
 - Retrieval-Augmented Generation (RAG)
+- application_status_upsert_row
+- timing_span
 - job_search Module
 - Industry CV Track
 - Ethics of Embodied AI
@@ -106,17 +109,20 @@
 - KI-ingeniør Data Scientist (Prosjektstilling)
 - Data Scientist - NORCE Analytics
 - Postdoctoral Fellow – AI for Decisions (AID)
+- Tech Lead Bergen - AI-assisted development
 - Energy Estimation Formula v1
 - LinkedIn lowercase in wordmark logo
 - Connected contact figure paths
 - Rounded rectangle card frame
 - Circular light-gray frame around figure
 - Demo Industry CV Source
+- log_state_diff
 - Data Engineer GEOMETOC (Etterretningstjenesten)
 - Cyber Security Engineer - Remota
 - Postdoktor innen e-helse/tjenester
 - English cover letter voice
 - _FakeResponse
+- check_safe_to_push.py
 - Birthday cake CV icon (date of birth)
 - Birthday cake SVG icon (date of birth)
 - Email envelope SVG contact icon
@@ -195,107 +201,107 @@
 - **Job search ingest score dashboard flow** — job_search_job_search_nav_ingest, job_search_job_search_finn_ingest, job_search_job_search_score_jobs, job_search_job_search_dashboard, job_search_job_search_run_job_search_cycle [EXTRACTED 1.00]
 - **FINN detail and search parse fixture variants** — job_search_tests_fixtures_finn_job_detail_json_ld_jobposting, job_search_tests_fixtures_finn_job_detail_html_only_html_body_posting, job_search_tests_fixtures_finn_job_detail_wrapped_ld_json_wrapped_jobposting, job_search_tests_fixtures_finn_search_results_search_ad_cards, job_search_tests_fixtures_finn_search_results_live_job_card_layout [INFERRED 0.85]
 
-## Communities (138 total, 15 thin omitted)
+## Communities (144 total, 15 thin omitted)
 
 ### Community 0 - "PrivateConfig"
-Cohesion: 0.19
-Nodes (15): apply_one_run(), _prefer_repo_run_source(), PrivateConfig, If the user pointed at deanonymized output (only English artifacts), use the…, Compare education entry counts in source vs deanonymized markdown (PDF parser)., Deanonymized output folder; enriches legacy run ids with company metadata., Deanonymize a single cv_runs folder; return exit code., resolve_deanon_output_dir() (+7 more)
+Cohesion: 0.13
+Nodes (26): _apply_localized_artifacts(), _apply_markdown_artifacts(), apply_one_run(), _apply_supplementary_artifacts(), mapping_override_path(), _prefer_repo_run_source(), PrivateConfig, Path (+18 more)
 
 ### Community 1 - "dashboard.py"
-Cohesion: 0.08
-Nodes (50): _append_pipeline_log_line(), best_job_url(), cv_job_filename(), enrich_jobs_df(), format_job_export_text(), format_location(), _format_score_caption(), _handle_application_status_update() (+42 more)
+Cohesion: 0.10
+Nodes (44): _append_pipeline_log_line(), best_job_url(), cv_job_filename(), export_job_to_cv_file(), format_job_export_text(), format_location(), _format_score_caption(), _handle_application_status_update() (+36 more)
 
-### Community 2 - "job_filters.py"
-Cohesion: 0.08
-Nodes (30): apply_dashboard_filters(), Post-filter overview rows with the same rules as ingest / explorer., filter_academic_roles_df(), _filter_text_part(), has_profile_relevance(), haystack_for_filter(), matches_exclude_terms(), matches_finance_controller() (+22 more)
+### Community 2 - "haystack_for_filter"
+Cohesion: 0.18
+Nodes (11): haystack_for_filter(), matches_exclude_terms(), matches_finance_controller(), matches_phd_student_opening(), True for finance/accounting controller ads; False for IT/ICT controller roles., True when the posting is a PhD *student/fellowship* opening (candidate will…, NoiseBlocklistTests, Tests for profile relevance filtering and expanded noise blocklist. (+3 more)
 
 ### Community 3 - "Any"
-Cohesion: 0.07
-Nodes (49): normalize_apply_language(), _activate_pipeline_from_item(), apply_dialog_language_key(), apply_pipeline_options_from_mapping(), apply_pipeline_options_to_mapping(), ApplyPipelineOptions, build_pipeline_queue_item(), _can_enqueue_current_job() (+41 more)
+Cohesion: 0.08
+Nodes (47): normalize_apply_language(), utc_now_iso(), _activate_pipeline_from_item(), _advance_pipeline_queue_after_finish(), apply_dialog_language_key(), apply_pipeline_options_from_mapping(), apply_pipeline_options_to_mapping(), ApplyPipelineOptions (+39 more)
 
 ### Community 4 - "_apply_modify_dialog_body"
 Cohesion: 0.06
-Nodes (49): _advance_pipeline_queue_after_finish(), _apply_modify_dialog_body(), _build_pipeline_result(), _copy_text_to_clipboard(), _open_pipeline_dialog(), _park_recent_pipeline_completion(), _pipeline_active_for_job(), _pipeline_job_title() (+41 more)
+Nodes (45): _apply_modify_dialog_body(), _build_pipeline_result(), _copy_text_to_clipboard(), _open_pipeline_dialog(), _pipeline_active_for_job(), _pipeline_job_title(), _pipeline_log_text(), pipeline_result_details() (+37 more)
 
 ### Community 5 - "test_dashboard_applied_roles.py"
-Cohesion: 0.04
-Nodes (37): application_status_upsert_row(), build_explorer_filter_chips(), can_enqueue_pipeline(), _explorer_jobs_cache_fingerprint(), extract_run_ids_from_notes(), pipeline_job_display_title(), pipeline_metrics_summary_for_notes(), pipeline_phase_is_busy() (+29 more)
+Cohesion: 0.05
+Nodes (27): build_explorer_filter_chips(), can_enqueue_pipeline(), _explorer_jobs_cache_fingerprint(), pipeline_job_display_title(), pipeline_phase_is_busy(), pipeline_queue_is_full(), pipeline_queue_remaining(), pipeline_queue_slots_used() (+19 more)
 
 ### Community 6 - "connect"
-Cohesion: 0.16
-Nodes (18): Connection, connect(), delete_application(), _ensure_column(), init_schema(), Any, Path, SQLite persistence for job postings (Phase B+). (+10 more)
+Cohesion: 0.14
+Nodes (28): cache_data, Connection, count_research_roles_in_db(), filter_phd_student_df(), load_applications_df(), load_applied_roles_df(), load_jobs_df(), load_overview_jobs_bundle() (+20 more)
 
 ### Community 7 - "finn_job_client.py"
 Cohesion: 0.06
-Nodes (42): BaseException, HTMLParser, HTTPError, _address_fields(), build_search_url(), _card_text(), _collect_schema_objects(), _detail_title() (+34 more)
+Nodes (43): BaseException, HTMLParser, HTTPError, _address_fields(), build_search_url(), _card_text(), _collect_schema_objects(), _detail_title() (+35 more)
 
 ### Community 8 - "cv_assemble.py"
-Cohesion: 0.11
-Nodes (32): apply_bullet_tailor(), assemble_final_cv_markdown(), _coerce_bullets(), _collect_institution_names(), _degree_kind(), designation_from_job_role(), _education_institutions_by_degree(), experience_role_key() (+24 more)
+Cohesion: 0.14
+Nodes (25): apply_bullet_tailor(), _coerce_bullets(), _collect_institution_names(), _degree_kind(), _education_institutions_by_degree(), experience_role_key(), extract_experience_roles(), _match_tailored_role() (+17 more)
 
 ### Community 9 - "cv_norwegian.py"
-Cohesion: 0.07
-Nodes (41): ArtifactKind, build_localization_prompt(), count_experience_bullets(), count_experience_roles(), count_norwegian_cover_letter_body_words(), _cover_letter_body_text(), detect_track(), _experience_section_lines() (+33 more)
+Cohesion: 0.08
+Nodes (32): ArtifactKind, build_localization_prompt(), count_experience_bullets(), count_experience_roles(), count_norwegian_cover_letter_body_words(), _cover_letter_body_text(), detect_track(), _experience_section_lines() (+24 more)
 
-### Community 10 - "_execute_ingest_cycle"
-Cohesion: 0.14
-Nodes (14): _execute_ingest_cycle(), ingest_active_source_counts(), IngestCycleOptions, _invalidate_dashboard_data_caches(), _maybe_periodic_data_refresh(), parse_ingest_cycle_output(), User-selected ingest cycle options from the dashboard sidebar., Parse step labels and JSON summaries from ``run_job_search_cycle`` stdout. (+6 more)
+### Community 10 - "Path"
+Cohesion: 0.11
+Nodes (20): _execute_ingest_cycle(), get_db_path(), ingest_active_source_counts(), IngestCycleOptions, parse_ingest_cycle_output(), Path, User-selected ingest cycle options from the dashboard sidebar., Parse step labels and JSON summaries from ``run_job_search_cycle`` stdout. (+12 more)
 
 ### Community 11 - "JobProfile"
-Cohesion: 0.11
-Nodes (23): extract_pdf_text(), main(), Path, sanitize_filename(), _as_str_list(), _dir_has_profiles(), JobProfile, _load_default_profiles_cached() (+15 more)
+Cohesion: 0.07
+Nodes (36): extract_pdf_text(), main(), Path, sanitize_filename(), collect_ingest_keywords(), Merge CV profile keywords/skills with curated application-history boosts for…, Keywords used by NAV/FINN ingest for --keyword-filter matching and --list-…, Expose demo detection for tests and diagnostics. (+28 more)
 
 ### Community 12 - "cover_letter_generator.py"
-Cohesion: 0.16
-Nodes (20): build_cover_letter_prompt(), cover_letter_markdown_path(), CoverLetterResult, generate_cover_letter_markdown(), is_cover_letter_required(), manual_cover_letter_prompt_path(), manual_cover_letter_response_path(), maybe_generate_cover_letter() (+12 more)
+Cohesion: 0.15
+Nodes (33): cover_letter_markdown_path(), CoverLetterResult, generate_cover_letter_markdown(), is_cover_letter_required(), manual_cover_letter_prompt_path(), manual_cover_letter_response_path(), maybe_generate_cover_letter(), Any (+25 more)
 
 ### Community 13 - "debug_log"
-Cohesion: 0.05
-Nodes (60): fragment, _active_rerun_context(), _append_file(), debug_enabled_from_env(), debug_log(), finish_rerun_trace(), _format_event(), _generate_rerun_id() (+52 more)
+Cohesion: 0.15
+Nodes (29): _active_rerun_context(), _append_file(), debug_enabled_from_env(), debug_log(), _format_event(), _generate_rerun_id(), _hash_text(), init_dashboard_debug() (+21 more)
 
 ### Community 14 - "Job search pipeline"
 Cohesion: 0.07
 Nodes (33): ALEX RIVERA fictional candidate, Anonymized-first public demo, One-repo job search and CV generation architecture, Demo walkthrough, scripts/run_demo.py, 60-second demo script, Tailor in public Reveal in private, Private CV workflow (+25 more)
 
 ### Community 15 - "main"
-Cohesion: 0.05
-Nodes (49): _apply_dialog_fast_path_active(), apply_text_search_filter(), _cache_exec_count(), Stable short hash for debug-visible cache keys and filters., short_fingerprint(), dedupe_jobs_df(), _finalize_dashboard_scroll(), get_db_path() (+41 more)
+Cohesion: 0.08
+Nodes (27): _cache_exec_count(), _handle_delete_application(), _infer_page_rerun_reason(), _infer_page_scope(), _init_ingest_session_state(), _init_pipeline_session_state(), _init_refresh_session_state(), _invalidate_dashboard_data_caches() (+19 more)
 
-### Community 16 - "PipelineMetricsCollector"
+### Community 16 - "pipeline_metrics.py"
 Cohesion: 0.11
-Nodes (19): estimate_energy_kwh(), estimate_tokens_from_text(), format_duration_sec(), format_pipeline_metrics_summary(), json_dumps(), peak_rss_mb(), PipelineMetrics, PipelineMetricsCollector (+11 more)
+Nodes (18): estimate_energy_kwh(), estimate_tokens_from_text(), format_duration_sec(), format_pipeline_metrics_summary(), json_dumps(), load_pipeline_metrics(), peak_rss_mb(), PipelineMetrics (+10 more)
 
 ### Community 17 - "run_agent_pipeline.py"
 Cohesion: 0.16
 Nodes (29): list_providers(), Path, Role from JD parser output, then job_posting.txt, then task job_meta., resolve_job_role_title(), build_prompt(), experience_inventory(), extract_final_cv_markdown(), extract_priority_terms() (+21 more)
 
-### Community 18 - "ParagraphStyle"
-Cohesion: 0.17
-Nodes (33): _academic_main_column_story_from_cv(), _ats_list_paragraph(), CvContent, _education_flowables(), _education_header_row(), _experience_flowables(), _experience_header_row(), _icon_row() (+25 more)
+### Community 18 - "cv_pdf_renderer.py"
+Cohesion: 0.10
+Nodes (57): _academic_main_column_story_from_cv(), _ats_list_paragraph(), _compact_sidebar_stack(), _contact_href(), _contact_icon_key(), _contact_paragraph_markup(), CvContent, _draw_centered_sidebar_sections_on_canvas() (+49 more)
 
-### Community 19 - "ingest_nav_jobs.py"
-Cohesion: 0.12
-Nodes (26): effective_if_modified_since(), feed_item_rogaland_guess(), main(), parse_state_timestamp(), Any, datetime, Namespace, rogaland_from_locations() (+18 more)
+### Community 19 - "configure_logging"
+Cohesion: 0.14
+Nodes (17): configure_logging(), get_logger(), log_json_summary(), Path, Central logging configuration for the job_search package., Configure the ``job_search`` logger tree (file + optional stderr)., Return a child logger under the ``job_search`` namespace., Log an ingest/score summary dict (also printed to stdout by callers). (+9 more)
 
 ### Community 20 - "Data Engineer (Inspirit)"
 Cohesion: 0.07
 Nodes (28): Azure ML and Fabric Notebooks, Data Engineer (Inspirit), Data Scientist (Inspirit), dbt Data Transformations, Inspirit365, Medallion / Star-Snowflake Data Modeling, Microsoft Fabric / Azure Data Platform, BI Analyseplattform (+20 more)
 
 ### Community 21 - "apply_prompts.py"
-Cohesion: 0.15
-Nodes (12): apply_prompts_markdown_section(), apply_prompts_path(), merge_apply_prompts(), normalize_apply_prompts(), Path, Optional user tailoring instructions for a CV run folder., Per-job popover may override sidebar; ``inherit`` keeps the sidebar default., read_apply_prompts() (+4 more)
+Cohesion: 0.14
+Nodes (13): apply_language_markdown_section(), apply_prompts_markdown_section(), apply_prompts_path(), merge_apply_prompts(), normalize_apply_prompts(), Path, Optional user tailoring instructions for a CV run folder., Per-job popover may override sidebar; ``inherit`` keeps the sidebar default. (+5 more)
 
-### Community 22 - "cv_pdf_renderer.py"
-Cohesion: 0.08
-Nodes (41): BaseDocTemplate, _build_dual_column_layout(), _cleanup(), _compact_sidebar_stack(), _contact_href(), _contact_icon_key(), _contact_paragraph_markup(), _detect_document_language() (+33 more)
+### Community 22 - "job_filters.py"
+Cohesion: 0.13
+Nodes (21): _jobs_query_fragments(), _filter_text_part(), merge_exclude_terms(), merge_include_terms(), _merge_terms_ordered(), parse_term_field(), Job text filters for ingest and dashboard. 1) **Tech allowlist** — show/keep…, Coerce filter fields to str; skip None/NaN/non-strings (pandas empty cells). (+13 more)
 
 ### Community 23 - "run_naming.py"
 Cohesion: 0.11
-Nodes (24): company_slug(), enrich_run_folder_name(), find_repo_run_by_timestamp(), folder_includes_company(), _load_json_object(), parse_company_from_job_posting(), parse_role_from_job_posting(), parse_run_folder_basename() (+16 more)
+Nodes (26): company_slug(), enrich_run_folder_name(), find_repo_run_by_timestamp(), folder_includes_company(), _load_json_object(), parse_company_from_job_posting(), parse_role_from_job_posting(), parse_run_folder_basename() (+18 more)
 
-### Community 24 - "load_default_profiles"
-Cohesion: 0.10
-Nodes (21): Default FINN.no search queries tuned from application history., collect_ingest_keywords(), Merge CV profile keywords/skills with curated application-history boosts for…, Keywords used by NAV/FINN ingest for --keyword-filter matching and --list-…, Expose demo detection for tests and diagnostics., using_demo_cv_keywords(), all_default_finn_search_queries(), finn_search_queries_for_track() (+13 more)
+### Community 24 - "DataFrame"
+Cohesion: 0.16
+Nodes (17): apply_dashboard_filters(), apply_text_search_filter(), dedupe_jobs_df(), enrich_jobs_df(), _import_module_resilient(), _load_explorer_jobs_df(), _log_dashboard_filter_state(), DataFrame (+9 more)
 
 ### Community 25 - "deadline_utils.py"
 Cohesion: 0.16
@@ -309,21 +315,21 @@ Nodes (11): format_auto_refresh_label(), Dashboard data refresh helpers (no Stre
 Cohesion: 0.21
 Nodes (13): ABC, AgentProvider, AgentRunResult, AnthropicAgentProvider, call_markdown_agent(), CursorAgentProvider, get_provider(), ManualAgentProvider (+5 more)
 
-### Community 28 - "cv_style.py"
-Cohesion: 0.18
-Nodes (11): _apply_profile_length_limits(), Trim Profile / Summary so PDF main column stays within a practical page budget., normalize_profile_paragraphs(), normalize_summary_bullets(), Shared CV tailoring style rules for agents and run scaffolding. See…, Trim to max_chars, preferring a word boundary and a closing period., Enforce Profile length for PDF layout. Returns (trimmed paragraphs, warnings)., Enforce academic Summary bullet count and length. (+3 more)
+### Community 28 - "parse_cv_markdown"
+Cohesion: 0.09
+Nodes (24): _apply_profile_length_limits(), Trim Profile / Summary so PDF main column stays within a practical page budget., _cleanup(), _detect_document_language(), _education_item_from_block(), _parse_bullet_section(), parse_cv_markdown(), _parse_education_bullet_line() (+16 more)
 
 ### Community 29 - "apply_dialog_ready"
-Cohesion: 0.13
-Nodes (14): apply_dialog_ready(), _apply_dialog_snapshot(), pipeline_active_for_job_key(), Open Apply/Modify when session flags are ready; return True to skip caller body., True when session holds an active pipeline for ``job_key`` (no Streamlit)., True when Apply/Modify may open: valid row context or active pipeline for the…, Return session-state patches that clear stale dialog flags (no Streamlit)., True when Apply/Modify dialog flags are ready (pure helper for tests +… (+6 more)
+Cohesion: 0.15
+Nodes (10): _apply_dialog_fast_path_active(), apply_dialog_ready(), pipeline_active_for_job_key(), True when session holds an active pipeline for ``job_key`` (no Streamlit)., True when Apply/Modify may open: valid row context or active pipeline for the…, Return session-state patches that clear stale dialog flags (no Streamlit)., True when the Apply/Modify dialog should short-circuit the heavy dashboard page., reconcile_apply_dialog_flags() (+2 more)
 
 ### Community 30 - "job_dedup.py"
 Cohesion: 0.17
 Nodes (15): dedup_key(), dedupe_jobs_df(), _merge_duplicate_fields(), normalize_text(), _pick_primary_index(), Any, DataFrame, Series (+7 more)
 
 ### Community 31 - "agent_cli.py"
-Cohesion: 0.22
-Nodes (24): main(), parse_args(), _prior_outputs(), Namespace, Path, _resolve_step(), _run_build_prompt(), _run_pipeline_cmd() (+16 more)
+Cohesion: 0.37
+Nodes (14): main(), parse_args(), _prior_outputs(), Namespace, Path, _resolve_step(), _run_build_prompt(), _run_pipeline_cmd() (+6 more)
 
 ### Community 32 - "_dialog_artifact_bundle"
 Cohesion: 0.11
@@ -342,64 +348,64 @@ Cohesion: 0.24
 Nodes (17): build_report(), compare_markdown_keywords(), detect_format_issues(), extract_pdf_text(), keyword_coverage(), load_must_have_terms(), load_priority_terms(), main() (+9 more)
 
 ### Community 36 - "matches_academic_role_display"
-Cohesion: 0.15
-Nodes (8): effective_academic_roles_only(), Academic CV track always applies the strict research-role display filter., matches_academic_role(), matches_academic_role_display(), True when title/description/employer matches university or research role…, Stricter dashboard filter: role terms in title/jobtitle, or university employer…, AcademicRoleFilterTests, Tests for academic role filtering on the dashboard and ingest queries.
+Cohesion: 0.09
+Nodes (16): effective_academic_roles_only(), Academic CV track always applies the strict research-role display filter., Default FINN.no search queries tuned from application history., matches_academic_role(), matches_academic_role_display(), True when title/description/employer matches university or research role…, Stricter dashboard filter: role terms in title/jobtitle, or university employer…, all_default_finn_search_queries() (+8 more)
 
 ### Community 37 - "deanonymize_cvs.py"
-Cohesion: 0.13
-Nodes (24): _abbreviate_norwegian_months(), apply_replacements(), expand_mapping_norwegian_dates(), list_files(), looks_like_cv_date_key(), main(), norwegian_date_variants(), parse_args() (+16 more)
+Cohesion: 0.06
+Nodes (39): detect_supplementary_artifacts(), is_plain_pdf_markdown(), normalize_upper_name_variants(), Path, Supplementary application markdown files beyond final_cv.md. Used by private_cv…, Heuristic: which supplementary files the posting likely needs., True when markdown should render as plain one-column PDF (not styled CV)., Add title-case aliases for fully-uppercase personal-name keys. Example: ``MITCH… (+31 more)
 
-### Community 38 - "cv_application_artifacts.py"
-Cohesion: 0.17
-Nodes (10): detect_supplementary_artifacts(), is_plain_pdf_markdown(), Path, Supplementary application markdown files beyond final_cv.md. Used by private_cv…, Heuristic: which supplementary files the posting likely needs., True when markdown should render as plain one-column PDF (not styled CV)., supplementary_artifact_for(), SupplementaryArtifact (+2 more)
+### Community 38 - "dashboard_styles.py"
+Cohesion: 0.08
+Nodes (24): _finalize_dashboard_scroll(), _inject_dashboard_css(), pipeline_fallback_eligible(), _pipeline_poll_fast_path_active(), True when the page-level fallback should render the active pipeline., Inject unified scroll manager once per rerun, after page content exists., Render the active pipeline at page level when its row is off-screen., True when pipeline polling should skip job loads (dialog dismissed, worker… (+16 more)
 
 ### Community 39 - "test_cv_tracks.py"
-Cohesion: 0.17
-Nodes (14): _is_academic_cv(), _is_industry_cv(), _is_real_http_url(), Build deanonymize search/replace pairs from ``_*_url`` metadata keys. Template…, social_url_replacements_from_raw(), cv_track_from_title(), is_academic_title(), is_industry_title() (+6 more)
+Cohesion: 0.09
+Nodes (22): assemble_final_cv_markdown(), designation_from_job_role(), Headline under the name on the CV/PDF (e.g. ML/AI Engineer -> ML/AI ENGINEER)., Keep at most max_count skills, preferring terms that match ranked JD keywords., render_cv_markdown(), select_tailored_skills(), _is_academic_cv(), _is_industry_cv() (+14 more)
 
-### Community 40 - "render_plain_markdown_pdf"
-Cohesion: 0.13
-Nodes (16): markdown_inline_to_reportlab(), Convert lightweight markdown inline emphasis to ReportLab paragraph markup.…, _add_paragraph(), _add_table(), build_plain_markdown_story(), _is_table_separator_row(), _paragraph_styles(), _parse_table_row() (+8 more)
+### Community 40 - "plain_markdown_pdf.py"
+Cohesion: 0.18
+Nodes (13): markdown_inline_to_reportlab(), Convert lightweight markdown inline emphasis to ReportLab paragraph markup.…, _add_paragraph(), _add_table(), build_plain_markdown_story(), _is_table_separator_row(), _paragraph_styles(), _parse_table_row() (+5 more)
 
 ### Community 41 - "private_cv.py"
-Cohesion: 0.18
-Nodes (23): supplementary_artifact_filenames(), is_placeholder_value(), load_mapping(), True when the mapping value is still an unfilled template, not real PII., _audit_markdown(), cmd_audit(), cmd_setup(), cmd_sync() (+15 more)
+Cohesion: 0.11
+Nodes (44): supplementary_artifact_filenames(), is_placeholder_value(), load_mapping(), True when the mapping value is still an unfilled template, not real PII., _audit_markdown(), build_parser(), cmd_all_runs(), cmd_apply() (+36 more)
 
-### Community 42 - "Path"
-Cohesion: 0.07
-Nodes (37): cache_data, bulk_deanonymize_command(), _count_applied_roles(), count_research_roles_in_db(), filter_applied_roles_df(), filter_phd_student_df(), _jobs_query_fragments(), load_applications_df() (+29 more)
+### Community 42 - "TestAppliedRolesHelpers"
+Cohesion: 0.13
+Nodes (11): bulk_deanonymize_command(), _count_applied_roles(), filter_applied_roles_df(), Build a job row dict suitable for ``execute_apply_pipeline`` from an…, Combined ``cv apply`` command for drafted rows with CV run IDs in notes., Collapsible applied-roles list with status filter and compact rows., Drafts and applied-role lists for the current CV track., render_applied_roles_section() (+3 more)
 
-### Community 43 - "load_config"
-Cohesion: 0.19
-Nodes (20): _expand(), build_parser(), cmd_all_runs(), cmd_apply(), cmd_edit(), cmd_export_cv_sources(), cmd_localize(), cmd_pdf() (+12 more)
+### Community 43 - "cv_private.py"
+Cohesion: 0.29
+Nodes (10): _expand(), _is_real_http_url(), _mapping_raw(), profile_photo_from_mapping(), Path, Build deanonymize search/replace pairs from ``_*_url`` metadata keys. Template…, Return path to a profile photo file, or None to use the in-repo placeholder.…, resolve_profile_photo_path() (+2 more)
 
 ### Community 44 - "assembler Subagent"
 Cohesion: 0.14
 Nodes (14): Step 06 assembler, Step 05 ats_checker, Step 04 bullet_tailor, Step 01 jd_parser, Step 02 keyword_ranker, Step 03 track_selector, assembler Subagent, ats_check_pdf (+6 more)
 
-### Community 45 - "load_pipeline_metrics"
-Cohesion: 0.33
-Nodes (7): load_pipeline_metrics(), Path, Resolve a run basename to ``cv_generation/cv_runs/<run_id>``., resolve_run_dir(), pipeline_metrics_for_run_id(), Load ``pipeline_metrics.json`` for a run basename, if present., resolve_modify_run_dir()
+### Community 45 - "extract_run_ids_from_notes"
+Cohesion: 0.15
+Nodes (11): Resolve a run basename to ``cv_generation/cv_runs/<run_id>``., resolve_run_dir(), extract_run_ids_from_notes(), pipeline_metrics_for_run_id(), pipeline_metrics_summary_for_notes(), Return CV run folder basenames from application notes (``CV run: …`` lines)., Load ``pipeline_metrics.json`` for a run basename, if present., One-line impact summary from the latest CV run referenced in notes. (+3 more)
 
 ### Community 46 - "render_styled_cv_pdf"
-Cohesion: 0.17
-Nodes (16): render_styled_cv_pdf(), _styles(), _mapping_raw(), profile_photo_from_mapping(), Path, Return path to a profile photo file, or None to use the in-repo placeholder.…, resolve_profile_photo_path(), _ensure_project_cwd() (+8 more)
+Cohesion: 0.19
+Nodes (14): BaseDocTemplate, _build_dual_column_layout(), render_styled_cv_pdf(), Path, render_plain_markdown_pdf(), _ensure_project_cwd(), _import_renderer(), main() (+6 more)
 
-### Community 47 - "TestAgentInterop"
-Cohesion: 0.29
-Nodes (4): build_assembler_output(), _prepare_run(), Path, TestAgentInterop
+### Community 47 - "test_agent_interop.py"
+Cohesion: 0.22
+Nodes (8): manual_prompt_path(), manual_response_path(), Path, build_assembler_output(), _prepare_run(), Path, Tests for the agent-portable CV pipeline surface., TestAgentInterop
 
-### Community 48 - "Path"
-Cohesion: 0.17
-Nodes (15): _apply_localized_artifacts(), _apply_markdown_artifacts(), _apply_supplementary_artifacts(), _copy_cv_sources_to(), mapping_override_path(), Path, Run-local override first, then the same filename in ~/private/cv/., Use only the relevant English or Norwegian override mapping. (+7 more)
+### Community 48 - "ingest_nav_jobs.py"
+Cohesion: 0.23
+Nodes (15): mark_stale_jobs_inactive(), Any, Shared helpers for job ingest scripts (NAV, FINN, …)., Mark ACTIVE rows for *source* not seen in the current ingest run as INACTIVE., strip_html(), effective_if_modified_since(), feed_item_rogaland_guess(), main() (+7 more)
 
 ### Community 49 - "build_ingest_cycle_command"
 Cohesion: 0.22
 Nodes (5): build_ingest_cycle_command(), Build ``scripts/run_job_search_cycle.py`` argv for dashboard ingest., Tests for dashboard ingest-cycle helpers (no Streamlit runtime)., TestBuildIngestCycleCommand, TestParseIngestCycleOutput
 
 ### Community 50 - "run_cv_tailoring.py"
-Cohesion: 0.31
-Nodes (8): apply_language_markdown_section(), application_artifacts_markdown(), Scaffold note written into each new cv_runs/<id>/ folder., as_markdown(), SubagentSpec, main(), parse_args(), Namespace
+Cohesion: 0.26
+Nodes (13): contract_metadata(), Any, required_top_level_keys(), validate_output_against_task(), write_contract_manifest(), write_json(), application_artifacts_markdown(), Scaffold note written into each new cv_runs/<id>/ folder. (+5 more)
 
 ### Community 51 - "Fujitsu Senior Researcher 8547"
 Cohesion: 0.17
@@ -413,33 +419,33 @@ Nodes (13): Data Governance, ETL/ELT Pipelines, EXPERIS AS, Lakehouse / Medallio
 Cohesion: 0.21
 Nodes (13): Privacy-preserving machine learning, Centre for Quantum Communication Networks and Applications (QCNA), Quantum information theory, Research Scientist in Information Theory, Simula UiB, Statistical learning theory, Centre for Sustainable, Risk-averse and Ethical AI (SURE-AI), Researcher – AI Security and Privacy (+5 more)
 
-### Community 54 - "supplementary_generator.py"
-Cohesion: 0.32
-Nodes (13): Resolve industry/academic track from prior outputs, then disk fallback., resolve_selected_track(), looks_like_cover_letter(), True when markdown is a cover letter (name markers or Dear/Sincerely body)., build_application_letter_prompt(), build_research_proposal_prompt(), _generate_doc(), maybe_generate_application_letter() (+5 more)
+### Community 54 - "_render_job_explorer_fragment"
+Cohesion: 0.15
+Nodes (16): fragment, finish_rerun_trace(), Mark the active rerun trace complete and retain a short sidebar summary., _job_explorer_page_changed(), _job_page_scroll_prev_key(), _job_page_state_key(), paginate_jobs_df(), Prominent free-text search at the top of Job explorer. (+8 more)
 
 ### Community 55 - "cv_source_sync.py"
 Cohesion: 0.33
 Nodes (8): enrich_body_from_front_matter(), full_cv_markdown(), _hobby_bullets(), _language_bullets(), Apply languages and hobbies from YAML front matter into markdown sections., Rebuild file text with front matter + enriched body for run sync., Replace bullet list under ## Section until the next ## heading., _replace_section_bullets()
 
-### Community 56 - "normalize_upper_name_variants"
-Cohesion: 0.20
-Nodes (5): normalize_upper_name_variants(), Add title-case aliases for fully-uppercase personal-name keys. Example: ``MITCH…, --strict must fail only on leftover placeholders, not unused mapping keys., With --output-dir, files are written even with no key matches; --strict must…, TestStrictUnusedKeys
+### Community 56 - "TestCoverLetterGenerator"
+Cohesion: 0.35
+Nodes (3): build_cover_letter_prompt(), Path, TestCoverLetterGenerator
 
 ### Community 57 - "Senior Integration Engineer"
 Cohesion: 0.18
 Nodes (11): Agentic AI Frameworks, Coding Agents, AI and Agents for Insights Work, Data og AI Engineer, PwC Norway, Scalable Data and AI Solutions Consulting, AI Agents for Cloud Integration, Azure Cloud Integration (Logic Apps APIM ADF) (+3 more)
 
 ### Community 58 - "Fagansvarlig dataforskning og kunstig intelligens"
-Cohesion: 0.18
-Nodes (11): Fagansvarlig dataforskning og kunstig intelligens, Språkmodeller, agenter og moderne KI-arkitektur, MLOps og modellforvaltning, Skagerak Kraft AS, Tidsserieanalyse og forecasting, MLOps, AI, AI-agenter og automatisering, AI sandkasser, MVPs og POCs (+3 more)
+Cohesion: 0.17
+Nodes (12): Fagansvarlig dataforskning og kunstig intelligens, Språkmodeller, agenter og moderne KI-arkitektur, MLOps og modellforvaltning, Ansvarlig bruk av KI, Skagerak Kraft AS, Tidsserieanalyse og forecasting, MLOps, AI, AI-agenter og automatisering (+4 more)
 
 ### Community 59 - "Data Scientist - Gjensidige AI CoE"
 Cohesion: 0.20
 Nodes (11): Center of Excellence for AI og automatisering (Skadedivisjonen), Data Scientist - Gjensidige AI CoE, Databricks og dbt, Generativ AI, språkmodeller og RAG, Gjensidige, LangChain / LangGraph, Business Intelligence og Analytics-konsulent / Data- og AI engineer, ETL/ELT med høy datakvalitet (+3 more)
 
-### Community 60 - "AI Engineer - Laerdal Medical"
-Cohesion: 0.18
-Nodes (11): AI agents in Copilot Studio / Azure Foundry, AI Engineer - Laerdal Medical, Internal AI enablement, Laerdal Medical, Power Platform, Internal AI stack / platform, Power Platform, Copilot Studio, UiPath, Azure AI Foundry, Automation and digital assistants (+3 more)
+### Community 60 - "Generative AI Specialist - Statnett"
+Cohesion: 0.33
+Nodes (6): AI agents in Copilot Studio / Azure Foundry, Power Platform, Copilot Studio, UiPath, Azure AI Foundry, Automation and digital assistants, Generative AI in IT/OT architecture, Generative AI Specialist - Statnett, Statnett
 
 ### Community 61 - "Post-doctoral Research Fellow in AI and Cultural Heritage"
 Cohesion: 0.22
@@ -450,40 +456,44 @@ Cohesion: 0.20
 Nodes (10): application_letter.md, cover_letter.md, Cover Letter Voice, CV Tailoring Style, MITCH EVANS Placeholder, research_proposal.md, Supplementary Application Documents, Step 07 Cover Letter (+2 more)
 
 ### Community 63 - "resolve_sidebar_photo_path"
-Cohesion: 0.36
-Nodes (8): _ensure_photo_placeholder(), _prepare_sidebar_photo_file(), Path, Circular PNG placeholder for sidebar headshot when no private photo is…, Center-crop to square and apply a circular mask (matches sidebar headshot…, Private photo (env/mapping/CLI) or in-repo placeholder., resolve_sidebar_photo_path(), _sidebar_photo_block()
+Cohesion: 0.38
+Nodes (7): _ensure_photo_placeholder(), _prepare_sidebar_photo_file(), Path, Circular PNG placeholder for sidebar headshot when no private photo is…, Center-crop to square and apply a circular mask (matches sidebar headshot…, Private photo (env/mapping/CLI) or in-repo placeholder., resolve_sidebar_photo_path()
 
-### Community 64 - "Full-Stack (AI) Engineer - Sanna"
-Cohesion: 0.40
-Nodes (6): Accounting automation platform, AI vs deterministic rules vs human-in-the-loop, Full-Stack (AI) Engineer - Sanna, Production LLMs and AI-driven workflows, Sanna, TypeScript, Effect.ts, PostgreSQL, SvelteKit
+### Community 64 - "localize_run"
+Cohesion: 0.24
+Nodes (8): localize_run(), looks_like_norwegian_cover_letter(), looks_like_norwegian_cv(), Path, True when markdown uses Norwegian CV section labels / H1., Heuristic: body uses common Bokmål markers (not just a Norwegian role title)., Norwegian localization must write *_no.md and never replace English sources., TestNorwegianPathGuards
 
 ### Community 65 - "AI Innovation Lead - Tieto Banktech"
 Cohesion: 0.20
 Nodes (10): Agentic AI frameworks and MCP, GenAI methods, Designing and deploying machine learning models, People Made Machines (PMM), Senior AI Engineer - People Made Machines, Agentic workflows and tool use, AI Innovation Lead - Tieto Banktech, AI governance in banking / regulatory context (+2 more)
 
 ### Community 66 - "Principal AI Enablement Engineer"
-Cohesion: 0.22
-Nodes (10): On-prem LLM and GPU infrastructure, Principal AI Enablement Engineer, Six Robotics, Sovereign AI setup, UAV autonomy and swarm platforms, AI-assistert utvikling og agentic coding, Cursor, Claude Code, GitHub Copilot, AugmentCode, Java, Spring Boot, PostgreSQL, AWS/Heroku (+2 more)
+Cohesion: 0.20
+Nodes (10): AI Engineer - Laerdal Medical, Internal AI enablement, Laerdal Medical, Power Platform, Internal AI stack / platform, On-prem LLM and GPU infrastructure, Principal AI Enablement Engineer, Six Robotics (+2 more)
 
 ### Community 67 - "score_jobs.py"
-Cohesion: 0.23
-Nodes (14): matches_academic_research_employer(), matches_any_include_term(), matching_terms(), term_matches(), find_tek_match(), haystack_for_job(), load_tek_by_norm(), main() (+6 more)
+Cohesion: 0.16
+Nodes (15): matches_academic_research_employer(), matches_any_include_term(), term_matches(), find_tek_match(), haystack_for_job(), load_tek_by_norm(), main(), norm_company() (+7 more)
 
 ### Community 68 - "ingest_finn_jobs.py"
-Cohesion: 0.15
-Nodes (24): Fetch FINN detail HTML when the DB row has no description_text., refresh_finn_job_description(), build_job_url(), FinnJobSession, mark_stale_jobs_inactive(), Any, Shared helpers for job ingest scripts (NAV, FINN, …)., Mark ACTIVE rows for *source* not seen in the current ingest run as INACTIVE. (+16 more)
+Cohesion: 0.23
+Nodes (17): build_job_url(), load_queries(), location_guess_rogaland(), main(), parse_location_guess(), Any, Namespace, row_from_detail() (+9 more)
 
 ### Community 69 - "_dismiss_apply_modify_dialog"
 Cohesion: 0.20
 Nodes (10): _dismiss_apply_modify_dialog(), _mark_dashboard_scroll_restore(), _on_apply_dialog_cancel_click(), _on_apply_dialog_close_click(), _on_apply_dialog_dismiss(), Request scroll restore on the next full dashboard render (e.g. after dialog…, Clear dialog flags immediately; optionally drop completed pipeline UI state.…, st.dialog X / Esc: drop dialog flags only (pipeline keeps running). (+2 more)
 
 ### Community 70 - "run_demo.py"
-Cohesion: 0.19
-Nodes (20): Repository layout paths (shared by job search and CV generation)., _is_skip_prefix_dir(), iter_files(), main(), Path, Yield files under root without descending into SKIP_DIRS or skip-prefix dirs., True if this relative directory is covered by SKIP_REL_PREFIXES., _rel_posix() (+12 more)
+Cohesion: 0.45
+Nodes (10): assemble_run(), copy_seed_outputs(), ensure_demo_cv_dir(), main(), missing_agent_outputs(), prepare_run(), print_walkthrough(), Path (+2 more)
 
 ### Community 71 - "Privacy-First Workflow"
 Cohesion: 0.25
 Nodes (9): Private CV Data Separation, Project Boundary, Anonymized Placeholders, Privacy-First Workflow, check_safe_to_push.py, Reveal CV, shared Module, Tailor in Public, Reveal in Private (+1 more)
+
+### Community 72 - "has_profile_relevance"
+Cohesion: 0.27
+Nodes (6): filter_academic_roles_df(), has_profile_relevance(), Any, True when a scored job has CV keyword/skill overlap. Location-only (+5) and…, Drop non-academic rows when keep_academic_only is True (pandas DataFrame)., ProfileRelevanceTests
 
 ### Community 74 - "Run Folder Contract"
 Cohesion: 0.25
@@ -492,6 +502,14 @@ Nodes (8): agent_apply_job.sh, Future MCP Thin Wrapper, Provider: cursor, Provid
 ### Community 75 - "Retrieval-Augmented Generation (RAG)"
 Cohesion: 0.25
 Nodes (8): Retrieval-Augmented Generation (RAG), Vector Search, KI-Driven Ecosystem for Norwegian Export, Norwegian Energy Partners, Platform Engineer & AI-enabler, AI Engineer (Platform/Cloud), Norconsult Digital, RAG and Agent-Based Solutions
+
+### Community 76 - "application_status_upsert_row"
+Cohesion: 0.32
+Nodes (5): application_status_upsert_row(), Normalize DB/pandas cell values to optional stripped text., Build ``upsert_application`` payload for a status change. Preserves notes,…, _sql_optional_text(), TestApplicationStatusUpsertRow
+
+### Community 77 - "timing_span"
+Cohesion: 0.25
+Nodes (8): _apply_dialog_snapshot(), Context manager that logs a timing event on exit., timing_span(), Open Apply/Modify when session flags are ready; return True to skip caller body., True when Apply/Modify dialog flags are ready (pure helper for tests +…, Drop orphan ``apply_dialog_*`` flags so an empty dialog never mounts., _reconcile_apply_dialog_state(), yield_to_apply_modify_dialog()
 
 ### Community 78 - "job_search Module"
 Cohesion: 0.29
@@ -514,8 +532,8 @@ Cohesion: 0.29
 Nodes (7): Center of Excellence for AI and Automation (Claims), Data Scientist (Gjensidige), Databricks and dbt Pipelines, Gjensidige, New AI Unit for Insurance Services, Fremtind, Senior Data Scientist (Fremtind)
 
 ### Community 83 - "Platform for responsible AI"
-Cohesion: 0.33
-Nodes (7): Ansvarlig bruk av KI, Trustworthy and responsible AI, Bridge from prototyping to production (Dev → Prod), AI platforms and paved road for developers, Platform for responsible AI, Senior AI Platform Engineer - Storebrand, Storebrand
+Cohesion: 0.40
+Nodes (6): Trustworthy and responsible AI, Bridge from prototyping to production (Dev → Prod), AI platforms and paved road for developers, Platform for responsible AI, Senior AI Platform Engineer - Storebrand, Storebrand
 
 ### Community 84 - "Private Identity Boundary"
 Cohesion: 0.33
@@ -554,8 +572,12 @@ Cohesion: 0.33
 Nodes (6): Data Lake / Lakehouse Analytics-Ready Data, Data Scientist - NORCE Analytics, Digital Twins (Project Domain), TensorFlow PyTorch scikit-learn, NORCE Research AS, NORCE Analytics Initiative
 
 ### Community 93 - "Postdoctoral Fellow – AI for Decisions (AID)"
-Cohesion: 0.47
-Nodes (6): AI for Decisions (AID) Center, Postdoctoral Fellow – AI for Decisions (AID), Human–AI collaboration for decision-making, Human-in-the-loop decision support, ISCHI research group, NTNU
+Cohesion: 0.21
+Nodes (12): AI for Decisions (AID) Center, Postdoctoral Fellow – AI for Decisions (AID), Human–AI collaboration for decision-making, Human-in-the-loop decision support, ISCHI research group, NTNU, Accounting automation platform, AI vs deterministic rules vs human-in-the-loop (+4 more)
+
+### Community 94 - "Tech Lead Bergen - AI-assisted development"
+Cohesion: 0.50
+Nodes (5): AI-assistert utvikling og agentic coding, Cursor, Claude Code, GitHub Copilot, AugmentCode, Java, Spring Boot, PostgreSQL, AWS/Heroku, Spekkdrevet utvikling, Tech Lead Bergen - AI-assisted development
 
 ### Community 95 - "Energy Estimation Formula v1"
 Cohesion: 0.33
@@ -581,6 +603,10 @@ Nodes (5): Circular light-gray frame around figure, CV header photo slot when no
 Cohesion: 0.40
 Nodes (5): ALEX RIVERA, Demo Industry CV Source, Demo final_cv.md, Final CV ML ENGINEER Role, Demo tailored_cv.md
 
+### Community 101 - "log_state_diff"
+Cohesion: 0.40
+Nodes (5): log_state_diff(), _normalize_state_value(), Snapshot a small, high-signal subset of session state for rerun diffs., Log only state keys that changed since the previous completed rerun., snapshot_state_subset()
+
 ### Community 102 - "Data Engineer GEOMETOC (Etterretningstjenesten)"
 Cohesion: 0.40
 Nodes (5): Data Engineer GEOMETOC (Etterretningstjenesten), Etterretningstjenesten, Automated Geographic Data Pipelines, GEOMETOC Geographic Meteorological Oceanographic Data, Geographic Information Systems (GIS)
@@ -596,6 +622,10 @@ Nodes (5): Samskaping av e-helseløsninger, Digital hjemmeoppfølging for skrøp
 ### Community 105 - "English cover letter voice"
 Cohesion: 0.40
 Nodes (5): Academic application letter style, English connectors and flow, English cover letter voice, Norwegian B1 writing style, Norwegian B1 connectors
+
+### Community 108 - "check_safe_to_push.py"
+Cohesion: 0.70
+Nodes (4): main(), Path, scan_file(), should_scan()
 
 ### Community 109 - "Birthday cake CV icon (date of birth)"
 Cohesion: 0.50
@@ -697,11 +727,11 @@ Nodes (3): Pluggable agent providers, check_safe_to_push.py, Git-ready privacy p
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `load_default_profiles()` connect `load_default_profiles` to `score_jobs.py`, `ingest_finn_jobs.py`, `private_cv.py`, `load_config`, `JobProfile`, `run_agent_pipeline.py`, `run_cv_tailoring.py`, `ingest_nav_jobs.py`?**
-  _High betweenness centrality (0.040) - this node is a cross-community bridge._
+- **Why does `load_default_profiles()` connect `JobProfile` to `score_jobs.py`, `ingest_finn_jobs.py`, `matches_academic_role_display`, `private_cv.py`, `ingest_nav_jobs.py`, `run_agent_pipeline.py`, `run_cv_tailoring.py`?**
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
 - **Why does `Row` connect `fetch_tek_rogaland_members.py` to `score_jobs.py`?**
   _High betweenness centrality (0.037) - this node is a cross-community bridge._
-- **Why does `supplementary_artifact_filenames()` connect `private_cv.py` to `Path`, `dashboard.py`, `_dialog_artifact_bundle`, `cv_application_artifacts.py`?**
+- **Why does `supplementary_artifact_filenames()` connect `private_cv.py` to `PrivateConfig`, `dashboard.py`, `_dialog_artifact_bundle`, `deanonymize_cvs.py`?**
   _High betweenness centrality (0.036) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `main()` (e.g. with `connect()` and `init_schema()`) actually correct?**
   _`main()` has 3 INFERRED edges - model-reasoned connections that need verification._

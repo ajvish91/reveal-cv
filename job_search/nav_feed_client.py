@@ -3,27 +3,16 @@ from __future__ import annotations
 
 import json
 import re
-import ssl
-import time
 import urllib.error
 import urllib.request
 from email.utils import format_datetime
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-import certifi
+from job_search.http_utils import http_get_bytes, ssl_context
 
 FEED_ORIGIN = "https://pam-stilling-feed.nav.no"
 PUBLIC_TOKEN_URL = f"{FEED_ORIGIN}/api/publicToken"
-RETRYABLE_HTTP_CODES = {408, 425, 429, 500, 502, 503, 504}
-
-
-def _ssl_context() -> ssl.SSLContext:
-    return ssl.create_default_context(cafile=certifi.where())
-
-
-def _should_retry_http_error(exc: urllib.error.HTTPError) -> bool:
-    return exc.code in RETRYABLE_HTTP_CODES
 
 
 def http_get_json(
@@ -33,38 +22,29 @@ def http_get_json(
     max_attempts: int = 3,
     retry_backoff_s: float = 1.0,
 ) -> tuple[dict[str, Any], dict[str, str]]:
-    req = urllib.request.Request(url, headers=headers or {})
-    last_error: Exception | None = None
-    for attempt in range(1, max(1, max_attempts) + 1):
-        try:
-            with urllib.request.urlopen(req, context=_ssl_context(), timeout=120) as resp:
-                hdrs = {k.lower(): v for k, v in resp.headers.items()}
-                body = resp.read().decode("utf-8")
-                if resp.status == 304 or not body.strip():
-                    return {}, hdrs
-                return json.loads(body), hdrs
-        except urllib.error.HTTPError as e:
-            if e.code == 304:
-                return {}, {k.lower(): v for k, v in e.headers.items()}
-            err = e.read().decode("utf-8", errors="replace")
-            if _should_retry_http_error(e) and attempt < max_attempts:
-                time.sleep(retry_backoff_s * attempt)
-                last_error = e
-                continue
-            raise RuntimeError(f"HTTP {e.code} {url}: {err[:500]}") from e
-        except urllib.error.URLError as e:
-            last_error = e
-            if attempt >= max_attempts:
-                raise RuntimeError(f"Request failed for {url}: {e.reason}") from e
-            time.sleep(retry_backoff_s * attempt)
-    if last_error is not None:
-        raise RuntimeError(f"Request failed for {url}: {last_error}")
-    raise RuntimeError(f"Request failed for {url}")
+    try:
+        body, hdrs, status = http_get_bytes(
+            url,
+            headers,
+            max_attempts=max_attempts,
+            retry_backoff_s=retry_backoff_s,
+        )
+    except urllib.error.HTTPError as e:
+        if e.code == 304:
+            return {}, {k.lower(): v for k, v in e.headers.items()}
+        err = e.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"HTTP {e.code} {url}: {err[:500]}") from e
+    except urllib.error.URLError as e:
+        raise RuntimeError(f"Request failed for {url}: {e.reason}") from e
+
+    if status == 304 or not body.strip():
+        return {}, hdrs
+    return json.loads(body.decode("utf-8")), hdrs
 
 
 def fetch_public_token() -> str:
     req = urllib.request.Request(PUBLIC_TOKEN_URL)
-    with urllib.request.urlopen(req, context=_ssl_context(), timeout=60) as resp:
+    with urllib.request.urlopen(req, context=ssl_context(), timeout=60) as resp:
         text = resp.read().decode("utf-8")
     text = text.strip()
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]

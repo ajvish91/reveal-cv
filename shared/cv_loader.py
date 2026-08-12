@@ -11,11 +11,14 @@ from __future__ import annotations
 import os
 import re
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 import yaml
 
-_PACKAGE_CV_DIR = Path(__file__).resolve().parent / "cv"
+from repo_paths import SHARED_DIR
+
+_PACKAGE_CV_DIR = SHARED_DIR / "cv"
 _DEFAULT_PRIVATE_CV_DIR = Path.home() / "private" / "cv" / "cv"
 _PROFILE_STEMS = ("industry", "academic")
 
@@ -47,8 +50,7 @@ def resolve_cv_dir() -> Path:
     Precedence:
       1. CV_SOURCE_DIR
       2. ~/private/cv/cv/ (if industry.md or academic.md exists)
-      3. shared/cv/ (if your gitignored industry.md or academic.md exists)
-      4. shared/cv/ (demo *.demo.md)
+      3. shared/cv/ (personal .md or demo *.demo.md)
     """
     env = os.environ.get("CV_SOURCE_DIR", "").strip()
     if env:
@@ -60,15 +62,22 @@ def resolve_cv_dir() -> Path:
     if _dir_has_profiles(private, personal_only=True):
         return private
 
-    package = _PACKAGE_CV_DIR
-    if (package / "industry.md").is_file() or (package / "academic.md").is_file():
-        return package
-
-    return package
+    return _PACKAGE_CV_DIR
 
 
-# Backward-compatible alias for imports
+# Thin compat alias (resolved once at import). Prefer resolve_cv_dir() at call sites.
 CV_DIR = resolve_cv_dir()
+
+
+def _as_str_list(value: object, *, split_commas: bool = False) -> list[str]:
+    """Normalize front-matter list-or-string fields into a clean str list."""
+    if value is None:
+        return []
+    if isinstance(value, str):
+        if split_commas:
+            return [s.strip() for s in value.split(",") if s.strip()]
+        return [value] if value.strip() else []
+    return [str(x).strip() for x in value if str(x).strip()]
 
 
 @dataclass
@@ -82,24 +91,15 @@ class JobProfile:
 
     @property
     def locations_preferred(self) -> list[str]:
-        loc = self.front_matter.get("locations_preferred") or []
-        if isinstance(loc, str):
-            return [loc]
-        return list(loc)
+        return _as_str_list(self.front_matter.get("locations_preferred"))
 
     @property
     def keywords(self) -> list[str]:
-        k = self.front_matter.get("keywords") or []
-        if isinstance(k, str):
-            return [s.strip() for s in k.split(",") if s.strip()]
-        return [str(x).strip() for x in k if str(x).strip()]
+        return _as_str_list(self.front_matter.get("keywords"), split_commas=True)
 
     @property
     def skills(self) -> list[str]:
-        s = self.front_matter.get("skills") or []
-        if isinstance(s, str):
-            return [x.strip() for x in s.split(",") if x.strip()]
-        return [str(x).strip() for x in s if str(x).strip()]
+        return _as_str_list(self.front_matter.get("skills"), split_commas=True)
 
     @property
     def languages(self) -> dict[str, str]:
@@ -157,15 +157,43 @@ def load_profile(path: Path) -> JobProfile:
     )
 
 
-def load_default_profiles() -> list[JobProfile]:
-    """Load industry + academic from resolve_cv_dir() (personal .md preferred over .demo.md)."""
+def _profiles_cache_key() -> tuple[object, ...]:
+    """Key includes CV dir + profile paths/mtimes so env or file edits invalidate."""
     cv_dir = resolve_cv_dir()
+    parts: list[object] = [str(cv_dir), os.environ.get("CV_SOURCE_DIR", "").strip()]
+    for stem in _PROFILE_STEMS:
+        p = _profile_path(cv_dir, stem)
+        if p is None:
+            parts.append((stem, "", 0))
+            continue
+        try:
+            mtime = p.stat().st_mtime_ns
+        except OSError:
+            mtime = 0
+        parts.append((stem, str(p), mtime))
+    return tuple(parts)
+
+
+@lru_cache(maxsize=4)
+def _load_default_profiles_cached(cache_key: tuple[object, ...]) -> tuple[JobProfile, ...]:
+    cv_dir = Path(str(cache_key[0]))
     profiles: list[JobProfile] = []
     for stem in _PROFILE_STEMS:
         p = _profile_path(cv_dir, stem)
         if p is not None:
             profiles.append(load_profile(p))
-    return profiles
+    return tuple(profiles)
+
+
+def load_default_profiles() -> list[JobProfile]:
+    """Load industry + academic from resolve_cv_dir() (personal .md preferred over .demo.md).
+
+    Results are cached by CV dir + source file mtimes (and CV_SOURCE_DIR). Cache
+    invalidates when those change; clear with ``load_default_profiles.cache_clear``
+    is not needed for normal use — call ``_load_default_profiles_cached.cache_clear()``
+    only in tests that mutate files in-process without mtime changes.
+    """
+    return list(_load_default_profiles_cached(_profiles_cache_key()))
 
 
 def main() -> int:

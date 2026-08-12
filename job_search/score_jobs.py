@@ -33,7 +33,6 @@ from job_search.job_filters import (
     matches_academic_research_employer,
     matches_any_include_term,
     matching_terms,
-    term_matches,
 )
 from job_search.location_preferences import match_preferred_location
 from job_search.logging_config import configure_logging, get_logger, log_json_summary
@@ -113,17 +112,12 @@ def find_tek_match(employer_name: str | None, tek_by_norm: dict[str, str]) -> st
 
 
 def haystack_for_job(row: sqlite3.Row) -> str:
-    parts = [
-        row["title"] or "",
-        row["jobtitle"] or "",
-        row["description_text"] or "",
-        row["employer_name"] or "",
-    ]
-    return " ".join(parts).casefold()
-
-
-def term_hits(term: str, hay: str) -> bool:
-    return term_matches(hay, term)
+    return haystack_for_filter(
+        row["title"],
+        row["jobtitle"],
+        row["description_text"],
+        row["employer_name"],
+    )
 
 
 def score_profile(

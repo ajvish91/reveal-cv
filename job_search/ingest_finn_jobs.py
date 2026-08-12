@@ -25,14 +25,13 @@ from shared.cv_loader import load_default_profiles
 from job_search.deadline_utils import coerce_expires_value
 from job_search.finn_job_client import FinnJobSession, build_job_url
 from job_search.finn_search_queries import finn_search_queries_for_track
-from job_search.ingest_common import mark_stale_jobs_inactive
-from job_search.ingest_keywords import collect_ingest_keywords
-from job_search.ingest_nav_jobs import (
+from job_search.ingest_common import (
     ROGALAND_COUNTY,
     ROGALAND_MUNICIPAL,
-    normalize_haystack,
+    mark_stale_jobs_inactive,
     strip_html,
 )
+from job_search.ingest_keywords import collect_ingest_keywords
 from job_search.job_db import DEFAULT_DB_PATH, connect, init_schema, set_state, upsert_job, utc_now_iso
 from job_search.job_filters import (
     ACADEMIC_RESEARCH_EMPLOYERS,
@@ -109,7 +108,7 @@ def row_from_search_card(
     location_matched = location_match.matched or in_r
 
     snippet = (card.get("description_snippet") or "").strip()
-    hay = normalize_haystack(title, snippet, employer or "", card.get("location_guess") or "")
+    hay = haystack_for_filter(title, snippet, card.get("location_guess"), employer)
     hits = matching_terms(hay, keywords) if keywords else []
 
     if rogaland_only and not location_matched:
@@ -183,7 +182,7 @@ def row_from_detail(
     )
     location_matched = location_match.matched or in_r
 
-    hay = normalize_haystack(title, desc_text, employer or "")
+    hay = haystack_for_filter(title, None, desc_text, employer)
     hits = matching_terms(hay, keywords) if keywords else []
 
     if rogaland_only and not location_matched:

@@ -39,11 +39,6 @@ def collect_ingest_keywords(
     return merge_unique_terms(cv_terms, boost_terms, extra)
 
 
-# Backward-compatible alias used by ingest modules.
-def collect_keywords_from_cvs(extra: list[str], *, include_skills: bool) -> list[str]:
-    return collect_ingest_keywords(extra, include_skills=include_skills)
-
-
 def using_demo_cv_keywords() -> bool:
     """Expose demo detection for tests and diagnostics."""
     return profiles_use_demo_templates(load_default_profiles())

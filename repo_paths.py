@@ -6,7 +6,6 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent
 SHARED_DIR = REPO_ROOT / "shared"
-JOB_SEARCH_DIR = REPO_ROOT / "job_search"
 CV_GENERATION_DIR = REPO_ROOT / "cv_generation"
 
 

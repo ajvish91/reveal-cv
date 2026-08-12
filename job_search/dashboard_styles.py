@@ -331,16 +331,6 @@ def inject_scroll_manager(*, scroll_to_list: bool = False, force_restore: bool =
     st.html(snippet, unsafe_allow_javascript=True)
 
 
-def inject_scroll_restoration() -> None:
-    """Backward-compatible alias — prefer ``inject_scroll_manager`` at end of main()."""
-    inject_scroll_manager(scroll_to_list=False)
-
-
-def inject_scroll_to_job_list() -> None:
-    """Backward-compatible alias — prefer ``inject_scroll_manager(scroll_to_list=True)``."""
-    inject_scroll_manager(scroll_to_list=True)
-
-
 METRIC_CSS = """
 div[data-testid="stMetric"] { padding: 0.2rem 0; }
 div[data-testid="stMetricLabel"] { font-size: 0.8rem; }

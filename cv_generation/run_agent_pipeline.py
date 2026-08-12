@@ -31,7 +31,7 @@ from cv_generation.agent_contract import (
     write_json,
 )
 from cv_generation.agent_providers import get_provider, list_providers
-from cv_generation.cover_letter_generator import maybe_generate_cover_letter
+from cv_generation.cover_letter_generator import maybe_generate_cover_letter, resolve_selected_track
 from cv_generation.supplementary_generator import (
     maybe_generate_application_letter,
     maybe_generate_research_proposal,
@@ -47,7 +47,7 @@ from cv_generation.cv_assemble import (
 from cv_generation.cv_pdf_renderer import parse_cv_markdown, render_styled_cv_pdf
 from cv_generation.cv_source_sync import full_cv_markdown
 from cv_generation.cv_subagents import SUBAGENT_SPECS
-from shared.cv_loader import load_default_profiles
+from shared.cv_loader import JobProfile, load_default_profiles
 
 
 def make_parser() -> argparse.ArgumentParser:
@@ -156,14 +156,8 @@ def _output_by_name(prior_outputs: list[dict[str, Any]], name: str) -> dict[str,
     return None
 
 
-def _selected_track(prior_outputs: list[dict[str, Any]]) -> str:
-    track_out = _output_by_name(prior_outputs, "03_track_selector_output.json") or {}
-    track = str(track_out.get("selected_track") or "industry").strip().lower()
-    return track if track in ("industry", "academic") else "industry"
-
-
 def resolve_source_cv_markdown(run_dir: Path, prior_outputs: list[dict[str, Any]], task: dict[str, Any]) -> str:
-    track = _selected_track(prior_outputs)
+    track = resolve_selected_track(run_dir, prior_outputs)
     source_path = run_dir / f"cv_{track}_source.md"
     if source_path.is_file():
         return source_path.read_text(encoding="utf-8")
@@ -189,14 +183,15 @@ def experience_inventory(source_markdown: str) -> list[dict[str, Any]]:
     return inventory
 
 
-def sync_run_source_cvs(run_dir: Path) -> None:
-    for profile in load_default_profiles():
+def sync_run_source_cvs(run_dir: Path, profiles: list[JobProfile] | None = None) -> None:
+    for profile in profiles if profiles is not None else load_default_profiles():
         text = full_cv_markdown(profile.front_matter, profile.body_markdown)
         (run_dir / f"cv_{profile.track}_source.md").write_text(text, encoding="utf-8")
 
 
 def refresh_run_tasks(run_dir: Path) -> None:
-    profiles = {p.track: p for p in load_default_profiles()}
+    profile_list = load_default_profiles()
+    profiles = {p.track: p for p in profile_list}
     templates = {track: p.body_markdown for track, p in profiles.items()}
     for idx, spec in enumerate(SUBAGENT_SPECS, start=1):
         task_path = run_dir / f"{idx:02d}_{spec.name}_task.json"
@@ -216,7 +211,7 @@ def refresh_run_tasks(run_dir: Path) -> None:
             else:
                 ctx.pop("user_apply_prompts", None)
         write_json(task_path, task)
-    sync_run_source_cvs(run_dir)
+    sync_run_source_cvs(run_dir, profile_list)
 
 
 def write_tailored_cv(run_dir: Path, markdown: str) -> Path:
@@ -431,7 +426,7 @@ def programmatic_assembler_output(
         ctx = (load_json(task_path).get("context") or {}).get("job_meta") or {}
         if isinstance(ctx, dict):
             job_meta = ctx
-    track = _selected_track(prior_outputs)
+    track = resolve_selected_track(run_dir, prior_outputs)
     company = job_meta.get("company") if isinstance(job_meta.get("company"), str) else None
     role_title = str(job_meta.get("role_title") or "role").strip()
     return build_assembler_output(

@@ -40,9 +40,6 @@ job_search/data/*
 
 # Local scratch / personal archive (not for git)
 archive/
-test_configure_logging_writes_to_file/
-test_log_json_summary_does_not_crash/
-test_tail_log_file_returns_last_lines/
 
 # Documents and exports that may contain PII
 *.pdf

@@ -23,13 +23,17 @@ if str(_root) not in sys.path:
 
 import argparse
 import json
-import re
 import time
 from typing import Any
 
 from shared.cv_loader import load_default_profiles
 from job_search.deadline_utils import coerce_expires_value
-from job_search.ingest_common import mark_stale_jobs_inactive
+from job_search.ingest_common import (
+    ROGALAND_COUNTY,
+    ROGALAND_MUNICIPAL,
+    mark_stale_jobs_inactive,
+    strip_html,
+)
 from job_search.ingest_keywords import collect_ingest_keywords
 from job_search.job_db import DEFAULT_DB_PATH, connect, get_state, init_schema, set_state, upsert_job, utc_now_iso
 from job_search.job_filters import (
@@ -45,60 +49,6 @@ from job_search.logging_config import configure_logging, get_logger, log_json_su
 from job_search.nav_feed_client import NavFeedSession, default_if_modified_since
 
 log = get_logger("job_search.ingest_nav")
-
-# Work-location municipal codes used in feed (uppercase, as returned by NAV).
-ROGALAND_MUNICIPAL: frozenset[str] = frozenset(
-    {
-        "STAVANGER",
-        "SANDNES",
-        "HAUGESUND",
-        "EIGERSUND",
-        "SOKNDAL",
-        "BJERKREIM",
-        "HÅ",
-        "KLEPP",
-        "TIME",
-        "GJESDAL",
-        "SOLA",
-        "RANDABERG",
-        "STRAND",
-        "HJELMELAND",
-        "SULDAL",
-        "SAUDA",
-        "KVITSØY",
-        "TYSVÆR",
-        "UTSIRA",
-        "BOKN",
-        "VINDAFJORD",
-        "ETNE",
-    }
-)
-ROGALAND_COUNTY = "ROGALAND"
-
-
-def strip_html(html: str) -> str:
-    t = re.sub(r"(?is)<script.*?>.*?</script>", " ", html or "")
-    t = re.sub(r"(?is)<style.*?>.*?</style>", " ", t)
-    t = re.sub(r"<[^>]+>", " ", t)
-    t = re.sub(r"\s+", " ", t)
-    return t.strip()
-
-
-def normalize_haystack(*parts: str) -> str:
-    return " ".join(p for p in parts if p).casefold()
-
-
-def keyword_match(haystack: str, keywords: list[str]) -> list[str]:
-    hits: list[str] = []
-    for kw in keywords:
-        k = kw.strip()
-        if not k:
-            continue
-        if len(k) <= 2 and k.casefold() not in ("ai", "go", "r"):  # allow very short codes
-            continue
-        if k.casefold() in haystack:
-            hits.append(k)
-    return hits
 
 
 def rogaland_from_locations(locations: list[dict[str, Any]] | None) -> tuple[bool, str | None, str | None]:
@@ -258,7 +208,7 @@ def run(args: argparse.Namespace) -> int:
             )
 
             if args.feed_only:
-                hay = normalize_haystack(title_feed, biz)
+                hay = haystack_for_filter(title_feed, None, None, biz)
                 hits = matching_terms(hay, keywords) if keywords else []
                 in_r = feed_item_rogaland_guess(feed_muni)
                 location_matched = feed_location_match.matched or in_r
@@ -360,7 +310,7 @@ def run(args: argparse.Namespace) -> int:
             emp_name = (emp.get("name") or biz or "").strip() or None
             emp_org = (emp.get("orgnr") or "").strip() or None
 
-            hay = normalize_haystack(title, jobtitle or "", desc_text, emp_name or "")
+            hay = haystack_for_filter(title, jobtitle, desc_text, emp_name)
             hits = matching_terms(hay, keywords) if keywords else []
 
             if args.rogaland_only and not location_matched:

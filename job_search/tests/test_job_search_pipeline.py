@@ -130,7 +130,7 @@ class JobSearchPipelineTests(unittest.TestCase):
                 raise urllib.error.URLError("temporary outage")
             return _FakeResponse({"items": [1]})
 
-        with patch("job_search.nav_feed_client.urllib.request.urlopen", side_effect=fake_urlopen):
+        with patch("job_search.http_utils.urllib.request.urlopen", side_effect=fake_urlopen):
             data, headers = http_get_json("https://example.com", max_attempts=2, retry_backoff_s=0)
         self.assertEqual(data, {"items": [1]})
         self.assertEqual(headers["etag"], "abc")

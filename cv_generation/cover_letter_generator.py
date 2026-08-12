@@ -21,7 +21,7 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
 from cv_generation.agent_contract import load_json
-from cv_generation.agent_providers import AgentRunResult, get_provider
+from cv_generation.agent_providers import call_markdown_agent
 from cv_generation.apply_prompts import read_apply_prompts
 from cv_generation.cv_application_artifacts import detect_supplementary_artifacts
 from cv_generation.cv_norwegian import looks_like_norwegian_cover_letter, strip_markdown_response
@@ -57,7 +57,11 @@ def manual_cover_letter_response_path(run_dir: Path) -> Path:
     return run_dir / f"{STEP_STEM}_output.manual.md"
 
 
-def resolve_track(run_dir: Path, prior_outputs: list[dict[str, Any]] | None = None) -> str:
+def resolve_selected_track(
+    run_dir: Path,
+    prior_outputs: list[dict[str, Any]] | None = None,
+) -> str:
+    """Resolve industry/academic track from prior outputs, then disk fallback."""
     if prior_outputs:
         for item in prior_outputs:
             if item.get("name") == "03_track_selector_output.json":
@@ -72,6 +76,11 @@ def resolve_track(run_dir: Path, prior_outputs: list[dict[str, Any]] | None = No
         if track in ("industry", "academic"):
             return track
     return "industry"
+
+
+def resolve_track(run_dir: Path, prior_outputs: list[dict[str, Any]] | None = None) -> str:
+    """Alias for :func:`resolve_selected_track` (kept for call-site compatibility)."""
+    return resolve_selected_track(run_dir, prior_outputs)
 
 
 def resolve_role_company(
@@ -186,35 +195,6 @@ def build_cover_letter_prompt(
     return json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def _call_cover_letter_agent(
-    prompt: str,
-    *,
-    run_dir: Path,
-    provider_name: str,
-    model: str,
-) -> AgentRunResult:
-    if provider_name == "manual":
-        prompt_path = manual_cover_letter_prompt_path(run_dir)
-        response_path = manual_cover_letter_response_path(run_dir)
-        prompt_path.write_text(prompt, encoding="utf-8")
-        if not response_path.is_file():
-            raise RuntimeError(
-                "Manual mode requires an external agent step.\n"
-                f"1. Open the prompt file:\n  {prompt_path}\n"
-                f"2. Run it with Claude/Codex/another agent.\n"
-                f"3. Save the cover letter markdown to:\n  {response_path}"
-            )
-        text = response_path.read_text(encoding="utf-8").strip()
-        if not text:
-            raise RuntimeError(f"Manual response file is empty: {response_path}")
-        return AgentRunResult(text=text, provider="manual", model=model or "manual")
-
-    backend = get_provider(provider_name)
-    if hasattr(backend, "run_markdown"):
-        return backend.run_markdown(prompt, model=model, cwd=Path.cwd())
-    return backend.run(prompt, model=model, cwd=Path.cwd())
-
-
 def resolve_output_language(
     run_dir: Path,
     prior_outputs: list[dict[str, Any]] | None = None,
@@ -285,9 +265,10 @@ def generate_cover_letter_markdown(
     if dry_run:
         return None, prompt
 
-    result = _call_cover_letter_agent(
+    result = call_markdown_agent(
         prompt,
         run_dir=run_dir,
+        step_stem=STEP_STEM,
         provider_name=provider_name,
         model=model,
     )
@@ -309,13 +290,14 @@ def render_cover_letter_pdf(
     if not md_path.is_file():
         return None
     pdf_path = md_path.with_suffix(".pdf")
-    from cv_generation.render_cv_pdf import _looks_like_cover_letter, _render_plain_markdown_pdf
+    from cv_generation.cv_application_artifacts import looks_like_cover_letter
+    from cv_generation.plain_markdown_pdf import render_plain_markdown_pdf
 
     text = md_path.read_text(encoding="utf-8")
-    _render_plain_markdown_pdf(
+    render_plain_markdown_pdf(
         md_path,
         pdf_path,
-        normalize_upper_names=_looks_like_cover_letter(md_path, text),
+        normalize_upper_names=looks_like_cover_letter(md_path, text),
     )
     return pdf_path if pdf_path.is_file() else None
 
@@ -334,7 +316,7 @@ def maybe_generate_cover_letter(
     output_language: str | None = None,
 ) -> CoverLetterResult:
     run_dir = run_dir.expanduser().resolve()
-    track = resolve_track(run_dir, prior_outputs)
+    track = resolve_selected_track(run_dir, prior_outputs)
     md_path = cover_letter_markdown_path(run_dir)
 
     if generate is False:

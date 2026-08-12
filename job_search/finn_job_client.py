@@ -3,35 +3,23 @@ from __future__ import annotations
 
 import json
 import re
-import ssl
-import time
 import urllib.error
 import urllib.parse
-import urllib.request
 from typing import Any
 
-import certifi
 from selectolax.parser import HTMLParser
 
+from job_search.http_utils import http_get_bytes
 from job_search.logging_config import get_logger
 
 log = get_logger("job_search.ingest_finn")
 
 FINN_ORIGIN = "https://www.finn.no"
 USER_AGENT = "job-search-automation/0.1 (personal job search; local script)"
-RETRYABLE_HTTP_CODES = {408, 425, 429, 500, 502, 503, 504}
 FINNKODE_RE = re.compile(r"/job/ad/(\d+)")
 JOB_POSTING_TYPE = "JobPosting"
 DATE_POSTED_RE = re.compile(r'datePosted\\",\\"([^"]+)\\"')
 VALID_THROUGH_RE = re.compile(r'validThrough\\",\\"([^"]+)\\"')
-
-
-def _ssl_context() -> ssl.SSLContext:
-    return ssl.create_default_context(cafile=certifi.where())
-
-
-def _should_retry_http_error(exc: urllib.error.HTTPError) -> bool:
-    return exc.code in RETRYABLE_HTTP_CODES
 
 
 def http_get_text(
@@ -42,45 +30,42 @@ def http_get_text(
     retry_backoff_s: float = 1.0,
 ) -> tuple[str, dict[str, str]]:
     req_headers = {"User-Agent": USER_AGENT, **(headers or {})}
-    req = urllib.request.Request(url, headers=req_headers)
-    last_error: Exception | None = None
-    for attempt in range(1, max(1, max_attempts) + 1):
-        try:
-            with urllib.request.urlopen(req, context=_ssl_context(), timeout=120) as resp:
-                hdrs = {k.lower(): v for k, v in resp.headers.items()}
-                body = resp.read().decode("utf-8", errors="replace")
-                return body, hdrs
-        except urllib.error.HTTPError as e:
-            err = e.read().decode("utf-8", errors="replace")
-            if _should_retry_http_error(e) and attempt < max_attempts:
-                log.warning(
-                    "HTTP %d for %s attempt %d/%d; retrying",
-                    e.code,
-                    url,
-                    attempt,
-                    max_attempts,
-                )
-                time.sleep(retry_backoff_s * attempt)
-                last_error = e
-                continue
-            log.error("HTTP %d for %s: %s", e.code, url, err[:200])
-            raise RuntimeError(f"HTTP {e.code} {url}: {err[:500]}") from e
-        except urllib.error.URLError as e:
-            last_error = e
-            if attempt >= max_attempts:
-                log.error("request failed for %s after %d attempts: %s", url, max_attempts, e.reason)
-                raise RuntimeError(f"Request failed for {url}: {e.reason}") from e
+
+    def _on_retry(exc: BaseException, attempt: int, attempts: int) -> None:
+        if isinstance(exc, urllib.error.HTTPError):
+            log.warning(
+                "HTTP %d for %s attempt %d/%d; retrying",
+                exc.code,
+                url,
+                attempt,
+                attempts,
+            )
+        else:
+            reason = getattr(exc, "reason", exc)
             log.warning(
                 "URL error for %s attempt %d/%d: %s; retrying",
                 url,
                 attempt,
-                max_attempts,
-                e.reason,
+                attempts,
+                reason,
             )
-            time.sleep(retry_backoff_s * attempt)
-    if last_error is not None:
-        raise RuntimeError(f"Request failed for {url}: {last_error}")
-    raise RuntimeError(f"Request failed for {url}")
+
+    try:
+        body, hdrs, _status = http_get_bytes(
+            url,
+            req_headers,
+            max_attempts=max_attempts,
+            retry_backoff_s=retry_backoff_s,
+            on_retry=_on_retry,
+        )
+        return body.decode("utf-8", errors="replace"), hdrs
+    except urllib.error.HTTPError as e:
+        err = e.read().decode("utf-8", errors="replace")
+        log.error("HTTP %d for %s: %s", e.code, url, err[:200])
+        raise RuntimeError(f"HTTP {e.code} {url}: {err[:500]}") from e
+    except urllib.error.URLError as e:
+        log.error("request failed for %s after %d attempts: %s", url, max_attempts, e.reason)
+        raise RuntimeError(f"Request failed for {url}: {e.reason}") from e
 
 
 def build_search_url(query: str, *, page: int = 1, employment: str = "fulltime") -> str:

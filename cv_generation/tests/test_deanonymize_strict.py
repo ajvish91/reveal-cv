@@ -110,6 +110,45 @@ class TestStrictUnusedKeys(unittest.TestCase):
             self.assertEqual(proc.returncode, 4, msg=f"stderr={proc.stderr}")
             self.assertIn("incomplete", proc.stderr.lower())
 
+    def test_strict_fails_output_dir_with_zero_replacements(self) -> None:
+        """With --output-dir, files are written even with no key matches; --strict must still fail."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            mapping_path = root / "mapping.json"
+            mapping_path.write_text(
+                json.dumps({"ALEX RIVERA": "Jane Doe", "Northline Labs": "Acme Corp"}),
+                encoding="utf-8",
+            )
+            run = root / "run"
+            run.mkdir()
+            (run / "final_cv.md").write_text(
+                "# Unrelated Document\nNo anonymized placeholders here.\n",
+                encoding="utf-8",
+            )
+            out = root / "out"
+            cmd = [
+                sys.executable,
+                "-m",
+                "cv_generation.deanonymize_cvs",
+                "--mapping",
+                str(mapping_path),
+                "--input-dir",
+                str(run),
+                "--glob",
+                "final_cv.md",
+                "--output-dir",
+                str(out),
+                "--strict",
+            ]
+            proc = subprocess.run(cmd, cwd=str(REPO), capture_output=True, text=True)
+            self.assertEqual(
+                proc.returncode,
+                3,
+                msg=f"stdout={proc.stdout}\nstderr={proc.stderr}",
+            )
+            self.assertIn("no replacements were applied", proc.stderr.lower())
+            self.assertTrue((out / "final_cv.md").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

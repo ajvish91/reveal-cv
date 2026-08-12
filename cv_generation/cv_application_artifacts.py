@@ -66,14 +66,22 @@ def supplementary_artifact_for(filename: str) -> SupplementaryArtifact | None:
     return None
 
 
+def looks_like_cover_letter(markdown_path: Path, text: str | None = None) -> bool:
+    """True when markdown is a cover letter (name markers or Dear/Sincerely body)."""
+    name = markdown_path.name.lower()
+    if "cover_letter" in name or "cover-letter" in name:
+        return True
+    body = text if text is not None else markdown_path.read_text(encoding="utf-8")
+    lowered = body.lower()
+    return "dear " in lowered and "sincerely" in lowered
+
+
 def is_plain_pdf_markdown(markdown_path: Path, text: str | None = None) -> bool:
     """True when markdown should render as plain one-column PDF (not styled CV)."""
     name = markdown_path.name.lower()
     if any(marker in name for marker in _PLAIN_NAME_MARKERS):
         return True
-    body = text if text is not None else markdown_path.read_text(encoding="utf-8")
-    lowered = body.lower()
-    if "dear " in lowered and "sincerely" in lowered:
+    if looks_like_cover_letter(markdown_path, text):
         return True
     if name.startswith("research_proposal") or name.startswith("application_letter"):
         return True

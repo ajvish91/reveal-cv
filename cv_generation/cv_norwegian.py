@@ -26,6 +26,7 @@ from cv_generation.cv_style import (
     NORWEGIAN_COVER_LETTER_LENGTH_HINT,
     SECTION_LABELS_NO,
 )
+from cv_generation.cv_tracks import cv_track_from_title
 
 if TYPE_CHECKING:
     from cv_generation.pipeline_metrics import PipelineMetricsCollector
@@ -116,11 +117,9 @@ def detect_track(markdown: str) -> str:
     first = ""
     for line in markdown.splitlines():
         if line.startswith("# "):
-            first = line[2:].strip().lower()
+            first = line[2:].strip()
             break
-    if "academic" in first or "akademisk" in first:
-        return "academic"
-    return "industry"
+    return cv_track_from_title(first)
 
 
 def _experience_section_lines(markdown: str) -> list[str]:
@@ -453,7 +452,8 @@ def localize_run(
     metrics: PipelineMetricsCollector | None = None,
 ) -> int:
     from cv_generation.run_agent_pipeline import try_export_pdf
-    from cv_generation.render_cv_pdf import _looks_like_cover_letter, _render_plain_markdown_pdf
+    from cv_generation.cv_application_artifacts import looks_like_cover_letter
+    from cv_generation.plain_markdown_pdf import render_plain_markdown_pdf
 
     run_dir = run_dir.expanduser().resolve()
     if not run_dir.is_dir():
@@ -497,10 +497,10 @@ def localize_run(
             if not no_pdf and out_path.is_file():
                 pdf_path = out_path.with_suffix(".pdf")
                 pdf_body = out_path.read_text(encoding="utf-8")
-                _render_plain_markdown_pdf(
+                render_plain_markdown_pdf(
                     out_path,
                     pdf_path,
-                    normalize_upper_names=_looks_like_cover_letter(out_path, pdf_body),
+                    normalize_upper_names=looks_like_cover_letter(out_path, pdf_body),
                 )
                 if pdf_path.is_file():
                     print(f"Wrote: {pdf_path.name}")
@@ -562,10 +562,10 @@ def localize_run(
                 print(msg, file=sys.stderr)
                 exit_code = 3
         else:
-            _render_plain_markdown_pdf(
+            render_plain_markdown_pdf(
                 out_path,
                 pdf_path,
-                normalize_upper_names=_looks_like_cover_letter(out_path, localized),
+                normalize_upper_names=looks_like_cover_letter(out_path, localized),
             )
             if pdf_path.is_file():
                 print(f"Wrote: {pdf_path.name}")

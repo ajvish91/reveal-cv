@@ -1265,7 +1265,7 @@ def _render_copyable_bash_command(cmd: str, *, key: str) -> None:
 def refresh_finn_job_description(conn, row: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
     """Fetch FINN detail HTML when the DB row has no description_text."""
     from job_search.finn_job_client import FinnJobSession
-    from job_search.ingest_nav_jobs import strip_html
+    from job_search.ingest_common import strip_html
 
     uuid = _safe_str(row.get("uuid"))
     if not uuid:
@@ -3250,10 +3250,11 @@ def _score_display(row: pd.Series) -> str:
     return f"{float(score):.0f}"
 
 
-def _score_breakdown(row: pd.Series) -> str:
+def _format_score_caption(row: pd.Series, *, empty: str = "No score") -> str:
+    """Shared score + boost annotation used by card captions and meta lines."""
     score = row.get("score_total")
     if score is None or pd.isna(score):
-        return "No score"
+        return empty
     base = row.get("score_base")
     boost_r = row.get("boost_rogaland")
     boost_t = row.get("boost_tek")
@@ -3275,6 +3276,10 @@ def _score_breakdown(row: pd.Series) -> str:
     return f"{float(score):.0f}"
 
 
+def _score_breakdown(row: pd.Series) -> str:
+    return _format_score_caption(row, empty="No score")
+
+
 def _keyword_hits_text(row: pd.Series) -> str:
     parts: list[str] = []
     kw = row.get("matched_keywords")
@@ -3290,27 +3295,8 @@ def _keyword_hits_text(row: pd.Series) -> str:
 
 
 def _job_meta_caption(row: pd.Series, *, within_days: int) -> str:
-    score = row.get("score_total")
-    score_txt = f"{float(score):.0f}" if score is not None and not pd.isna(score) else "—"
-    base = row.get("score_base")
-    boost_r = row.get("boost_rogaland")
-    boost_t = row.get("boost_tek")
-    if score is not None and not pd.isna(score):
-        try:
-            base_f = float(base) if base is not None and not pd.isna(base) else 0.0
-            boost_r_f = float(boost_r) if boost_r is not None and not pd.isna(boost_r) else 0.0
-            boost_t_f = float(boost_t) if boost_t is not None and not pd.isna(boost_t) else 0.0
-            if base_f <= 0 and boost_r_f > 0 and boost_t_f <= 0:
-                score_txt += " (location only — no CV keyword match)"
-            elif base_f > 0 and (boost_r_f > 0 or boost_t_f > 0):
-                parts = [f"base {base_f:.0f}"]
-                if boost_r_f > 0:
-                    parts.append(f"+loc {boost_r_f:.0f}")
-                if boost_t_f > 0:
-                    parts.append(f"+TEK {boost_t_f:.0f}")
-                score_txt += f" ({', '.join(parts)})"
-        except (TypeError, ValueError):
-            pass
+    _ = within_days  # reserved for urgency-aware meta captions
+    score_txt = _format_score_caption(row, empty="—")
     loc = format_location(row.to_dict())
     src = source_label_short(_safe_str(row.get("sources")) or _safe_str(row.get("source")))
     dl = deadline_display(row_expires(row))

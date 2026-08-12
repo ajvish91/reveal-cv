@@ -9,11 +9,17 @@ Usage (from repo root):
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from repo_paths import REPO_ROOT
 
 # Paths always skipped
 SKIP_DIRS = {
@@ -69,29 +75,69 @@ SKIP_REL_FILES = {
     "shared/cv/academic.md",
 }
 
+SKIP_REL_PREFIXES = (
+    "job_search/data/",
+    "job_search/teknorge/",
+    "cv_generation/jobs/",
+    "docs/",
+)
+
+
+def _rel_posix(path: Path) -> str:
+    return str(path.relative_to(REPO_ROOT)).replace("\\", "/")
+
+
+def _is_skip_prefix_dir(rel_s: str) -> bool:
+    """True if this relative directory is covered by SKIP_REL_PREFIXES."""
+    rel_norm = rel_s.rstrip("/")
+    for prefix in SKIP_REL_PREFIXES:
+        p = prefix.rstrip("/")
+        if rel_norm == p or rel_norm.startswith(p + "/"):
+            return True
+    return False
+
 
 def should_scan(path: Path) -> bool:
-    rel = path.relative_to(REPO_ROOT)
-    rel_s = str(rel).replace("\\", "/")
+    if path.is_dir():
+        return False
+    if path.suffix in (".pdf", ".pyc", ".db", ".sqlite", ".sqlite3", ".log"):
+        return False
+
+    rel_s = _rel_posix(path)
     if rel_s in SKIP_REL_FILES:
         return False
     if any(substr in rel_s for substr in ALLOW_PATH_SUBSTR):
         return False
-    parts = rel.parts
+    if any(rel_s.startswith(prefix) for prefix in SKIP_REL_PREFIXES):
+        return False
+
+    parts = path.relative_to(REPO_ROOT).parts
     if any(p in SKIP_DIRS for p in parts):
-        return False
-    if parts[:2] == ("job_search", "data"):
-        return False
-    if parts[:2] == ("cv_generation", "jobs"):
-        # Public job-ad text often contains recruiter emails; not applicant PII.
-        return False
-    if path.suffix in (".pdf", ".pyc", ".db", ".sqlite", ".sqlite3", ".log"):
-        return False
-    if path.is_dir():
         return False
     if "cv_runs" in parts:
         return False
     return True
+
+
+def iter_files(root: Path) -> Iterator[Path]:
+    """Yield files under root without descending into SKIP_DIRS or skip-prefix dirs."""
+    if root.is_file():
+        yield root
+        return
+    for dirpath, dirnames, filenames in os.walk(root, topdown=True):
+        current = Path(dirpath)
+        # Prune directories we should never enter
+        keep: list[str] = []
+        for name in dirnames:
+            if name in SKIP_DIRS:
+                continue
+            child_rel = _rel_posix(current / name)
+            if _is_skip_prefix_dir(child_rel):
+                continue
+            keep.append(name)
+        dirnames[:] = keep
+        for name in filenames:
+            yield current / name
 
 
 def scan_file(path: Path) -> list[str]:
@@ -99,16 +145,13 @@ def scan_file(path: Path) -> list[str]:
         text = path.read_text(encoding="utf-8", errors="replace")
     except OSError:
         return []
-    hits: list[str] = []
-    rel = str(path.relative_to(REPO_ROOT)).replace("\\", "/")
-    if rel.startswith("job_search/teknorge"):
-        return []
-    if rel.startswith("docs/") or rel.endswith("check_safe_to_push.py"):
-        return []
 
+    hits: list[str] = []
+    rel = _rel_posix(path)
+    lines = text.splitlines()
     for label, pat in SENSITIVE_PATTERNS:
         if label in ("real_email_not_example", "czech_phone"):
-            for line in text.splitlines():
+            for line in lines:
                 if any(s in line for s in DOC_SKIP_IF_LINE_CONTAINS):
                     continue
                 if pat.search(line):
@@ -133,22 +176,19 @@ def main() -> int:
     all_hits: list[str] = []
     for top in args.paths:
         root = REPO_ROOT / top
-        if root.is_file():
-            if should_scan(root):
-                all_hits.extend(scan_file(root))
-            continue
         if not root.exists():
             continue
-        for path in root.rglob("*"):
+        for path in iter_files(root):
             if should_scan(path):
                 all_hits.extend(scan_file(path))
 
-    if all_hits:
+    unique_hits = sorted(set(all_hits))
+    if unique_hits:
         print("Possible sensitive content (review before push):\n", file=sys.stderr)
-        for h in sorted(set(all_hits))[:50]:
+        for h in unique_hits[:50]:
             print(f"  ! {h}", file=sys.stderr)
-        if len(set(all_hits)) > 50:
-            print(f"  ... and {len(set(all_hits)) - 50} more", file=sys.stderr)
+        if len(unique_hits) > 50:
+            print(f"  ... and {len(unique_hits) - 50} more", file=sys.stderr)
         print("\nEnsure .gitignore excludes cv_runs/, private/, *.pdf, mapping JSON.", file=sys.stderr)
         return 1
 

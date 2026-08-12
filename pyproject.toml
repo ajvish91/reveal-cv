@@ -16,6 +16,9 @@ dependencies = [
     "pandas>=2.0.0",
 ]
 
+[tool.setuptools]
+py-modules = ["repo_paths"]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["shared*", "job_search*", "cv_generation*"]

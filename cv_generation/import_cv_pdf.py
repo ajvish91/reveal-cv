@@ -20,9 +20,7 @@ if str(_root) not in sys.path:
 
 from pypdf import PdfReader
 
-from shared.cv_loader import CV_DIR
-
-EXTRACT_DIR = CV_DIR / "_extracted"
+from shared.cv_loader import resolve_cv_dir
 
 
 def sanitize_filename(stem: str) -> str:
@@ -56,8 +54,9 @@ def main() -> int:
         print(f"Not a file: {pdf}", file=sys.stderr)
         return 1
 
-    EXTRACT_DIR.mkdir(parents=True, exist_ok=True)
-    out = EXTRACT_DIR / f"{args.label}_{sanitize_filename(pdf.stem)}.txt"
+    extract_dir = resolve_cv_dir() / "_extracted"
+    extract_dir.mkdir(parents=True, exist_ok=True)
+    out = extract_dir / f"{args.label}_{sanitize_filename(pdf.stem)}.txt"
     text = extract_pdf_text(pdf)
     if not text:
         print("Warning: no text extracted (scanned PDFs need OCR).", file=sys.stderr)

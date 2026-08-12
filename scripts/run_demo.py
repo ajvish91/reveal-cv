@@ -22,20 +22,21 @@ import subprocess
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-DEMO_CV_DIR = REPO_ROOT / "shared" / "cv" / "demo_only"
-DEMO_JOB = REPO_ROOT / "cv_generation" / "jobs" / "demo_northline_ml_engineer.txt"
-DEMO_RUN = REPO_ROOT / "cv_generation" / "demo" / "northline_ml_engineer"
-SEED_DIR = REPO_ROOT / "cv_generation" / "demo" / "seed"
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from cv_generation.agent_contract import OUTPUT_ORDER
+from repo_paths import CV_GENERATION_DIR, REPO_ROOT, SHARED_DIR
+
+DEMO_CV_DIR = SHARED_DIR / "cv" / "demo_only"
+DEMO_JOB = CV_GENERATION_DIR / "jobs" / "demo_northline_ml_engineer.txt"
+DEMO_RUN = CV_GENERATION_DIR / "demo" / "northline_ml_engineer"
+SEED_DIR = CV_GENERATION_DIR / "demo" / "seed"
 PYTHON = REPO_ROOT / ".venv" / "bin" / "python"
 
-AGENT_OUTPUTS = (
-    "01_jd_parser_output.json",
-    "02_keyword_ranker_output.json",
-    "03_track_selector_output.json",
-    "04_bullet_tailor_output.json",
-    "05_ats_checker_output.json",
-)
+# Seed covers parser → ATS (assembler is built by --assemble / manual provider).
+AGENT_OUTPUTS = OUTPUT_ORDER[:5]
 
 
 def _run(cmd: list[str], env: dict[str, str] | None = None) -> int:
@@ -54,6 +55,10 @@ def ensure_demo_cv_dir() -> None:
     for name in ("industry.md", "academic.md"):
         if not (DEMO_CV_DIR / name).is_file():
             raise SystemExit(f"Missing {DEMO_CV_DIR / name}")
+
+
+def missing_agent_outputs(run_dir: Path) -> list[str]:
+    return [n for n in AGENT_OUTPUTS if not (run_dir / n).is_file()]
 
 
 def copy_seed_outputs(run_dir: Path) -> None:
@@ -94,7 +99,7 @@ def assemble_run() -> int:
     if not DEMO_RUN.is_dir():
         print(f"Demo run missing. Run: {PYTHON.name} scripts/run_demo.py --prepare", file=sys.stderr)
         return 1
-    missing = [n for n in AGENT_OUTPUTS if not (DEMO_RUN / n).is_file()]
+    missing = missing_agent_outputs(DEMO_RUN)
     if missing:
         print(f"Missing outputs in demo run: {', '.join(missing)}", file=sys.stderr)
         print("Run with --prepare or copy files from cv_generation/demo/seed/", file=sys.stderr)
@@ -210,7 +215,7 @@ def main() -> int:
         print("\nDemo run not initialized. Running --prepare …\n")
         return prepare_run(force=True)
 
-    missing = [n for n in AGENT_OUTPUTS if not (DEMO_RUN / n).is_file()]
+    missing = missing_agent_outputs(DEMO_RUN)
     if missing or not (DEMO_RUN / "final_cv.md").is_file():
         print("\nRefreshing assembly …\n")
         if missing:

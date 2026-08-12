@@ -16,6 +16,7 @@ Profile relevance (dashboard overview): require CV keyword/skill overlap
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 from typing import Any, Iterable
 
 # --- Allowlist: at least one hit required when filter is on ------------------------------
@@ -306,16 +307,15 @@ def parse_term_field(text: str) -> list[str]:
     return out
 
 
-def merge_include_terms(
-    use_defaults: bool,
+def _merge_terms_ordered(
+    base: Iterable[str],
     custom_text: str,
     extra_cli: Iterable[str] | None = None,
 ) -> tuple[str, ...]:
     seen: set[str] = set()
     ordered: list[str] = []
-    base = list(DEFAULT_TECH_INCLUDE_TERMS) if use_defaults else []
-    for t in base + parse_term_field(custom_text):
-        tc = t.casefold().strip()
+    for t in list(base) + parse_term_field(custom_text):
+        tc = t.strip().casefold()
         if tc and tc not in seen:
             seen.add(tc)
             ordered.append(tc)
@@ -328,20 +328,18 @@ def merge_include_terms(
     return tuple(ordered)
 
 
+def merge_include_terms(
+    use_defaults: bool,
+    custom_text: str,
+    extra_cli: Iterable[str] | None = None,
+) -> tuple[str, ...]:
+    base = list(DEFAULT_TECH_INCLUDE_TERMS) if use_defaults else []
+    return _merge_terms_ordered(base, custom_text, extra_cli)
+
+
 def merge_exclude_terms(use_defaults: bool, custom_text: str, extra_cli: Iterable[str] | None = None) -> tuple[str, ...]:
-    seen: set[str] = set()
-    ordered: list[str] = []
-    for t in (list(DEFAULT_EXCLUDE_TERMS) if use_defaults else []) + parse_term_field(custom_text):
-        if t not in seen:
-            seen.add(t)
-            ordered.append(t)
-    if extra_cli:
-        for t in extra_cli:
-            tc = t.strip().casefold()
-            if len(tc) >= 2 and tc not in seen:
-                seen.add(tc)
-                ordered.append(tc)
-    return tuple(ordered)
+    base = list(DEFAULT_EXCLUDE_TERMS) if use_defaults else []
+    return _merge_terms_ordered(base, custom_text, extra_cli)
 
 
 def _filter_text_part(value: object) -> str:
@@ -367,6 +365,7 @@ def haystack_for_filter(
 _EDGE_CHAR_RE = r"0-9a-zæøå"
 
 
+@lru_cache(maxsize=4096)
 def _term_pattern(term: str) -> re.Pattern[str] | None:
     text = term.strip().casefold()
     if not text:
@@ -632,14 +631,6 @@ _SQL_TITLE_EMPLOYER_HAY = (
 )
 
 
-def haystack_title_employer(
-    title: str | None,
-    jobtitle: str | None,
-    employer: str | None,
-) -> str:
-    return haystack_for_filter(title, jobtitle, None, employer)
-
-
 def matches_academic_research_employer(employer: str | None) -> bool:
     hay = (employer or "").casefold()
     if not hay.strip():
@@ -663,7 +654,6 @@ def matches_academic_role_display(
     Stricter dashboard filter: role terms in title/jobtitle, or university employer with
     a role title. Description-only hits (e.g. bare \"forskning\") do not qualify.
     """
-    title_hay = haystack_title_employer(title, jobtitle, employer)
     title_only = haystack_for_filter(title, jobtitle, None, None)
     has_role_title = matches_any_include_term(title_only, ACADEMIC_ROLE_TITLE_TERMS)
 

@@ -31,6 +31,7 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
 from repo_paths import CV_GENERATION_DIR, REPO_ROOT
+from cv_generation.cv_private import _expand
 from cv_generation.run_naming import enrich_run_folder_name, find_repo_run_by_timestamp
 
 CV_PACKAGE_DIR = Path(__file__).resolve().parent
@@ -70,10 +71,6 @@ def resolve_cv_package_dir(repo_root: Path) -> Path:
     if (repo_root / "private_cv.py").is_file():
         return repo_root
     return CV_PACKAGE_DIR
-
-
-def _expand(path: str | Path) -> Path:
-    return Path(path).expanduser().resolve()
 
 
 def _detect_private_dir(explicit: Path | None) -> Path:
@@ -735,20 +732,20 @@ def run_render_pdf(cfg: PrivateConfig, markdown: Path, *, plain: bool | None = N
     return subprocess.call(cmd, cwd=str(cfg.cv_package_dir))
 
 
-def _apply_supplementary_artifacts(
+def _apply_markdown_artifacts(
     cfg: PrivateConfig,
     input_dir: Path,
     deanon_out: Path,
+    filenames: tuple[str, ...] | list[str],
     *,
     dry_run: bool,
     md_only: bool,
     render_pdf: bool = True,
+    success_message: str = "Deanonymized {filename}: {path}",
 ) -> int:
-    """Deanonymize cover letter, application letter, research proposal, etc. when present."""
-    from cv_generation.cv_application_artifacts import supplementary_artifact_filenames
-
+    """Deanonymize each present markdown artifact; optionally render PDF."""
     exit_code = 0
-    for filename in supplementary_artifact_filenames():
+    for filename in filenames:
         src = input_dir / filename
         if not src.is_file():
             continue
@@ -774,13 +771,36 @@ def _apply_supplementary_artifacts(
             )
             exit_code = 1
             continue
-        print(f"Deanonymized {filename}: {deanon_md}")
+        print(success_message.format(filename=filename, path=deanon_md))
         if md_only or not render_pdf:
             continue
         pdf_code = run_render_pdf(cfg, deanon_md)
         if pdf_code != 0:
             exit_code = pdf_code
     return exit_code
+
+
+def _apply_supplementary_artifacts(
+    cfg: PrivateConfig,
+    input_dir: Path,
+    deanon_out: Path,
+    *,
+    dry_run: bool,
+    md_only: bool,
+    render_pdf: bool = True,
+) -> int:
+    """Deanonymize cover letter, application letter, research proposal, etc. when present."""
+    from cv_generation.cv_application_artifacts import supplementary_artifact_filenames
+
+    return _apply_markdown_artifacts(
+        cfg,
+        input_dir,
+        deanon_out,
+        supplementary_artifact_filenames(),
+        dry_run=dry_run,
+        md_only=md_only,
+        render_pdf=render_pdf,
+    )
 
 
 def resolve_deanon_output_dir(
@@ -929,7 +949,6 @@ def _apply_localized_artifacts(
     render_pdf: bool = True,
 ) -> int:
     """Deanonymize and render Norwegian *_no.md artifacts when present."""
-    exit_code = 0
     # Never use --strict on localized files: mapping keys are English-canonical
     # (section labels, dates) and will not all appear in *_no.md.
     pairs = ("final_cv_no.md", "cover_letter_no.md", "reference_projects_no.md")
@@ -951,40 +970,16 @@ def _apply_localized_artifacts(
             )
     if present and not dry_run:
         print(f"Norwegian sources in {input_dir}: {', '.join(present)}")
-    for glob_name in pairs:
-        src = input_dir / glob_name
-        if not src.is_file():
-            continue
-        code = run_deanonymize(
-            cfg,
-            input_dir,
-            deanon_out,
-            dry_run=dry_run,
-            strict=False,
-            glob=glob_name,
-        )
-        if code != 0:
-            print(f"Deanonymize failed for {glob_name} (exit {code}).", file=sys.stderr)
-            exit_code = code
-            continue
-        if dry_run:
-            continue
-        deanon_md = deanon_out / glob_name
-        if not deanon_md.is_file():
-            print(
-                f"Expected {deanon_md} after deanonymize "
-                f"(no output written for {glob_name}).",
-                file=sys.stderr,
-            )
-            exit_code = 1
-            continue
-        print(f"Deanonymized markdown: {deanon_md}")
-        if md_only or not render_pdf:
-            continue
-        pdf_code = run_render_pdf(cfg, deanon_md)
-        if pdf_code != 0:
-            exit_code = pdf_code
-    return exit_code
+    return _apply_markdown_artifacts(
+        cfg,
+        input_dir,
+        deanon_out,
+        pairs,
+        dry_run=dry_run,
+        md_only=md_only,
+        render_pdf=render_pdf,
+        success_message="Deanonymized markdown: {path}",
+    )
 
 
 def cmd_localize(args: argparse.Namespace) -> int:

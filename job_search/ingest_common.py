@@ -1,7 +1,45 @@
 """Shared helpers for job ingest scripts (NAV, FINN, …)."""
 from __future__ import annotations
 
+import re
 from typing import Any
+
+# Work-location municipal codes used in feed (uppercase, as returned by NAV).
+ROGALAND_MUNICIPAL: frozenset[str] = frozenset(
+    {
+        "STAVANGER",
+        "SANDNES",
+        "HAUGESUND",
+        "EIGERSUND",
+        "SOKNDAL",
+        "BJERKREIM",
+        "HÅ",
+        "KLEPP",
+        "TIME",
+        "GJESDAL",
+        "SOLA",
+        "RANDABERG",
+        "STRAND",
+        "HJELMELAND",
+        "SULDAL",
+        "SAUDA",
+        "KVITSØY",
+        "TYSVÆR",
+        "UTSIRA",
+        "BOKN",
+        "VINDAFJORD",
+        "ETNE",
+    }
+)
+ROGALAND_COUNTY = "ROGALAND"
+
+
+def strip_html(html: str) -> str:
+    t = re.sub(r"(?is)<script.*?>.*?</script>", " ", html or "")
+    t = re.sub(r"(?is)<style.*?>.*?</style>", " ", t)
+    t = re.sub(r"<[^>]+>", " ", t)
+    t = re.sub(r"\s+", " ", t)
+    return t.strip()
 
 
 def mark_stale_jobs_inactive(

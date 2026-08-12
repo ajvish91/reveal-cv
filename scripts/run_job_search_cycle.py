@@ -7,11 +7,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-_root = Path(__file__).resolve().parents[1]
-if str(_root) not in sys.path:
-    sys.path.insert(0, str(_root))
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
 
 from job_search.logging_config import configure_logging, get_logger
+from repo_paths import REPO_ROOT
 
 log = get_logger("job_search.cycle")
 
@@ -19,7 +20,7 @@ log = get_logger("job_search.cycle")
 def run_step(label: str, command: list[str]) -> None:
     log.info("step %s command=%s", label, " ".join(shlex.quote(part) for part in command))
     print(f"[job-search] {label}: {' '.join(shlex.quote(part) for part in command)}")
-    subprocess.run(command, check=True)
+    subprocess.run(command, check=True, cwd=REPO_ROOT)
     log.info("step %s complete", label)
 
 

@@ -15,11 +15,10 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
 import argparse
-import json
 from datetime import datetime
 
-from shared.cv_loader import CV_DIR, load_default_profiles
-from cv_generation.agent_contract import contract_metadata, write_contract_manifest
+from shared.cv_loader import load_default_profiles
+from cv_generation.agent_contract import contract_metadata, write_contract_manifest, write_json
 from cv_generation.apply_prompts import (
     apply_language_markdown_section,
     apply_prompts_markdown_section,
@@ -36,10 +35,6 @@ from cv_generation.run_naming import (
 )
 
 RUNS_DIR = Path(__file__).resolve().parent / "cv_runs"
-
-
-def write_json(path: Path, data: dict) -> None:
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def parse_args() -> argparse.Namespace:

@@ -33,41 +33,6 @@ def _import_renderer():
     return render_styled_cv_pdf, resolve_profile_photo_path
 
 
-def _looks_like_plain_document(markdown_path: Path, text: str) -> bool:
-    from cv_generation.cv_application_artifacts import is_plain_pdf_markdown
-
-    return is_plain_pdf_markdown(markdown_path, text)
-
-
-def _looks_like_cover_letter(markdown_path: Path, text: str) -> bool:
-    name = markdown_path.name.lower()
-    if "cover_letter" in name or "cover-letter" in name:
-        return True
-    lowered = text.lower()
-    return "dear " in lowered and "sincerely" in lowered
-
-
-def _to_name_case_if_upper(line: str) -> str:
-    from cv_generation.plain_markdown_pdf import _to_name_case_if_upper as _name_case
-
-    return _name_case(line)
-
-
-def _render_plain_markdown_pdf(
-    markdown_path: Path,
-    pdf_path: Path,
-    *,
-    normalize_upper_names: bool = False,
-) -> None:
-    from cv_generation.plain_markdown_pdf import render_plain_markdown_pdf
-
-    render_plain_markdown_pdf(
-        markdown_path,
-        pdf_path,
-        normalize_upper_names=normalize_upper_names,
-    )
-
-
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Render CV markdown to styled PDF")
     p.add_argument("markdown", type=Path, help="Path to CV markdown (e.g. final_cv.md)")
@@ -93,6 +58,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    from cv_generation.cv_application_artifacts import is_plain_pdf_markdown, looks_like_cover_letter
+    from cv_generation.plain_markdown_pdf import render_plain_markdown_pdf
+
     original_cwd = Path.cwd()
     args = parse_args()
     md = (original_cwd / args.markdown).expanduser().resolve()
@@ -113,16 +81,21 @@ def main() -> int:
 
     pdf.parent.mkdir(parents=True, exist_ok=True)
     text = md.read_text(encoding="utf-8")
-    use_plain = args.plain or _looks_like_plain_document(md, text)
+    use_plain = args.plain or is_plain_pdf_markdown(md, text)
+
+    render_styled_cv_pdf = None
+    resolve_profile_photo_path = None
+    if not use_plain:
+        render_styled_cv_pdf, resolve_profile_photo_path = _import_renderer()
 
     if use_plain:
-        _render_plain_markdown_pdf(
+        render_plain_markdown_pdf(
             md,
             pdf,
-            normalize_upper_names=_looks_like_cover_letter(md, text),
+            normalize_upper_names=looks_like_cover_letter(md, text),
         )
     else:
-        render_styled_cv_pdf, resolve_profile_photo_path = _import_renderer()
+        assert render_styled_cv_pdf is not None
         render_styled_cv_pdf(md, pdf, profile_photo=explicit)
 
     if not pdf.is_file() or pdf.stat().st_size < 500:
@@ -132,7 +105,7 @@ def main() -> int:
     if use_plain:
         print("Layout: plain one-column")
     else:
-        _, resolve_profile_photo_path = _import_renderer()
+        assert resolve_profile_photo_path is not None
         used = resolve_profile_photo_path(explicit)
         if used:
             print(f"Profile photo: {used}")
