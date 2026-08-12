@@ -82,7 +82,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument(
         "--strict",
         action="store_true",
-        help="Exit with error if no replacements were made or anonymized keys remain in output",
+        help=(
+            "Exit with error if no replacements were made or anonymized placeholder "
+            "keys remain in the output text. Unused mapping keys are reported but "
+            "do not fail (they are common when one mapping covers industry + academic CVs)."
+        ),
     )
     return p.parse_args()
 
@@ -364,14 +368,16 @@ def main() -> int:
     if unmatched_keys:
         partial_hint = partial_document_glob_hint(args.glob)
         print(
-            f"\nMapping keys not found in any processed file ({len(unmatched_keys)})",
+            f"\nMapping keys not found in any processed file ({len(unmatched_keys)}) "
+            "(informational; does not fail --strict):",
             file=sys.stderr,
         )
         if partial_hint:
             print(f"  {partial_hint}", file=sys.stderr)
         else:
             print(
-                "  Remove stale keys from your private JSON or add matching text to the CV.",
+                "  Often expected (title-case name aliases, academic-only keys on an "
+                "industry CV). Remove truly stale keys from your private JSON if desired.",
                 file=sys.stderr,
             )
         for key in unmatched_keys[:20]:
@@ -393,7 +399,9 @@ def main() -> int:
         if changed_files == 0:
             print("\n--strict: no replacements were applied.", file=sys.stderr)
             return 3
-        if unmatched_keys or leftover_by_file:
+        # Fail only when anonymized placeholders remain in the written output.
+        # Unused mapping keys must not block PDF (aliases + multi-CV mappings).
+        if leftover_by_file:
             print("\n--strict: deanonymization incomplete.", file=sys.stderr)
             return 4
 

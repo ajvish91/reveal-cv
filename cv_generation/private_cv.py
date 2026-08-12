@@ -824,12 +824,15 @@ def apply_one_run(cfg: PrivateConfig, run_arg: str, *, dry_run: bool, md_only: b
     if dry_run:
         return cv_code if cv_code != 0 else supp_code
 
+    # --strict fails only when anonymized placeholders remain in final_cv.md.
+    # Unused mapping keys are informational and must not skip PDF (see deanonymize_cvs).
     cv_strict_failed = cv_code != 0
     if cv_strict_failed:
         print(
             "\nEnglish CV deanonymize incomplete (--strict). "
             "Fill the mapping keys still listed as anonymized text above, then re-run apply. "
-            "Continuing with supplementary artifacts and Norwegian files.",
+            "Skipping final_cv.pdf until placeholders are cleared; "
+            "continuing with supplementary artifacts and Norwegian files.",
             file=sys.stderr,
         )
 
@@ -863,6 +866,12 @@ def apply_one_run(cfg: PrivateConfig, run_arg: str, *, dry_run: bool, md_only: b
         code = run_render_pdf(cfg, deanon_md)
         if code == 0:
             _warn_education_parse(cfg, input_dir / "final_cv.md", deanon_md, label="after PDF render")
+    elif cv_strict_failed and deanon_md.is_file():
+        print(
+            f"Skipped PDF for {deanon_md.name} (deanonymize --strict failed). "
+            f"After fixing the mapping, re-run apply or: ./cv pdf {deanon_md}",
+            file=sys.stderr,
+        )
 
     if cv_code != 0:
         return cv_code
