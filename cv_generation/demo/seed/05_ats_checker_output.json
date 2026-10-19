@@ -1,0 +1,23 @@
+{
+  "ats_score": 78,
+  "found_keywords": [
+    "python",
+    "production ml",
+    "mlops",
+    "monitoring",
+    "azure",
+    "aws",
+    "docker",
+    "large language models",
+    "nlp",
+    "document classification",
+    "data quality",
+    "ci/cd"
+  ],
+  "missing_keywords": ["kubernetes", "terraform"],
+  "parseability_issues": [],
+  "recommendations": [
+    "Role designation ML ENGINEER is present.",
+    "Consider adding kubernetes only if truthful for the candidate."
+  ]
+}

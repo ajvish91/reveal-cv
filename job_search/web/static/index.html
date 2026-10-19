@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job search</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/app.css" rel="stylesheet">
+</head>
+<body>
+  <div id="status-bar" class="status-bar d-none" role="status"></div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-xl">
+      <a class="navbar-brand" href="/">Job search</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav me-lg-2">
+          <li class="nav-item"><a class="nav-link active" href="/">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cv">CVs</a></li>
+        </ul>
+        <form class="d-flex align-items-center gap-2 ms-lg-2 my-2 my-lg-0" id="track-form">
+          <label class="text-white-50 small mb-0" for="cv-track">CV track</label>
+          <select id="cv-track" class="form-select form-select-sm" style="width:auto">
+            <option value="industry">industry</option>
+            <option value="academic">academic</option>
+          </select>
+        </form>
+        <div class="ms-lg-auto d-flex flex-wrap gap-2 align-items-center py-2">
+          <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersPane">Filters</button>
+          <button class="btn btn-sm btn-primary" id="btn-ingest" type="button">Ingest &amp; score</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="filtersPane">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Filters &amp; ingest</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <section class="mb-4">
+        <h6>Refresh jobs</h6>
+        <p class="small text-muted">Fetches NAV, FINN, and Jobbnorge, then re-scores (typically 1–5 minutes).</p>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="skip-nav"><label class="form-check-label" for="skip-nav">Skip NAV</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="skip-finn"><label class="form-check-label" for="skip-finn">Skip FINN</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="skip-jobbnorge"><label class="form-check-label" for="skip-jobbnorge">Skip Jobbnorge</label></div>
+        <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="academic-queries"><label class="form-check-label" for="academic-queries">Academic search only (FINN + Jobbnorge)</label></div>
+        <div id="ingest-panel" class="small"></div>
+      </section>
+      <section class="mb-4">
+        <h6>Display filters</h6>
+        <div class="mb-2">
+          <label class="form-label small" for="source-filter">Source</label>
+          <select id="source-filter" class="form-select form-select-sm">
+            <option value="all">all</option>
+            <option value="nav_arbeidsplassen">NAV</option>
+            <option value="finn_no">FINN</option>
+            <option value="jobbnorge">Jobbnorge</option>
+          </select>
+        </div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="academic-roles-only"><label class="form-check-label" for="academic-roles-only">Show academic roles only</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="dedupe" checked><label class="form-check-label" for="dedupe">Deduplicate cross-source listings</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="hide-phd" checked><label class="form-check-label" for="hide-phd">Hide PhD student openings</label></div>
+        <label class="form-label small mt-2" for="urgency-days">Apply-soon window (days)</label>
+        <input type="range" class="form-range" id="urgency-days" min="1" max="30" value="7">
+        <div class="small text-muted mb-2"><span id="urgency-label">7</span> days</div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="tech-allowlist" checked><label class="form-check-label" for="tech-allowlist">ICT / AI / CS allowlist</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="tech-defaults" checked><label class="form-check-label" for="tech-defaults">Use built-in tech terms</label></div>
+        <textarea id="extra-include" class="form-control form-control-sm mb-2" rows="2" placeholder="Extra required terms"></textarea>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="noise-defaults" checked><label class="form-check-label" for="noise-defaults">Hide typical non-tech roles</label></div>
+        <textarea id="extra-exclude" class="form-control form-control-sm" rows="2" placeholder="Extra words to hide"></textarea>
+      </section>
+      <section>
+        <h6>Apply defaults</h6>
+        <select id="default-language" class="form-select form-select-sm mb-2">
+          <option value="en">English</option>
+          <option value="no">Norwegian (Bokmål)</option>
+        </select>
+        <textarea id="default-prompts" class="form-control form-control-sm" rows="3" placeholder="Default tailoring instructions"></textarea>
+      </section>
+    </div>
+  </div>
+
+  <main class="container-xl py-3" id="main">
+    <div id="db-missing" class="alert alert-warning d-none">
+      Database not found. Run <strong>Ingest &amp; score</strong> from Filters, or
+      <code>.venv/bin/python scripts/run_job_search_cycle.py</code>
+    </div>
+
+    <div class="row g-3 mb-3" id="metrics-row"></div>
+
+    <details class="mb-3" id="overview-relevant">
+      <summary class="h5">Relevant positions <span class="badge text-bg-secondary" data-count="relevant">0</span></summary>
+      <div class="d-flex align-items-center gap-2 my-2">
+        <label class="small mb-0" for="overview-min-score">Minimum score</label>
+        <input type="number" class="form-control form-control-sm" id="overview-min-score" min="0" max="150" step="1" style="width:6rem">
+      </div>
+      <div data-list="relevant"></div>
+    </details>
+    <details class="mb-3">
+      <summary class="h5">Newest positions <span class="badge text-bg-secondary" data-count="newest">0</span></summary>
+      <div data-list="newest"></div>
+    </details>
+    <details class="mb-4" id="applied-section">
+      <summary class="h5">Applied roles <span class="badge text-bg-secondary" id="applied-count">0</span></summary>
+      <div class="my-2">
+        <label class="form-label small">Status filter</label>
+        <select id="applied-status" class="form-select form-select-sm" multiple size="4"></select>
+        <div class="form-check mt-1"><input class="form-check-input" type="checkbox" id="applied-show-all"><label class="form-check-label" for="applied-show-all">Show all applications</label></div>
+      </div>
+      <div id="applied-bulk" class="mb-2"></div>
+      <div id="applied-list"></div>
+    </details>
+
+    <section id="job-explorer-list-start">
+      <h2 class="h4">Job explorer</h2>
+      <input type="search" class="form-control mb-2" id="job-search" placeholder="Søk i tittel, arbeidsgiver eller beskrivelse …">
+      <div class="row g-2 mb-2">
+        <div class="col-6 col-md-2">
+          <label class="form-label small" for="min-score">Minimum score</label>
+          <input type="number" class="form-control form-control-sm" id="min-score" min="0" max="150" value="0" step="1">
+        </div>
+        <div class="col-6 col-md-3">
+          <label class="form-label small" for="sort-by">Sort by</label>
+          <select class="form-select form-select-sm" id="sort-by">
+            <option value="score" selected>Score</option>
+            <option value="published">Newest</option>
+            <option value="location">Location</option>
+          </select>
+        </div>
+        <div class="col-12 col-md-7 d-flex flex-wrap align-items-end gap-3">
+          <div class="form-check"><input class="form-check-input" type="checkbox" id="rogaland-only"><label class="form-check-label" for="rogaland-only">Preferred locations only</label></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" id="hide-applied" checked><label class="form-check-label" for="hide-applied">Hide applied / skipped / pipeline roles</label></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" id="hide-expired" checked><label class="form-check-label" for="hide-expired">Hide expired positions</label></div>
+        </div>
+      </div>
+      <div id="filter-chips" class="mb-2"></div>
+      <p class="small text-muted" id="results-header"></p>
+      <div id="jobs-progress" class="jobs-progress d-none" role="progressbar" aria-hidden="true"></div>
+      <div id="job-list"></div>
+      <nav class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-outline-secondary" id="page-first" type="button" title="First page">« First</button>
+          <button class="btn btn-outline-secondary" id="page-prev" type="button" title="Previous page">‹ Prev</button>
+        </div>
+        <span class="small d-inline-flex align-items-center gap-1">
+          Page
+          <input type="number" id="page-jump" class="form-control form-control-sm page-jump" min="1" value="1" inputmode="numeric" aria-label="Page number">
+          / <span id="page-total">1</span>
+        </span>
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-outline-secondary" id="page-next" type="button" title="Next page">Next ›</button>
+          <button class="btn btn-outline-secondary" id="page-last" type="button" title="Last page">Last »</button>
+        </div>
+      </nav>
+    </section>
+  </main>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="jobDrawer" data-bs-scroll="true" data-bs-backdrop="true">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="drawer-title">Job</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body" id="drawer-body"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

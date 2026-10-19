@@ -1,0 +1,30 @@
+{
+  "agent": "track_selector",
+  "purpose": "Choose best CV track (industry or academic).",
+  "prompt_template": "You are Track Selector. Choose either industry or academic CV. Optimize for role fit and transferability.",
+  "required_inputs": [
+    "jd_parser_output",
+    "industry_cv_text",
+    "academic_cv_text"
+  ],
+  "expected_output_schema": {
+    "selected_track": "industry|academic",
+    "confidence": "number",
+    "rationale": "string"
+  },
+  "context": {
+    "job_meta": {
+      "company": "Northline Labs",
+      "role_title": "ML Engineer"
+    },
+    "constraints": [
+      "Do not fabricate achievements, numbers, dates, or responsibilities.",
+      "Keep output ATS-friendly plain markdown.",
+      "Preserve factual integrity with candidate source CV."
+    ],
+    "cv_templates": {
+      "industry": "# Industry CV\n\n## Name\n\nALEX RIVERA\n\n## Profile\n\nSoftware engineer with eight years in machine learning, data pipelines, and backend systems in Python. Builds evaluation-minded ML workflows, document processing, and integrations with emphasis on data quality and reliable delivery.\n\nCloud experience on Azure and AWS with CI/CD-minded practices, monitoring, and cross-functional collaboration. Background includes applied NLP experimentation and e-commerce data integrations.\n\n## Date of birth\n\n01 Jan 1990\n\n## Contact\n\n- GitHub: https://github.com/cv-placeholder\n- LinkedIn: https://linkedin.com/in/cv-placeholder\n- Email: demo.candidate@example.com\n- Phone: +00-000-000-0000\n- Location: Example City, Example Country\n- Work permit: Example work authorization status\n\n## Skills\n\nPython, MLOps, PyTorch, Pandas, Linux shell scripting, Azure/AWS, Docker, CI/CD, monitoring, web technologies.\n\n## Languages\n\n- English (Fluent)\n- Example Language (Intermediate)\n\n## Experience\n\n### Professional Activities\nIndependent / Community\nJan 2025 - Present\n\n- Advisory and community contributions on ML topics and career development.\n\n### Research Engineer\nNorthline Labs\nSep 2024 - Dec 2024\n\n- Built document classification pipelines with evaluation hooks and cost-aware model deployment.\n- Improved data handling for internal analytics workflows.\n\n### ML Engineer\nCedar Analytics\nJan 2022 - Aug 2024\n\n- Delivered production ML features with ethical-use review and stakeholder alignment.\n\n### Software Engineer\nSummit Cloud Services\nJun 2019 - Dec 2021\n\n- Developed backend services on Azure with CI/CD and operational monitoring.\n- Supported ML prototypes moving toward production pipelines.\n\n### Integration Developer\nHarbor Commerce Group\nMar 2017 - May 2019\n\n- Built catalog and middleware integrations for enterprise e-commerce platforms.\n- Improved data flow reliability across connected systems.\n\n## Education\n\n### Ph.D.\nExample Institute of Technology\n2020 - 2023\nInformation Technology\nThesis: Example thesis on trustworthy automation\n\n### M.Sc., Computing\nExample State University\n2018 - 2019\nComputer Science\nThesis: Example thesis on real-time sensing\n\n### B.Eng.\nExample Polytechnic\n2014 - 2016\nElectronics Engineering\nThesis: Example thesis on embedded systems\n\n## Selected Publications\n\n- Example Publication One (Example Conference 2022).\n- Example Publication Two (Example Conference 2023).\n\n## Hobbies\n\n- Reading\n- Running",
+      "academic": "# Academic CV\n\n## Summary\n\n- Several publications across AI and applied computing.\n- Cross-disciplinary research and lab collaboration experience.\n- Teaching assistance and guest lectures at master’s level.\n\n## Contact\n\n- GitHub: https://github.com/cv-placeholder\n- LinkedIn: https://linkedin.com/in/cv-placeholder\n- Google Scholar: https://scholar.google.com/citations?user=cv-placeholder\n- ORCID: https://orcid.org/0000-0000-0000-0000\n- Email: demo.candidate@example.com\n- Phone: +00-000-000-0000\n- Location: Example City, Example Country\n\n## Education\n\n- **Ph.D., ICT** — Example Institute of Technology. Thesis: *Example agents in simulated environments*.\n- **M.Sc., Computing** — Example State University. Thesis: *Example gesture control project*.\n- **B.Eng., Electronics** — Example Polytechnic.\n\n## Research and publications\n\nPublications in AI, NLP, and applied systems (see repository demo list).\n\n## Teaching and supervision\n\n- Teaching assistant, introductory ML course: labs and examinations.\n- Guest lecture (master’s level).\n\n## Experience\n\n### Research Assistant\nExample University Lab\n2020 - 2023\n\n- Conducted experiments in reinforcement learning and evaluation.\n\n### Software Engineer\nHarbor Commerce Group\n2017 - 2019\n\n- Backend and integration work for enterprise platforms.\n\n## Languages\n\n- English (Professional)\n- Example Language (Basic)\n\n## Hobbies\n\n- Reading\n- Running"
+    }
+  }
+}

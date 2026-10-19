@@ -1,0 +1,242 @@
+#!/usr/bin/env python3
+"""
+Load CV markdown files with optional YAML front matter into JobProfile objects.
+Used by later phases (job fetch, scoring, cover letters).
+
+Real CVs (gitignored): shared/cv/industry.md + academic.md, or ~/private/cv/cv/, or CV_SOURCE_DIR.
+Repo ships industry.demo.md / academic.demo.md only.
+A gitignored cv_registry.json can select an active file per track (including
+user-added files under shared/cv/user/). If no registry choice exists, personal
+``.md`` still wins over ``*.demo.md``.
+"""
+from __future__ import annotations
+
+import os
+import re
+from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
+
+import yaml
+
+from repo_paths import SHARED_DIR
+
+_PACKAGE_CV_DIR = SHARED_DIR / "cv"
+_DEFAULT_PRIVATE_CV_DIR = Path.home() / "private" / "cv" / "cv"
+_PROFILE_STEMS = ("industry", "academic")
+
+
+def _profile_path(cv_dir: Path, stem: str) -> Path | None:
+    """Prefer an explicit registry selection, then stem.md, then stem.demo.md."""
+    from shared.cv_registry import resolve_registered_path
+
+    registered = resolve_registered_path(stem)
+    if registered is not None and registered.is_file():
+        return registered
+    personal = cv_dir / f"{stem}.md"
+    if personal.is_file():
+        return personal
+    demo = cv_dir / f"{stem}.demo.md"
+    if demo.is_file():
+        return demo
+    return None
+
+
+def _dir_has_profiles(cv_dir: Path, *, personal_only: bool = False) -> bool:
+    for stem in _PROFILE_STEMS:
+        if (cv_dir / f"{stem}.md").is_file():
+            return True
+        if not personal_only and (cv_dir / f"{stem}.demo.md").is_file():
+            return True
+    return False
+
+
+def resolve_cv_dir() -> Path:
+    """
+    Directory used as the CV root for load_default_profiles().
+
+    Precedence:
+      1. CV_SOURCE_DIR
+      2. ~/private/cv/cv/ (if industry.md or academic.md exists)
+      3. shared/cv/ (personal .md or demo *.demo.md)
+    """
+    env = os.environ.get("CV_SOURCE_DIR", "").strip()
+    if env:
+        path = Path(env).expanduser().resolve()
+        if path.is_dir() and _dir_has_profiles(path):
+            return path
+
+    private = _DEFAULT_PRIVATE_CV_DIR
+    if _dir_has_profiles(private, personal_only=True):
+        return private
+
+    return _PACKAGE_CV_DIR
+
+
+# Thin compat alias (resolved once at import). Prefer resolve_cv_dir() at call sites.
+CV_DIR = resolve_cv_dir()
+
+
+def _as_str_list(value: object, *, split_commas: bool = False) -> list[str]:
+    """Normalize front-matter list-or-string fields into a clean str list."""
+    if value is None:
+        return []
+    if isinstance(value, str):
+        if split_commas:
+            return [s.strip() for s in value.split(",") if s.strip()]
+        return [value] if value.strip() else []
+    return [str(x).strip() for x in value if str(x).strip()]
+
+
+@dataclass
+class JobProfile:
+    """Structured view of one CV variant for matching and generation."""
+
+    track: str  # e.g. "academic" | "industry"
+    source_path: Path
+    front_matter: dict
+    body_markdown: str
+
+    @property
+    def locations_preferred(self) -> list[str]:
+        return _as_str_list(self.front_matter.get("locations_preferred"))
+
+    @property
+    def keywords(self) -> list[str]:
+        return _as_str_list(self.front_matter.get("keywords"), split_commas=True)
+
+    @property
+    def skills(self) -> list[str]:
+        return _as_str_list(self.front_matter.get("skills"), split_commas=True)
+
+    @property
+    def languages(self) -> dict[str, str]:
+        raw = self.front_matter.get("languages") or {}
+        if not isinstance(raw, dict):
+            return {}
+        return {str(k).strip(): str(v).strip() for k, v in raw.items()}
+
+    @property
+    def seniority_years(self) -> int | None:
+        y = self.front_matter.get("seniority_years")
+        if y is None:
+            return None
+        try:
+            return int(y)
+        except (TypeError, ValueError):
+            return None
+
+    def plain_text_summary(self) -> str:
+        """Strip markdown-ish noise lightly for keyword pipelines."""
+        text = self.body_markdown
+        text = re.sub(r"^#+\s+.*$", "", text, flags=re.MULTILINE)
+        text = re.sub(r"[#*_`]+", " ", text)
+        return re.sub(r"\s+", " ", text).strip()
+
+
+def parse_cv_markdown(raw: str) -> tuple[dict, str]:
+    """Split YAML front matter (--- ... ---) from markdown body."""
+    raw = raw.lstrip("\ufeff")
+    if not raw.startswith("---"):
+        return {}, raw
+    m = re.match(r"^---\s*\n(.*?)\n---\s*\n?(.*)$", raw, re.DOTALL)
+    if not m:
+        return {}, raw
+    fm_block, body = m.group(1), m.group(2)
+    try:
+        meta = yaml.safe_load(fm_block) or {}
+    except yaml.YAMLError:
+        meta = {}
+    if not isinstance(meta, dict):
+        meta = {}
+    return meta, body
+
+
+def load_profile(path: Path) -> JobProfile:
+    path = path.expanduser().resolve()
+    raw = path.read_text(encoding="utf-8")
+    front_matter, body = parse_cv_markdown(raw)
+    track = str(front_matter.get("track") or path.stem.replace(".demo", ""))
+    return JobProfile(
+        track=track,
+        source_path=path,
+        front_matter=front_matter,
+        body_markdown=body.strip(),
+    )
+
+
+def _profiles_cache_key() -> tuple[object, ...]:
+    """Key includes CV dir + profile paths/mtimes so env or file edits invalidate."""
+    cv_dir = resolve_cv_dir()
+    parts: list[object] = [str(cv_dir), os.environ.get("CV_SOURCE_DIR", "").strip()]
+    try:
+        from shared.cv_registry import registry_path, registry_root
+
+        reg = registry_path(registry_root())
+        parts.append(str(reg))
+        parts.append(reg.stat().st_mtime_ns if reg.is_file() else 0)
+    except OSError:
+        parts.extend(["", 0])
+    for stem in _PROFILE_STEMS:
+        p = _profile_path(cv_dir, stem)
+        if p is None:
+            parts.append((stem, "", 0))
+            continue
+        try:
+            mtime = p.stat().st_mtime_ns
+        except OSError:
+            mtime = 0
+        parts.append((stem, str(p), mtime))
+    return tuple(parts)
+
+
+@lru_cache(maxsize=4)
+def _load_default_profiles_cached(cache_key: tuple[object, ...]) -> tuple[JobProfile, ...]:
+    cv_dir = Path(str(cache_key[0]))
+    profiles: list[JobProfile] = []
+    for stem in _PROFILE_STEMS:
+        p = _profile_path(cv_dir, stem)
+        if p is not None:
+            profiles.append(load_profile(p))
+    return tuple(profiles)
+
+
+def load_default_profiles() -> list[JobProfile]:
+    """Load industry + academic from resolve_cv_dir() (personal .md preferred over .demo.md).
+
+    If ``shared/cv/cv_registry.json`` names an active file for a track, that file
+    is used instead of the default precedence.
+
+    Results are cached by CV dir + source file mtimes (and CV_SOURCE_DIR). Cache
+    invalidates when those change; clear with ``load_default_profiles.cache_clear``
+    is not needed for normal use — call ``_load_default_profiles_cached.cache_clear()``
+    only in tests that mutate files in-process without mtime changes.
+    """
+    return list(_load_default_profiles_cached(_profiles_cache_key()))
+
+
+def main() -> int:
+    """CLI: load and print a summary of default CVs."""
+    import sys
+
+    cv_dir = resolve_cv_dir()
+    if not cv_dir.is_dir():
+        print(f"Missing directory: {cv_dir}", file=sys.stderr)
+        return 1
+    profiles = load_default_profiles()
+    if not profiles:
+        print(f"No industry/academic (.md or .demo.md) in {cv_dir}", file=sys.stderr)
+        return 1
+    print(f"CV source dir: {cv_dir}")
+    for pr in profiles:
+        print(f"--- {pr.track} ({pr.source_path.name}) ---")
+        print(f"  locations_preferred: {pr.locations_preferred}")
+        print(f"  keywords ({len(pr.keywords)}): {', '.join(pr.keywords[:12])}{'…' if len(pr.keywords) > 12 else ''}")
+        print(f"  skills ({len(pr.skills)}): {', '.join(pr.skills[:12])}{'…' if len(pr.skills) > 12 else ''}")
+        print(f"  seniority_years: {pr.seniority_years}")
+        print(f"  body: {len(pr.body_markdown)} chars")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

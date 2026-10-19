@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CVs — Job search</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/app.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-xl">
+      <a class="navbar-brand" href="/">Job search</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="/">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/cv">CVs</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4" id="cv-main">
+    <h1 class="h3 mb-3">CVs to apply with</h1>
+
+    <div class="alert alert-warning privacy-callout" role="alert">
+      <p class="mb-2"><strong>Fill both columns.</strong> Fake values go into the markdown the AI tailoring agent sees. Real values exist only in the mapping JSON you download.</p>
+      <ul class="mb-2">
+        <li>Do not put the mapping JSON in this project folder.</li>
+        <li>Do not commit it, and do not paste it to Cursor or any AI agent.</li>
+        <li>Keep it outside the repo (Downloads, or <code>~/private/cv/cv_identity_mapping.json</code>).</li>
+      </ul>
+      <p class="mb-0 small">The GitHub copy ships the fictional <strong>ALEX RIVERA</strong> placeholder. Save your own CV as a new file; local files such as an existing industry/academic CV are not overwritten when you add one.</p>
+    </div>
+
+    <div id="flash" class="alert d-none" role="status"></div>
+
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <section class="card cv-card">
+          <div class="card-body">
+            <h2 class="h5">Saved CVs</h2>
+            <p class="small text-muted">Check one CV per track to include it in ingest, scoring, and Apply.</p>
+            <div id="source-lists"></div>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <button type="button" class="btn btn-sm btn-outline-primary" id="btn-new">Add new CV</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-from-placeholder">Modify placeholder</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-lg-8">
+        <form id="cv-form" class="card cv-card">
+          <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+              <h2 class="h5 mb-0" id="form-title">New CV</h2>
+              <span class="badge text-bg-secondary" id="source-badge">new</span>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="cv-slug">Save as slug (new user CVs)</label>
+              <input class="form-control form-control-sm" id="cv-slug" placeholder="my-cv" autocomplete="off">
+              <div class="form-text">Creates gitignored files under <code>shared/cv/user/</code>. Does not replace the placeholder or your local industry.md.</div>
+            </div>
+
+            <h3 class="h6 mt-4">Shared identity</h3>
+            <p class="small text-muted">Left = fake (AI). Right = real (mapping JSON only).</p>
+            <div class="pair-grid small fw-semibold text-muted mb-1 d-none d-md-grid">
+              <div>Fake (in markdown / sent to the AI)</div>
+              <div>Real (mapping JSON only)</div>
+            </div>
+            <div id="identity-fields"></div>
+            <div class="mt-3">
+              <label class="form-label" for="seniority">Seniority years (used for matching)</label>
+              <input type="number" min="0" max="50" class="form-control form-control-sm" id="seniority" style="max-width:8rem">
+            </div>
+            <div class="mt-3">
+              <h4 class="h6">Languages</h4>
+              <div id="languages"></div>
+              <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-add="languages">Add language</button>
+            </div>
+            <div class="mt-3">
+              <h4 class="h6">Hobbies</h4>
+              <div id="hobbies"></div>
+              <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-add="hobbies">Add hobby</button>
+            </div>
+            <div class="mt-3">
+              <h4 class="h6">Preferred locations</h4>
+              <p class="form-text">Fake column is used for job matching. Put the regions you want to search there (they can match the real names).</p>
+              <div id="locations"></div>
+              <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-add="locations">Add location</button>
+            </div>
+
+            <ul class="nav nav-tabs mt-4" role="tablist">
+              <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-industry" type="button">Industry experience</button></li>
+              <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-academic" type="button">Academic experience</button></li>
+            </ul>
+            <div class="tab-content border border-top-0 p-3">
+              <div class="tab-pane fade show active" id="tab-industry"></div>
+              <div class="tab-pane fade" id="tab-academic"></div>
+            </div>
+
+            <div class="form-check mt-3">
+              <input class="form-check-input" type="checkbox" id="include-industry">
+              <label class="form-check-label" for="include-industry">Include this CV for the industry track</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="include-academic">
+              <label class="form-check-label" for="include-academic">Include this CV for the academic track</label>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <button type="button" class="btn btn-primary" id="btn-save">Save fake CV</button>
+              <button type="button" class="btn btn-outline-secondary" id="btn-preview">Preview markdown</button>
+              <button type="button" class="btn btn-outline-secondary" id="btn-download">Download mapping JSON</button>
+              <button type="button" class="btn btn-outline-secondary" id="btn-save-mapping">Save mapping to ~/private/cv/</button>
+              <label class="btn btn-outline-secondary mb-0">
+                Import mapping JSON
+                <input type="file" id="import-mapping" accept="application/json,.json" hidden>
+              </label>
+            </div>
+            <p class="small text-muted mt-2 mb-0">Save fake CV writes anonymized markdown only. Download mapping JSON in the browser; it never lands in git.</p>
+          </div>
+        </form>
+
+        <section class="card cv-card mt-3 d-none" id="preview-card">
+          <div class="card-body">
+            <h2 class="h5">Markdown preview (fake values only)</h2>
+            <div class="row">
+              <div class="col-md-6">
+                <h3 class="h6">Industry</h3>
+                <pre class="preview-box bg-light p-2" id="preview-industry"></pre>
+              </div>
+              <div class="col-md-6">
+                <h3 class="h6">Academic</h3>
+                <pre class="preview-box bg-light p-2" id="preview-academic"></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/cv.js"></script>
+</body>
+</html>

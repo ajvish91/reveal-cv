@@ -1,0 +1,55 @@
+{
+  "tailored_summary": "Software engineer with eight years in machine learning, Python data pipelines, and cloud-backed delivery. Recent work includes document classification with evaluation hooks, cost-aware model deployment, and MLOps-minded monitoring on Azure and AWS. Background spans applied NLP experimentation, e-commerce integrations, and cross-functional product engineering.",
+  "experience_roles": [
+    {
+      "role_key": "professional activities|independent / community|jan 2025 - present",
+      "role": "Professional Activities",
+      "company": "Independent / Community",
+      "duration": "Jan 2025 - Present",
+      "bullets": [
+        "Advisory and community contributions on ML topics, MLOps practices, and career development."
+      ]
+    },
+    {
+      "role_key": "research engineer|northline labs|sep 2024 - dec 2024",
+      "role": "Research Engineer",
+      "company": "Northline Labs",
+      "duration": "Sep 2024 - Dec 2024",
+      "bullets": [
+        "Built document classification pipelines with evaluation hooks and cost-aware model deployment.",
+        "Improved data handling and monitoring for internal analytics workflows on Azure."
+      ]
+    },
+    {
+      "role_key": "ml engineer|cedar analytics|jan 2022 - aug 2024",
+      "role": "ML Engineer",
+      "company": "Cedar Analytics",
+      "duration": "Jan 2022 - Aug 2024",
+      "bullets": [
+        "Delivered production ML features with ethical-use review, testing, and stakeholder alignment.",
+        "Supported Docker-based deployments and pipeline reliability for customer-facing analytics."
+      ]
+    },
+    {
+      "role_key": "software engineer|summit cloud services|jun 2019 - dec 2021",
+      "role": "Software Engineer",
+      "company": "Summit Cloud Services",
+      "duration": "Jun 2019 - Dec 2021",
+      "bullets": [
+        "Developed backend services on Azure with CI/CD and operational monitoring.",
+        "Supported ML prototypes moving toward production Python pipelines."
+      ]
+    },
+    {
+      "role_key": "integration developer|harbor commerce group|mar 2017 - may 2019",
+      "role": "Integration Developer",
+      "company": "Harbor Commerce Group",
+      "duration": "Mar 2017 - May 2019",
+      "bullets": [
+        "Built catalog and middleware integrations for enterprise e-commerce platforms.",
+        "Improved data flow reliability and data quality across connected systems."
+      ]
+    }
+  ],
+  "removed_claims": []
+}

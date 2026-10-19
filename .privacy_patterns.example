@@ -1,0 +1,23 @@
+# Personal identity patterns for scripts/check_safe_to_push.py
+#
+# Copy to .privacy_patterns.local (gitignored) and replace the examples with your
+# own details. Never commit the filled copy: this repo is public, so the scanner
+# itself must not contain the identifiers it looks for.
+#
+#   cp .privacy_patterns.example .privacy_patterns.local
+#
+# One Python regex per line, matched case-insensitively. '#' starts a comment.
+# Override the location with CV_PRIVACY_PATTERNS=/path/to/patterns.
+
+# Your name, as written in the CV and as separate fragments
+\bJANE\b
+\bDoe\b
+
+# Employer or university email domains
+example-university\.edu
+
+# Your home directory, so absolute local paths are caught
+/Users/<your-username>\b
+
+# Personal phone number, in the formats you actually write it
+\+1[-\s]?555[-\s]?\d
