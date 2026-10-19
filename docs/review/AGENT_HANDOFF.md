@@ -19,11 +19,12 @@ You are reviewing **Reveal CV** (`job-search-automation`), a local Norwegian job
 5. `docs/review/FEATURES.md` — this inventory
 6. `review_pack/transcript_index.md` — conversation history (local)
 
-## Current git state (as of 2026-10-13)
+## Current git state (as of 2026-10-19)
 
 - Branch: `main`, remote `origin` = GitHub `ajvish91/reveal-cv`
-- **Uncommitted work** includes Jobbnorge ingest (`job_search/jobbnorge_client.py`, `ingest_jobbnorge_jobs.py`), NAV feed fetch tests, dashboard ingest skip-Jobbnorge, job dedup across three sources, and CV/private-cv / cover-letter generator edits
-- `README.md` already documents Jobbnorge in the committed-doc sense locally; confirm tests vs docs if you review ingest
+- `main` is a clean single-commit snapshot; history was rewritten on 2026-10-19 to remove an old privacy-scanner string
+- Jobbnorge ingest (`job_search/jobbnorge_client.py`, `ingest_jobbnorge_jobs.py`), NAV feed fetch tests, dashboard ingest skip-Jobbnorge, job dedup across three sources, and the academic scoring changes are included
+- `README.md` documents Jobbnorge; confirm tests vs docs if you review ingest
 
 ## Suggested review questions
 

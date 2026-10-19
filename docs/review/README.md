@@ -26,4 +26,4 @@ Cite chats as `[short title](<uuid>)` using the folder UUID (no `.jsonl`). Origi
 
 ## What is already on GitHub
 
-Remote: `https://github.com/ajvish91/reveal-cv.git` (branch `main`). Uncommitted local work (Jobbnorge ingest, dashboard ingest UI, CV deanonymize tweaks) is **not** on that remote until someone commits and pushes.
+Remote: `https://github.com/ajvish91/reveal-cv.git` (branch `main`). The current `main` is a clean snapshot that includes the Jobbnorge ingest, dashboard ingest UI, CV deanonymize tweaks, dedupe, and academic scoring work. History was rewritten on 2026-10-19 to remove an old privacy-scanner string.
