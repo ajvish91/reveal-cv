@@ -19,6 +19,7 @@ if str(_root) not in sys.path:
 
 import argparse
 import json
+import re
 from typing import Any
 
 from shared.cv_loader import load_default_profiles
@@ -36,6 +37,7 @@ from job_search.job_db import DEFAULT_DB_PATH, connect, init_schema, set_state, 
 from job_search.job_filters import (
     ACADEMIC_RESEARCH_EMPLOYERS,
     ACADEMIC_ROLE_TITLE_TERMS,
+    MIN_FINN_DESCRIPTION_CHARS,
     haystack_for_filter,
     matching_terms,
     matches_any_include_term,
@@ -50,18 +52,65 @@ SOURCE = "finn_no"
 log = get_logger("job_search.ingest_finn")
 
 
+_QUERY_TOKEN_RE = re.compile(r"[a-z0-9]+")
+
+
+def _normalized_words(text: str | None) -> list[str]:
+    return _QUERY_TOKEN_RE.findall((text or "").casefold())
+
+
+def _token_present(token: str, hay_token: str) -> bool:
+    if len(token) <= 2:
+        return hay_token == token
+    return hay_token.startswith(token) or token in hay_token
+
+
+def query_title_match_strength(query: str, title: str | None, employer: str | None = None) -> int:
+    """2 = whole query phrase in title/employer, 1 = every query word present, 0 = no match.
+
+    Search result cards with a title-level query match are the strongest signal that
+    the ad is a real role for this search, even when its teaser has no CV keywords.
+    """
+    hay = _normalized_words(" ".join(part for part in (title, employer) if part))
+    if not hay:
+        return 0
+    query_words = [w for w in _normalized_words(query) if len(w) >= 2]
+    if not query_words:
+        return 0
+    phrase = " ".join(query_words)
+    if f" {phrase} " in f" {' '.join(hay)} ":
+        return 2
+    if all(any(_token_present(word, hay_word) for hay_word in hay) for word in query_words):
+        return 1
+    return 0
+
+
 def detail_fetch_priority(
     finnkode: str,
     *,
     known_uuids: set[str],
     missing_expires: set[str],
+    thin_uuids: set[str] | None = None,
+    query_match: dict[str, int] | None = None,
 ) -> tuple[int, str]:
-    """Order detail fetches: new ads first, then missing expires, then the rest."""
-    if finnkode not in known_uuids:
+    """Order detail fetches by relevance to the search query and card completeness."""
+    strength = (query_match or {}).get(finnkode, 0)
+    if strength >= 2:
         return (0, finnkode)
-    if finnkode in missing_expires:
+    if strength == 1:
         return (1, finnkode)
-    return (2, finnkode)
+    if finnkode not in known_uuids:
+        return (2, finnkode)
+    if thin_uuids and finnkode in thin_uuids:
+        return (3, finnkode)
+    if finnkode in missing_expires:
+        return (4, finnkode)
+    return (5, finnkode)
+
+
+def _newest_first(finnkode: str) -> int:
+    """Tie-break detail fetches newest-first so recent ads are not starved."""
+    return -int(finnkode) if finnkode.isdigit() else 0
 
 
 def load_queries(args: argparse.Namespace) -> list[str]:
@@ -108,6 +157,7 @@ def row_from_search_card(
     rogaland_only: bool,
     require_terms: tuple[str, ...],
     exclude_terms: tuple[str, ...],
+    force_keep: bool = False,
 ) -> dict[str, Any] | None:
     finnkode = card["finnkode"]
     title = (card.get("title") or "").strip()
@@ -127,7 +177,7 @@ def row_from_search_card(
 
     if rogaland_only and not location_matched:
         return None
-    if keyword_filter and not hits:
+    if keyword_filter and not hits and not force_keep:
         return None
     if require_terms and not matches_any_include_term(
         haystack_for_filter(title, None, snippet or None, employer or ""),
@@ -177,6 +227,7 @@ def row_from_detail(
     rogaland_only: bool,
     require_terms: tuple[str, ...],
     exclude_terms: tuple[str, ...],
+    force_keep: bool = False,
 ) -> dict[str, Any] | None:
     finnkode = card["finnkode"]
     title = (detail.get("title") or card.get("title") or "").strip()
@@ -201,7 +252,7 @@ def row_from_detail(
 
     if rogaland_only and not location_matched:
         return None
-    if keyword_filter and not hits:
+    if keyword_filter and not hits and not force_keep:
         return None
     if require_terms and not matches_any_include_term(
         haystack_for_filter(title, None, desc_text, employer or ""),
@@ -325,6 +376,8 @@ def run(args: argparse.Namespace) -> int:
     fetched_at = utc_now_iso()
     seen_uuids: set[str] = set()
     deduped_cards: dict[str, dict[str, str | None]] = {}
+    query_match: dict[str, int] = {}
+    query_match_rank: dict[str, tuple[int, int]] = {}
     n_search_pages = 0
     n_cards_seen = 0
     n_stored = 0
@@ -335,7 +388,7 @@ def run(args: argparse.Namespace) -> int:
     n_stale_inactivated = 0
     complete_query_walk = True
 
-    for query in queries:
+    for query_index, query in enumerate(queries):
         query_cards = 0
         log.info("FINN query start: %r", query)
         for page in range(1, args.max_pages + 1):
@@ -351,12 +404,26 @@ def run(args: argparse.Namespace) -> int:
                 log.debug("query=%r page=%d: no cards", query, page)
                 break
             new_on_page = 0
-            for card in cards:
+            for position, card in enumerate(cards, start=1):
                 finnkode = card.get("finnkode")
                 if not finnkode:
                     continue
                 n_cards_seen += 1
                 seen_uuids.add(finnkode)
+                strength = query_title_match_strength(
+                    query,
+                    card.get("title"),
+                    card.get("employer_guess"),
+                )
+                if strength:
+                    rank = (query_index, (page - 1) * len(cards) + position)
+                    best_rank = query_match_rank.get(finnkode)
+                    if strength > query_match.get(finnkode, 0) or (
+                        strength == query_match.get(finnkode, 0)
+                        and (best_rank is None or rank < best_rank)
+                    ):
+                        query_match[finnkode] = strength
+                        query_match_rank[finnkode] = rank
                 if finnkode not in deduped_cards:
                     deduped_cards[finnkode] = card
                     query_cards += 1
@@ -387,9 +454,10 @@ def run(args: argparse.Namespace) -> int:
 
     known_uuids: set[str] = set()
     missing_expires: set[str] = set()
+    thin_uuids: set[str] = set()
     if fetch_details:
         known_rows = conn.execute(
-            "SELECT uuid, expires, status FROM job_postings WHERE source = ?",
+            "SELECT uuid, expires, status, description_text FROM job_postings WHERE source = ?",
             (SOURCE,),
         ).fetchall()
         for r in known_rows:
@@ -399,20 +467,30 @@ def run(args: argparse.Namespace) -> int:
             expires = (r["expires"] or "").strip()
             if status in ("", "ACTIVE") and not expires:
                 missing_expires.add(uuid)
+            desc_len = len((r["description_text"] or "").strip())
+            if status in ("", "ACTIVE") and desc_len < MIN_FINN_DESCRIPTION_CHARS:
+                thin_uuids.add(uuid)
 
-    # Spend the limited detail budget on new ads first. Card snippets are too
-    # sparse for keyword/tech gates (e.g. DNV Research Trainee / Graduate DS).
-    # Backfill missing expires only after new finnkodes are covered.
+    # Spend the limited detail budget on cards whose title/employer matches the
+    # search query first, then new ads, then thin teaser cards (which the dashboard
+    # cannot show without a real description), then deadline backfill.
     card_items = sorted(
         deduped_cards.items(),
-        key=lambda item: detail_fetch_priority(
-            item[0],
-            known_uuids=known_uuids,
-            missing_expires=missing_expires,
+        key=lambda item: (
+            detail_fetch_priority(
+                item[0],
+                known_uuids=known_uuids,
+                missing_expires=missing_expires,
+                thin_uuids=thin_uuids,
+                query_match=query_match,
+            )[0],
+            query_match_rank.get(item[0], (10**6, 10**6)),
+            _newest_first(item[0]),
         ),
     )
 
     for finnkode, card in card_items:
+        force_keep = finnkode in query_match
         row: dict[str, Any] | None
         if fetch_details and detail_count < detail_budget:
             try:
@@ -434,6 +512,7 @@ def run(args: argparse.Namespace) -> int:
                     rogaland_only=args.rogaland_only,
                     require_terms=require_terms,
                     exclude_terms=exclude_terms,
+                    force_keep=force_keep,
                 )
             else:
                 n_details += 1
@@ -448,6 +527,7 @@ def run(args: argparse.Namespace) -> int:
                     rogaland_only=args.rogaland_only,
                     require_terms=require_terms,
                     exclude_terms=exclude_terms,
+                    force_keep=force_keep,
                 )
         else:
             row = row_from_search_card(
@@ -459,6 +539,7 @@ def run(args: argparse.Namespace) -> int:
                 rogaland_only=args.rogaland_only,
                 require_terms=require_terms,
                 exclude_terms=exclude_terms,
+                force_keep=force_keep,
             )
 
         if row is None:
@@ -498,6 +579,9 @@ def run(args: argparse.Namespace) -> int:
         "skipped_noise": n_skip_noise,
         "skipped_not_tech_allowlist": n_skip_not_tech,
         "stale_jobs_inactivated": n_stale_inactivated,
+        "query_match_cards": len(query_match),
+        "thin_cards_seen": len(thin_uuids.intersection(deduped_cards)),
+        "thin_cards_total": len(thin_uuids),
         "complete_query_walk": complete_query_walk,
     }
     log.info(

@@ -21,6 +21,7 @@ from job_search.ingest_finn_jobs import (
     detail_fetch_priority,
     gone_tombstone,
     load_queries,
+    query_title_match_strength,
     row_from_detail,
     row_from_search_card,
 )
@@ -335,6 +336,75 @@ class FinnIngestTests(unittest.TestCase):
             ),
         )
         self.assertEqual(ordered, ["new1", "old1", "old2"])
+
+    def test_detail_fetch_priority_prefers_thin_teaser_rows(self) -> None:
+        known = {"old1", "old2", "thin"}
+        missing = {"old1"}
+        thin = {"thin"}
+        ordered = sorted(
+            ["old1", "thin", "new1"],
+            key=lambda fk: detail_fetch_priority(
+                fk,
+                known_uuids=known,
+                missing_expires=missing,
+                thin_uuids=thin,
+            ),
+        )
+        self.assertEqual(ordered, ["new1", "thin", "old1"])
+
+    def test_query_title_match_detects_aker_pattern(self) -> None:
+        self.assertEqual(
+            query_title_match_strength(
+                "data scientist", "Senior Data Scientist", "Aker Solutions AS"
+            ),
+            2,
+        )
+        self.assertEqual(
+            query_title_match_strength(
+                "AI engineer", "AI Platform & Infrastructure Engineer", "Aker Solutions AS"
+            ),
+            1,
+        )
+        self.assertEqual(
+            query_title_match_strength(
+                "data scientist", "Instrument Engineer", "Aker Solutions AS"
+            ),
+            0,
+        )
+
+    def test_detail_fetch_priority_puts_query_matches_before_generic_new_ads(self) -> None:
+        ordered = sorted(
+            ["generic-new", "token-match", "phrase-match"],
+            key=lambda fk: detail_fetch_priority(
+                fk,
+                known_uuids=set(),
+                missing_expires=set(),
+                query_match={"phrase-match": 2, "token-match": 1},
+            ),
+        )
+        self.assertEqual(ordered, ["phrase-match", "token-match", "generic-new"])
+
+    def test_force_keep_stores_query_match_without_teaser_keyword(self) -> None:
+        card = {
+            "finnkode": "478002572",
+            "title": "Senior Data Scientist",
+            "employer_guess": "Aker Solutions AS",
+            "location_guess": "Lysaker",
+            "description_snippet": "Apply AI where engineering meets industry",
+        }
+        kwargs = dict(
+            fetched_at="2026-10-21T10:00:00+00:00",
+            keywords=["Python", "machine learning"],
+            preferred_locations=["Rogaland"],
+            keyword_filter=True,
+            rogaland_only=False,
+            require_terms=(),
+            exclude_terms=(),
+        )
+        self.assertIsNone(row_from_search_card(card, **kwargs))
+        kept = row_from_search_card(card, force_keep=True, **kwargs)
+        assert kept is not None
+        self.assertEqual(kept["uuid"], "478002572")
 
     def test_mark_stale_jobs_inactive_for_finn_no(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

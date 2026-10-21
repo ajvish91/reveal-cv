@@ -134,7 +134,7 @@ class TestUpsertJobPreservesDescription(unittest.TestCase):
                     "title": "AI Lead",
                     "expires": "2026-08-16",
                     "published": "2026-07-28",
-                    "description_text": "Full body",
+                    "description_text": "Full body " * 40,
                     "raw_json": '{"search_card": {}, "detail": {}}',
                     "fetched_at": "2026-08-01T10:00:00+00:00",
                 },
@@ -155,12 +155,13 @@ class TestUpsertJobPreservesDescription(unittest.TestCase):
             )
             conn.commit()
             row = conn.execute(
-                "SELECT expires, published FROM job_postings WHERE uuid = ?",
+                "SELECT expires, published, description_text FROM job_postings WHERE uuid = ?",
                 ("471127093",),
             ).fetchone()
             assert row is not None
             self.assertEqual(row["expires"], "2026-08-16")
             self.assertEqual(row["published"], "2026-07-28")
+            self.assertEqual(row["description_text"], "Full body " * 40)
             conn.close()
 
 

@@ -19,6 +19,10 @@ import re
 from functools import lru_cache
 from typing import Any, Iterable
 
+# FINN search cards store only a short teaser, not the ad body. Rows below this
+# length need a detail-page backfill before the dashboard can show them.
+MIN_FINN_DESCRIPTION_CHARS = 280
+
 # --- Allowlist: at least one hit required when filter is on ------------------------------
 # Norwegian + English roles, domains, and common stack terms (substring match).
 DEFAULT_TECH_INCLUDE_TERMS: tuple[str, ...] = (

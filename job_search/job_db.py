@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from job_search.deadline_utils import coerce_expires_value
+from job_search.job_filters import MIN_FINN_DESCRIPTION_CHARS
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 DEFAULT_DB_PATH = PROJECT_ROOT / "data" / "jobs.sqlite"
@@ -159,7 +160,7 @@ def upsert_job(conn: sqlite3.Connection, row: dict[str, Any]) -> None:
 
     # Search-card-only re-ingests must not wipe a previously fetched full description.
     existing = conn.execute(
-        "SELECT description_text, raw_json, expires, published FROM job_postings "
+        "SELECT description_text, raw_json, expires, published, keyword_hits FROM job_postings "
         "WHERE uuid = ? AND source = ?",
         (row["uuid"], row["source"]),
     ).fetchone()
@@ -168,6 +169,18 @@ def upsert_job(conn: sqlite3.Connection, row: dict[str, Any]) -> None:
         old_desc = (existing["description_text"] or "").strip()
         if not new_desc and old_desc:
             row["description_text"] = existing["description_text"]
+        # A FINN search card is only a teaser. Never replace a previously fetched
+        # detail body with a shorter card snippet, or daily re-ingests erase the
+        # rows the dashboard is able to show.
+        elif (
+            row.get("source") == "finn_no"
+            and new_desc
+            and old_desc
+            and len(new_desc) < MIN_FINN_DESCRIPTION_CHARS <= len(old_desc)
+        ):
+            row["description_text"] = existing["description_text"]
+            if existing["keyword_hits"] and not row.get("keyword_hits"):
+                row["keyword_hits"] = existing["keyword_hits"]
         # Card-only rows ship expires/published as None; keep prior detail values.
         if not coerce_expires_value(row.get("expires")) and existing["expires"]:
             row["expires"] = existing["expires"]

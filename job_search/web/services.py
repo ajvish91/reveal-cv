@@ -53,6 +53,7 @@ from job_search.job_db import (
 from job_search.job_dedup import dedupe_jobs_df as _dedupe_jobs_df
 from job_search.job_filters import (
     ACADEMIC_ROLE_TITLE_TERMS,
+    MIN_FINN_DESCRIPTION_CHARS,
     haystack_for_filter,
     has_profile_relevance,
     matches_academic_role_display,
@@ -1620,7 +1621,6 @@ def enrich_jobs_df(df: pd.DataFrame, *, within_days: int = 7) -> pd.DataFrame:
 # FINN search-result cards store only a short teaser (no real description). Those
 # thin rows are always hidden from the explorer/overview: they are kept in the DB
 # so detail backfill can later fill them in, but they never appear as jobs.
-MIN_FINN_DESCRIPTION_CHARS = 280
 # Reusable predicate for "an ACTIVE posting the dashboard would show" (alias j).
 _VISIBLE_ACTIVE_SQL = (
     "(j.status IS NULL OR UPPER(j.status) = 'ACTIVE') AND NOT ("
