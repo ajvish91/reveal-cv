@@ -79,6 +79,13 @@ class TestWebApi(unittest.TestCase):
             self.client.get("/3_3_Run_Simulation/_stcore/health").status_code, 204
         )
 
+    def test_live_api_and_static_responses_are_not_cached(self) -> None:
+        self.assertEqual(self.client.get("/api/meta").headers.get("cache-control"), "no-store")
+        self.assertEqual(
+            self.client.get("/static/js/app.js").headers.get("cache-control"),
+            "no-cache",
+        )
+
     def test_index_serves_bootstrap_page(self) -> None:
         res = self.client.get("/")
         self.assertEqual(res.status_code, 200)

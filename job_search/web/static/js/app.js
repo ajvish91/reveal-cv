@@ -90,7 +90,7 @@
   }
 
   async function api(path, opts) {
-    const res = await fetch(path, opts);
+    const res = await fetch(path, { cache: "no-store", ...(opts || {}) });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
       const detail = data.detail || res.statusText;
@@ -543,6 +543,8 @@
   }
 
   function wireEvents() {
+    // Enter inside the navbar track form must not reload the page and drop filters.
+    $("track-form")?.addEventListener("submit", (ev) => ev.preventDefault());
     // Filter changes that also affect the overview previews.
     const applyFilters = debounce(() => {
       state.page = 1;
@@ -562,8 +564,10 @@
     ["cv-track", "source-filter", "academic-roles-only", "dedupe", "hide-phd", "tech-allowlist",
       "tech-defaults", "noise-defaults", "overview-min-score"].forEach((id) => {
       $(id).addEventListener("change", () => {
-        if (id === "cv-track" && $("cv-track").value === "academic") {
-          $("academic-roles-only").checked = true;
+        if (id === "cv-track") {
+          // Academic is always research-only; switch back to the industry default
+          // so the academic checkbox does not silently keep filtering industry rows.
+          $("academic-roles-only").checked = $("cv-track").value === "academic";
         }
         applyFilters();
       });

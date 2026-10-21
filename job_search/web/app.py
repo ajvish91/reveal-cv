@@ -66,7 +66,14 @@ async def ignore_stale_streamlit_probes(request: Request, call_next):
     """Old Streamlit tabs keep polling ``/_stcore/*`` on whatever used to be :8501."""
     if "/_stcore/" in request.url.path:
         return Response(status_code=204)
-    return await call_next(request)
+    response = await call_next(request)
+    # The dashboard is a local, live view: never let a stale API/JS response
+    # survive an ingest or a track switch in the browser cache.
+    if request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store"
+    elif request.url.path.startswith("/static/"):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
 
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
