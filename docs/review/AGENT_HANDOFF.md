@@ -8,7 +8,7 @@ You are reviewing **Reveal CV** (`job-search-automation`), a local Norwegian job
 - Do **not** treat gitignored `shared/cv/industry.md` / `academic.md` as demo data if they exist locally; demo templates are `*.demo.md`.
 - Do **not** commit `cv_generation/cv_runs/`, PDFs, job posting `.txt` files (except `demo_northline_ml_engineer.txt`), or `review_pack/agent-transcripts/`.
 - Follow `AGENTS.md`, `.cursor/rules/project-boundary.mdc`, and `.cursor/rules/cv-tailoring-style.mdc`.
-- Graphify CLI is **not** on PATH here. `graphify-out/` exists but is gitignored and last built 2026-09-09 (stale vs current code). Use docs + tests instead of assuming the graph is current.
+- Graphify is installed project-scoped for OpenCode. Use `.venv/bin/graphify` (not on PATH) or `scripts/update_graph.sh`. The graph was rebuilt AST-only from `1e4d32b4` on 2026-10-21; job postings, runs, databases, PDFs, and real CV sources are excluded.
 
 ## Read first
 

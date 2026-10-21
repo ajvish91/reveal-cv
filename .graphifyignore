@@ -1,0 +1,21 @@
+# Keep the knowledge graph on source and docs, not local/generated data.
+.venv/
+.cache/
+archive/
+.tmp_private_cv/
+review_pack/agent-transcripts/
+review_pack/transcript_index.json
+review_pack/transcript_index.md
+job_search/data/
+cv_generation/cv_runs/
+cv_generation/jobs/*
+!cv_generation/jobs/demo_northline_ml_engineer.txt
+shared/cv/industry.md
+shared/cv/academic.md
+shared/cv/cv_registry.json
+shared/cv/user/
+*.json
+*.db
+*.sqlite
+*.sqlite3
+*.pdf

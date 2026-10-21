@@ -269,7 +269,7 @@ Under `job_search/tests/`, `cv_generation/tests/`, `shared/tests/`, `scripts/tes
 ## 10. Agent / Cursor integration in this repo
 
 - `AGENTS.md` — layout, private data, supplementary docs, cover letter voice
-- Rules: project boundary, CV style, graphify (CLI currently missing)
+- Rules: project boundary, CV style, graphify (project-scoped OpenCode + `.venv/bin/graphify`)
 - Chat backup: `scripts/backup_agent_exchanges.py` → `review_pack/` (gitignored JSONL)
 
 ---
@@ -277,7 +277,7 @@ Under `job_search/tests/`, `cv_generation/tests/`, `shared/tests/`, `scripts/tes
 ## 11. Known gaps / doc drift (for reviewers)
 
 - `CV_AUTOMATION.md` “How to run” still says academic `application_letter.md` / `research_proposal.md` are not auto-generated; pipeline + dashboard now can generate them
-- Graphify output stale (built `56e18d61`, 2026-09-09); `graphify` binary not installed
+- Graphify is AST-only by default; refresh with `scripts/update_graph.sh` after code changes (no API cost). New docs do not get semantic edges until an explicit semantic run.
 - Preference JSON is collected, not yet used in `score_jobs`
 - FINN has no official API; throttling is a product risk
 - Jobbnorge + related dashboard flags were **uncommitted** when this inventory was written
